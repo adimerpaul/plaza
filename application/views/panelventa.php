@@ -349,6 +349,9 @@
                 <label for="saldo">Saldo</label>
                 <input type="text" class="form-control" id="saldo" name="saldo" disabled>
             </div>
+            <div class="col-sm-4">
+                <input type="text" class="form-control" id="tnombre" name="tnombre" disabled>
+            </div>
         </div>
     </div>
 

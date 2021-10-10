@@ -357,6 +357,7 @@ $(function() {
                 var datos=JSON.parse(response);
 
                 $('#saldo').val(datos.saldo);
+                $('#tnombre').val(datos.nombre);
                 console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#montoapagar').val()))
                 if(parseFloat($('#saldo').val()) >= parseFloat($('#montoapagar').val()))
                 {$('#terminar').removeAttr("disabled"); console.log('val');}

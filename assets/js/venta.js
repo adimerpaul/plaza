@@ -727,6 +727,7 @@ $('#codigo').keyup(function (e) {
             var datos=JSON.parse(response);
 
             $('#saldo').val(datos.saldo);
+            $('#tnombre').val(datos.nombre);
             console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#prepago').val()))
             if(parseFloat($('#saldo').val()) >= parseFloat($('#prepago').val()))
             {$('#registrarVenta').removeAttr("disabled"); console.log('val');}
