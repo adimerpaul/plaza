@@ -176,7 +176,8 @@ esCombo='$esCombo'
      */
         public function insertarVenta(){
         $idcliente=$_POST['idcliente'];
-
+        $codigotarjeta=$_POST['codigo'];
+        if($codigotarjeta!='' && strlen($codigotarjeta)>0) $descuento=0.8; else $descuento=1;
         $total=$_POST['total'];
         $tipoVenta=$_POST['tipoVenta'];
         $cinit=$_POST['cinit'];
@@ -197,8 +198,8 @@ esCombo='$esCombo'
                 $query=$this->db->query("SELECT * FROM dosificacion WHERE tipo='CANDY' AND activo='1'");
                 $row=$query->row();
                 $invoiceNumber=$row->nroFactura;
-                $codigo=$this->ventas_model->generate($authorizationNumber, $invoiceNumber, $cinit, date('Ymd'), $total, $llaveDosif);
-                $codqr= '329448023|'.$invoiceNumber.'|'.$authorizationNumber.'|'.date('Ymd').'|'.$total.'|'.$total.'|'.$codigo.'|'.$cinit.'|0|0|0|0.00';
+                $codigo=$this->ventas_model->generate($authorizationNumber, $invoiceNumber, $cinit, date('Ymd'), round($total), $llaveDosif);
+                $codqr= '329448023|'.$invoiceNumber.'|'.$authorizationNumber.'|'.date('Ymd').'|'.round($total).'|'.round($total).'|'.$codigo.'|'.$cinit.'|0|0|0|0.00';
                 
 
             }
@@ -239,7 +240,7 @@ esCombo='$esCombo'
                     $query=$this->db->query("SELECT * FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
                 foreach ($query->result() as $row){
                     $idproducto=$row->idProducto;
-                    $pUnitario=$row->pUnitario;
+                    $pUnitario=$row->pUnitario * $descuento;
                     $tCantidad=$row->tCantidad;
                     $nombreP=$row->nombreP;
                     $idCombo=$row->idCombo;
@@ -256,6 +257,26 @@ esCombo='$esCombo'
                     ");
                 }
                 $this->db->query("DELETE FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
+                $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+                // Check connection
+                        if ($conn->connect_error) {
+                            die("Connection failed: " . $conn->connect_error);
+                        }
+                        $result = $conn->query("SELECT * from cliente where codigo='$codigotarjeta'");
+                        if ($result->num_rows > 0) {
+                
+                            while($row = $result->fetch_assoc()) {
+                //                echo $row["nombre"];
+                //                return json_encode($row);
+                                $conn->query("UPDATE cliente SET saldo=saldo-$total where codigo='$codigotarjeta'");
+                                $conn->query("INSERT INTO historial SET fecha='".date('Y-m-d')."',lugar='CANDY BAR',monto='$total',numero='$idventa',cliente_id='".$row["id"]."'");
+                            }
+                            // output data of each row
+                
+                        } else {
+                            echo "0";
+                        }
+                        $conn->close();
             }
         }
         else{ 
@@ -364,6 +385,8 @@ esCombo='$esCombo'
 
     public function regVenta(){
         $total=$_POST['total'];
+        $codigotarjeta=$_POST['codigo'];
+        if($codigotarjeta!='' && strlen($codigotarjeta)>0) $descuento=0.8; else $descuento=1;
         $codControl=$_POST['ccontrol'];
         $codqr=$_POST['codigoqr'];
         $tipo=$_POST['tipo'];
@@ -1081,6 +1104,28 @@ s.idSala='$idsala'");
         $row=$query->row();
         if ($query->num_rows() == 1) echo true;
         else echo false;
+    }
+
+    public function valtarjeta()
+    { 
+        $codigo=$_POST['codigo'];
+//        return "a";
+        $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+// Check connection
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+        }
+        $result = $conn->query("SELECT * from cliente where codigo='$codigo'");
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+//                echo $row["nombre"];
+                echo json_encode( $row);
+            }
+        } else {
+            echo "0";
+        }
+        $conn->close();
     }
 
 }

@@ -345,6 +345,50 @@ $(function() {
         $('#cambio').val(parseInt($('#montocliente').val())-parseInt($('#montoapagar').val()));
         e.preventDefault();
     });
+    $('#codigo').keyup(function (e) {
+        console.log($('#codigo').val());
+        
+        $.ajax({
+            type:'POST',
+            url:'VentaCandyCtrl/valtarjeta',
+            data:{codigo:$('#codigo').val()},
+            success:function (response) {
+                console.log(response)
+                var datos=JSON.parse(response);
+
+                $('#saldo').val(datos.saldo);
+                console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#montoapagar').val()))
+                if(parseFloat($('#saldo').val()) >= parseFloat($('#montoapagar').val()))
+                {$('#terminar').removeAttr("disabled"); console.log('val');}
+                else    
+                $('#terminar').prop('disabled', true);
+            }
+        })
+    });
+    
+    $('#cliente').on('show.bs.modal', function (e) {
+                $('#booltarjeta').hide();
+        var totaltarj= $('#montoapagar').val();
+        var totaltemp=$('#totaltemporal').html();
+        $('#tarjeta').change(function(){
+
+                console.log($('#tarjeta').prop('checked'));
+                if($('#tarjeta').prop('checked')) 
+                {$('#booltarjeta').show();
+                $('#montoapagar').val((totaltarj*0.8).toFixed(2));
+                $('#totaltemporal').html((totaltemp*.8).toFixed(2));
+                }
+                else {
+                $('#booltarjeta').hide();
+                $('#codigo').val('');
+                $('#saldo').val('');
+                $('#montoapagar').val(totaltarj.toFixed(2));
+                $('#totaltemporal').html(totaltemp.toFixed(2));
+            }
+        
+        });
+
+      })
 
     $('#cliente').submit(function (e) {
         if($('#cambio').val()<0 && $('#temporal').html()==''){
@@ -375,7 +419,8 @@ $(function() {
                         cinit:$('#cinit').val(),
                         total:$('#totaltemporal').html(),
                         cancelado:parseFloat($('#montocliente').val()),
-                        tipoVenta:tipoventa
+                        tipoVenta:tipoventa,
+                        codigo:$('#codigo').val(),
                     }
                     //console.log(datos);
                     $('#cinit').val('');
@@ -388,6 +433,7 @@ $(function() {
                         data:datos,
                         success:function (response) {
                             console.log(response);
+                            $('#tarjeta').removeAttr('checked');
                             if (response!=0){
                                 console.log(response);
                             

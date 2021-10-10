@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require_once('tcpdf.php');
+//require_once('tcpdf.php');
 include "qrlib.php";
 include "NumerosEnLetras.php";
 require 'autoload.php';
@@ -93,7 +93,7 @@ class FacturaCandy extends CI_Controller {
     WHERE v.idVentaCandy='$idventa' and esCombo='NO'
     GROUP BY p.idProducto,nombreProd");
 
-    $query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant, precioVenta, (sum(d.cantidad) * precioVenta) as total
+$query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant, d.pUnitario as precioVenta, (sum(d.cantidad) *  d.pUnitario ) as total
         FROM detalle d
         INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
         INNER JOIN combo c on d.idCombo=c.idCombo
