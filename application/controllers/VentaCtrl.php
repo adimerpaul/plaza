@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require_once('tcpdf.php');
+//require_once('tcpdf.php');
 include "qrlib.php";
 include "NumerosEnLetras.php";
 require 'autoload.php';
@@ -12,7 +12,7 @@ use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\CapabilityProfile;
 
 class VentaCtrl extends CI_Controller {
-    
+
 	function __construct()
 	{
 		parent::__construct();
@@ -171,9 +171,9 @@ class VentaCtrl extends CI_Controller {
             echo 0;
         }
     }
-    
+
     public function verifTemporal($idf,$ida)
-    {   
+    {
         $verif=$this->db->query("SELECT * FROM temporal where idAsiento=$ida and idFuncion=$idf");
         if ($verif->num_rows()>=1)
             return true;
@@ -182,9 +182,9 @@ class VentaCtrl extends CI_Controller {
             if($verif2->num_rows()>=1)
                 return true;
                 else
-                return false;     
-                } 
-                
+                return false;
+                }
+
     }
 
     public function deleteTemporal($id){
@@ -238,11 +238,11 @@ class VentaCtrl extends CI_Controller {
         ];
         $this->db->where('idCliente',$idcliente);
         $this->db->update("cliente",$cliente);
-        echo true;   
+        echo true;
     }
-    
+
     public function verdatoventa(){
-        
+
         $idventa=$_POST['idventa'];
 
         $query=$this->db->query("SELECT * FROM venta v, cliente c, usuario u
@@ -250,14 +250,14 @@ class VentaCtrl extends CI_Controller {
         ");
         $row=$query->row();
         $myObj=($query->result_array()[0]);
-    
-        echo json_encode($myObj); 
+
+        echo json_encode($myObj);
 
     }
 
-    
+
     public function generaqr($idventa){
-        
+
         $cadena='';
         $query=$this->db->query("SELECT * FROM venta v
         INNER JOIn cliente c ON c.idCliente=v.idCliente
@@ -265,7 +265,7 @@ class VentaCtrl extends CI_Controller {
         ");
 
         $row=$query->result()[0];
-        $cadena=$row->idVenta.'|'.$row->cinit.'|'.$row->apellidoCl.' '.$row->nombreCl; 
+        $cadena=$row->idVenta.'|'.$row->cinit.'|'.$row->apellidoCl.' '.$row->nombreCl;
         $query2=$this->db->query("SELECT * FROM boleto b 
         INNER JOIn usuario u ON b.idUsuario=u.idUsuario
         INNER JOIn funcion f ON f.idFuncion=b.idFuncion
@@ -277,23 +277,23 @@ class VentaCtrl extends CI_Controller {
         $funcion='';
         foreach ($query2->result() as $res){
             if($funcion==$res->idFuncion)
-            {    
-                
-                $cadena.='|'.$res->letra.'-'.$res->columna;  
+            {
+
+                $cadena.='|'.$res->letra.'-'.$res->columna;
             }
             else{
                 $cadena.='|';
                 $cadena.=$res->titulo.'|'.$res->fechaFuncion.'|'.$res->horaFuncion.'|';
                 $cadena.=$res->letra.'-'.$res->columna;
-            
+
             }
             $funcion=$res->idFuncion;
         }
         $generator = new barcode_generator();
-        
+
         ($generator->output_image('png', 'qrl', $cadena,'bc'));
         //echo '';
-        
+
 
     }
 
@@ -374,13 +374,13 @@ class VentaCtrl extends CI_Controller {
         $this->db->query($query);
         if($this->db->affected_rows()==0){
             $idVenta=$this->dosificaciones_model->errorenfactura($idd);
-            }            
-        else 
+            }
+        else
         $idVenta=$this->db->insert_id();
         }
         else{
             $idVenta=$this->dosificaciones_model->errorenfactura($idd);
-            
+
         }
        // $query.= ",'".$codControl."','".$codqr."',(SELECT nroFactura from dosificacion where tipo='BOLETERIA' AND activo=1)";
 
@@ -413,20 +413,20 @@ class VentaCtrl extends CI_Controller {
         $this->db->query($query);
         if($this->db->affected_rows()>0)
         $idVenta=$this->db->insert_id();
-        else 
+        else
         $idVenta=0;
-        
+
         }
         if($idVenta!=0){
         $query=$this->db->query("SELECT * FROM `temporal` WHERE `idUser`='$idu'");
         // echo $idVenta;
-   
-        
+
+
         foreach($query->result() as $row){
             if(is_numeric($idcupon) && $idcupon != 0 && $idcupon !='')
                 $costo2=0;
               else $costo2=$row->costo * $descuento;
-  
+
             $numsala = $row->numeroSala;
             $codigosala = $row->codSala;
             $originalDate = $row->fechaFuncion;
@@ -487,7 +487,7 @@ class VentaCtrl extends CI_Controller {
                 }
                 $result = $conn->query("SELECT * from cliente where codigo='$codigotarjeta'");
                 if ($result->num_rows > 0) {
-        
+
                     while($row = $result->fetch_assoc()) {
         //                echo $row["nombre"];
         //                return json_encode($row);
@@ -495,7 +495,7 @@ class VentaCtrl extends CI_Controller {
                         $conn->query("INSERT INTO historial SET fecha='".date('Y-m-d')."',lugar='BOLETERIA',monto='$total',numero='$idVenta',cliente_id='".$row["id"]."'");
                     }
                     // output data of each row
-        
+
                 } else {
                     echo "0";
                 }
@@ -529,7 +529,7 @@ WHERE idVenta='$idventa'");
         $leyenda=$row->leyenda;
         $fecha=$row->fechaVenta;
         $qr=$row->codigoQR;
-    
+
         $cancelado=$row->cancelado;
         $cadena = "
         <style>.textoimp{ font-size: small; text-align: center;} 
@@ -611,7 +611,7 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
 //        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
         //$cadena.='<img  id="img" src="temp/test.png" /> <br>';
     $cadena.="<small class='textoimp'><img width='125px' src='".base_url()."barcode.php?s=qrl&d=$qr'></small><br>";
-        
+
 $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
 </small>";
 $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
@@ -651,7 +651,7 @@ WHERE idVenta='$idventa'");
         $leyenda=$row->leyenda;
         $fecha=$row->fechaVenta;
         $qr=$row->codigoQR;
-    
+
         $cancelado=$row->cancelado;
         $cadena = "
         <style>.textoimp{ font-size: small; text-align: center;} 
@@ -733,7 +733,7 @@ Fecha Lim. de Emision: ". substr($fechahasta,0,10) ."<br></div>";
 //        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
         //$cadena.='<img  id="img" src="temp/test.png" /> <br>';
     $cadena.="<small class='textoimp'><img width='125px' src='".base_url()."barcode.php?s=qrl&d=$qr'></small><br>";
-        
+
 $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
 </small>";
 $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
@@ -756,11 +756,11 @@ else $salida=$cancelado-$total;
 
             $user = $this->session->userdata('idUs');
             $dato=$this->usuarios_model->validaIngreso($user);
-            if( empty($_POST['fecini']) || empty($_POST['fecfin'])) 
+            if( empty($_POST['fecini']) || empty($_POST['fecfin']))
                 {
                     $venta['fecinicio'] = date('Y-m-d');
                     $venta['fecfinal']= date('Y-m-d'); }
-           
+
             else {
             $venta['fecinicio'] = $_POST['fecini'];
             $venta['fecfinal']=$_POST['fecfin'];}
@@ -944,7 +944,7 @@ WHERE v.idVenta='$idventa'");
         $printer->setJustification(Printer::JUSTIFY_LEFT);
         $printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
         $printer->text("Fecha:".$row->fechaFuncion ."Hora: ".substr( $row->horaFuncion,0,5) . "  Bs. $row->precio\n");
-        
+
         $printer->text("Butaca:".$row->letra."-".$row->columna."\n");
         $printer->text("-----------------------------------" . "\n");
         $printer->text("Cod:".$row->numboc . "\n");
@@ -1041,10 +1041,10 @@ NIT Cliente: $ci ";
         $printer -> text($html."\n");
 
         $query=$this->db->query("SELECT b.idFuncion, p.nombre,p.formato,t.precio,COUNT(*) as cantidad,(select v2.idCupon FROM venta v2 WHERE v2.idVenta='$idventa') as idCupon
-FROM boleto b 
-INNER JOIN funcion f ON f.idFuncion=b.idFuncion 
-INNER JOIN tarifa t ON t.idTarifa=b.idTarifa 
-INNER JOIN pelicula p ON p.idPelicula=f.idPelicula 
+FROM boleto b
+INNER JOIN funcion f ON f.idFuncion=b.idFuncion
+INNER JOIN tarifa t ON t.idTarifa=b.idTarifa
+INNER JOIN pelicula p ON p.idPelicula=f.idPelicula
 WHERE idVenta='$idventa'
 GROUP BY b.idFuncion,p.nombre,p.formato,t.precio");
 
@@ -1131,7 +1131,7 @@ $contador=0;
             $printer->setJustification(Printer::JUSTIFY_LEFT);
             $printer -> selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
             $printer->text("Fecha:".$row->fechaFuncion . "  Bs. $row->precio\n");
-            
+
             $printer->text("Butaca:".$row->letra."-".$row->columna. " Hora: ".substr( $row->horaFuncion,0,5). "\n");
             $printer->text("-----------------------------------" . "\n");
             $printer -> selectPrintMode(Printer::MODE_FONT_B);
@@ -1206,7 +1206,7 @@ public function impBoleto($idboleto){
     INNER JOIn asiento a ON a.idAsiento=b.idAsiento
     WHERE b.idBoleto='$idboleto'");
             $row=$query->result()[0];
-    
+
                 if ($row->formato == 1) {
                     $for = "3D";
                 } else {
@@ -1224,7 +1224,7 @@ public function impBoleto($idboleto){
                             Trans:&nbsp; ".$row->idVenta."<br>
                             Usuario: &nbsp;".$row->nombreUser."<br></div></div>";
                 echo $cadBoleto;
-      
+
 }
 function tienepromo($idboleto){
 	    $query=$this->db->query("SELECT * FROM boleto b,tarifa t WHERE idBoleto='$idboleto' and b.idTarifa=t.idTarifa");
@@ -1261,7 +1261,7 @@ public function impPromo($idventa){
 }
 
 public function impAniv($id){
-           $fecha=date('d/m/Y');            
+           $fecha=date('d/m/Y');
             $hora=date("H:i:s");
             $aniv="<style>.margen{padding: 0px 15px 0px 15px;}
             .textoimp{ font-size: 15px; text-align: center;} 
@@ -1277,12 +1277,12 @@ public function impAniv($id){
             <span>ORURO - BOLIVIA</span><br>
             <hr>
             ";
-            $aniv.="<div class='textpeq'>Fecha: $fecha - $hora - Id:$id</div> <br><hr>"; 
+            $aniv.="<div class='textpeq'>Fecha: $fecha - $hora - Id:$id</div> <br><hr>";
 
         $aniv.="<div class='textpeq'>Nombre Completo:................</div><br>";
         $aniv.="<div class='textpeq'>CI:................</div><br>";
         $aniv.="<div class='textpeq'>Telf/Cel:................</div><br>";
-      
+
            $aniv.="<hr></div>";
             echo $aniv;
 
@@ -1292,7 +1292,7 @@ public function impAniv($id){
 public function impAniv2($id){
             $query1=$this->db->query("SELECT count(*) as total from boleto b, venta v  where b.idVenta=v.idVenta and v.idVenta=$id");
             $row=$query1->result()[0]->total;
-               $fecha=date('d/m/Y');            
+               $fecha=date('d/m/Y');
             $hora=date("H:i:s");
             $aniv="<style>.margen{padding: 0px 15px 0px 15px;}
             .textoimp{ font-size: 15px; text-align: center;} 
@@ -1309,12 +1309,12 @@ public function impAniv2($id){
             <span>ORURO - BOLIVIA</span><br>
             <hr>
             ";
-            $aniv.="<div class='textpeq'>Fecha: $fecha - $hora - Id:$id</div> <br><hr>"; 
+            $aniv.="<div class='textpeq'>Fecha: $fecha - $hora - Id:$id</div> <br><hr>";
 
         $aniv.="<div class='textpeq'>RECLAMA TU COMBO</div><br>";
         $aniv.="<div class='textmed'>Cantidad: $row </div><br>";
 
-              
+
            $aniv.="<hr></div>";
             echo $aniv;
 
@@ -1339,7 +1339,7 @@ public function devolucion(){
 
 
 public function devolucionfuncion($id){
-    
+
     $user = $this->session->userdata('idUs');
     //$this->ventas_model->devolVenta($idventa);
     //$this->boletos_model->devolBoleto($idventa);
@@ -1353,7 +1353,7 @@ public function listaBoletos(){
     $row=$query->row();
     $myObj=($query->result_array());
 
-    echo json_encode($myObj); 
+    echo json_encode($myObj);
 }
 
 public function paneldevol($id="")
@@ -1457,23 +1457,23 @@ s.idSala='$idsala'");
 }
 
 public function validaCuponreg(){
-          
+
     $idcupon=$_POST['idcupon'];
     $query=$this->db->query("SELECT * FROM boleto b, subcupon c WHERE b.idCupon=c.idsubcupon and c.idsubcupon='$idcupon'");
     $row=$query->row();
     $myObj=($query->result_array());
 
-    echo json_encode($myObj); 
+    echo json_encode($myObj);
 
 }
 
 public function validaCupon(){
-          
+
     $idcupon=$_POST['idcupon'];
     $query=$this->db->query("SELECT * FROM  cupon c, subCupon s WHERE  c.idCupon=s.idcupon and s.idsubcupon='$idcupon' and date(fechaFin) >= CURDATE()");
     $row=$query->row();
     $myObj=($query->result_array());
-    echo json_encode($myObj); 
+    echo json_encode($myObj);
 
 }
 
@@ -1484,14 +1484,14 @@ public function UpDosificacion(){
         $verifica2=$this->db->query("SELECT * FROM dosificacion where tipo='BOLETERIA' and activo=0 and fechaDesde <= curdate() and fechaHasta >= curdate()");
         if($verifica2->num_rows()==1){
         $this->db->query("UPDATE dosificacion set activo=0 where fechaHasta < curdate() and tipo='BOLETERIA'");
-        $this->db->query("UPDATE dosificacion set activo=1 where fechaDesde <= curdate() and fechaHasta >= curdate() and tipo='BOLETERIA'"); 
+        $this->db->query("UPDATE dosificacion set activo=1 where fechaDesde <= curdate() and fechaHasta >= curdate() and tipo='BOLETERIA'");
         echo true; }
-        else 
+        else
         echo false;
         echo true;
     }
     else echo false;
-    
+
 }
 
 public function verifDosifcacion(){
@@ -1508,18 +1508,18 @@ public function totalventa(){
     $row=$query->row();
     $myObj=($query->result_array());
 
-    echo json_encode($myObj); 
+    echo json_encode($myObj);
 }
 
 public function datotarifa($id){
     $query=$this->db->query("SELECT * FROM tarifa WHERE idTarifa = $id");
     $row=$query->row();
     $myObj=($query->result_array());
-    echo json_encode($myObj); 
+    echo json_encode($myObj);
 }
 
 public function valtarjeta()
-{ 
+{
     $codigo=$_POST['codigo'];
 //        return "a";
     $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");

@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require_once('tcpdf.php');
+//require_once('tcpdf.php');
 include "qrlib.php";
 include "NumerosEnLetras.php";
 require 'autoload.php';
@@ -200,7 +200,7 @@ esCombo='$esCombo'
                 $invoiceNumber=$row->nroFactura;
                 $codigo=$this->ventas_model->generate($authorizationNumber, $invoiceNumber, $cinit, date('Ymd'), round($total), $llaveDosif);
                 $codqr= '329448023|'.$invoiceNumber.'|'.$authorizationNumber.'|'.date('Ymd').'|'.round($total).'|'.round($total).'|'.$codigo.'|'.$cinit.'|0|0|0|0.00';
-                
+
 
             }
             else{
@@ -214,7 +214,7 @@ esCombo='$esCombo'
                 $query8=$this->db->query("SELECT * FROM ventacandy where tipoVenta='FACTURA' and nroComprobante=$anterior AND idDosif=$iddosif");
                 $nfact=$query8->num_rows();
                 $num=$invoiceNumber;}
-            else 
+            else
                 $nfact=1;
             if($nfact >= 1){
 
@@ -229,13 +229,13 @@ esCombo='$esCombo'
                 nroComprobante='$invoiceNumber',
                 cancelado=$cancelado
             ");
-            
+
             if($this->db->affected_rows()==0){
                 $idventa=$this->dosificaciones_model->errorenfacturacandy($iddosif);
                 }
             else
                 $idventa= $this->db->insert_id();
-            
+
             if($idventa!=0){
                     $query=$this->db->query("SELECT * FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
                 foreach ($query->result() as $row){
@@ -264,7 +264,7 @@ esCombo='$esCombo'
                         }
                         $result = $conn->query("SELECT * from cliente where codigo='$codigotarjeta'");
                         if ($result->num_rows > 0) {
-                
+
                             while($row = $result->fetch_assoc()) {
                 //                echo $row["nombre"];
                 //                return json_encode($row);
@@ -272,14 +272,14 @@ esCombo='$esCombo'
                                 $conn->query("INSERT INTO historial SET fecha='".date('Y-m-d')."',lugar='CANDY BAR',monto='$total',numero='$idventa',cliente_id='".$row["id"]."'");
                             }
                             // output data of each row
-                
+
                         } else {
                             echo "0";
                         }
                         $conn->close();
             }
         }
-        else{ 
+        else{
             //$this->dosificaciones_model->errorenfacturacandy($iddosif);
             //$this->db->query("UPDATE dosificacion SET nroFactura=nroFactura-1 WHERE idDosif='$iddosif' AND tipo='CANDY' AND activo='1'");
             $idventa=$this->dosificaciones_model->errorenfacturacandy($iddosif);
@@ -1107,7 +1107,7 @@ s.idSala='$idsala'");
     }
 
     public function valtarjeta()
-    { 
+    {
         $codigo=$_POST['codigo'];
 //        return "a";
         $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
