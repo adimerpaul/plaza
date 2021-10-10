@@ -1,0 +1,100 @@
+#selectable .ui-selecting { background: gray; color: white }
+#selectable .ui-selected { background: royalblue; color:white; }
+
+#selectable { list-style-type: none; margin: 0; padding: 0; }
+#selectable li { margin: 3px; padding: 2px; float: left; width: 150px; height: 120px; text-align: center; align-content: center; font-size: 16px;}
+
+#selecfun .ui-selecting { background: lightgrey; color: white }
+#selecfun .ui-selected { background: royalblue; color:white; }
+
+#selecfun { list-style-type: none; margin: 0; padding: 0; }
+#selecfun li { margin: 3px; padding: 2px; float: left; width: 130px; height: 30px; text-align: center; border-radius: 5px;}
+
+#selecost .ui-selecting { background: lightgrey; color: white }
+#selecost .ui-selected { background: royalblue; color:white; }
+
+#selecost { list-style-type: none; margin: 0; padding: 0; }
+#selecost li { margin: 3px; padding: 2px; float: left; width: 100px; height: 30px; text-align: center; border-radius: 5px;}
+
+.ui-widget-content{
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+  background: slategrey;
+  transition: 0.3s;
+  pointer-events: auto;
+  color: white;  
+}
+
+.gris{
+  background-color: slategrey;
+}
+
+.rojo{
+  background-color: red;
+}
+.amarillo{
+  background-color: yellow;
+}
+.verde{
+  background-color: green;
+}
+
+
+.ui-widget-content :hover {
+  box-shadow: 0 8px 15px 0 rgba(0,0,0,0.2);
+}
+
+.pnumero{  
+  position: relative;
+  bottom: 0;
+  right: 0;
+  margin-bottom: 0;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.01em;
+  line-height: 14px;
+  margin-bottom: 8px;
+  margin-right: 10px;
+  width: 10px; height: 10px;
+}
+
+.ptipo{
+  position: static;  
+  text-align: left;
+  left: 20px;
+  font-size: 20px;
+  margin-right: 50px;
+  color: #ffffff;
+}
+
+.pnum{  
+  position: static;
+  text-align: right;
+  font-size: 20px;
+  margin-left: 20px;
+  color:white;
+}
+
+.detalle
+{ float: inherit;
+  position: relative;
+  top: 10px;
+  font-size: 20px;
+  left: 20px;
+  width: 90%;
+  text-align: justify;
+  height: 40px;
+
+}
+.titulo{
+  position: relative;
+  width: 150px; height: 120px; 
+}
+
+
+li>.bloque{
+ border: 1px solid blue;
+ color: blue;
+ 
+  
+}
