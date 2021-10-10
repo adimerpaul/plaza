@@ -449,14 +449,14 @@ $query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant
                   Usuario: ".$_SESSION['nombre']."
             <hr>";
                 
-        $query1=$this->db->query("SELECT p.idProducto, nombreProd ,sum(d.cantidad) as cant, precioVenta, (sum(d.cantidad) * precioVenta) as total
+            $query1=$this->db->query("SELECT p.idProducto, nombreProd ,sum(d.cantidad) as cant, d.pUnitario as precioVenta, (sum(d.cantidad) * d.pUnitario) as total
         FROM detalle d
         INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
         INNER JOIN producto p on d.idProducto=p.idProducto
         WHERE v.idVentaCandy='$idventa' and esCombo='NO'
         GROUP BY p.idProducto,nombreProd");
     
-        $query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant, precioVenta, (sum(d.cantidad) * precioVenta) as total
+    $query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant, d.pUnitario as precioVenta, (sum(d.cantidad) * d.pUnitario)as total
             FROM detalle d
             INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
             INNER JOIN combo c on d.idCombo=c.idCombo
