@@ -1,6 +1,6 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
-require_once('tcpdf.php');
+//require_once('tcpdf.php');
 include "qrlib.php";
 include "NumerosEnLetras.php";
 require 'autoload.php';
@@ -77,7 +77,7 @@ class ResumenDia extends CI_Controller {
     public function detallePelicula(){
         $fecha1=$_POST['fecha'];
         $id=$_POST['id'];        
-        $query=$this->db->query("SELECT p.idPelicula,f.fecha,p.nombre ,p.formato,COUNT(*) 'cantidadb',SUM(precio) as total
+        $query=$this->db->query("SELECT p.idPelicula,f.fecha,p.nombre ,p.formato,COUNT(*) 'cantidadb',SUM(b.costo) as total
         FROM pelicula p 
         INNER JOIN funcion f ON f.idPelicula=p.idPelicula
         INNER JOIN boleto b ON b.idFuncion=f.idFuncion
@@ -96,7 +96,7 @@ class ResumenDia extends CI_Controller {
     public function detalleProducto(){
         $fecha1=$_POST['fecha'];
         $id=$_POST['id'];        
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,precioVenta,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total  
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total  
         from detalle d, producto p, ventacandy v
         where d.idProducto=p.idProducto
         and v.idVentaCandy=d.idVentaCandy
@@ -160,7 +160,7 @@ class ResumenDia extends CI_Controller {
     public function detalleCombo(){
         $fecha1=$_POST['fecha'];
         $id=$_POST['id'];        
-        $query=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total
+        $query=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
         from detalle d, combo c, ventacandy v
         where d.idCombo=c.idCombo
         and v.idVentaCandy=d.idVentaCandy 
@@ -613,7 +613,7 @@ ORURO - BOLIVIA
     $printer->text("DESCRIPCION      CANTIDAD       P.U.    TOTAL.\n");
     $printer->text("------------------------------------------------"."\n");
     $total=0;
-    $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total
+    $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
     from detalle d, combo c, ventacandy v
     where d.idCombo=c.idCombo
     and v.idVentaCandy=d.idVentaCandy
@@ -631,7 +631,7 @@ ORURO - BOLIVIA
         $printer->text("$left$left1$left2$right\n");
         $total=$total+$row->total;
     }
-    $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total  
+    $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total  
     from detalle d, producto p, ventacandy v
     where d.idProducto=p.idProducto
     and v.idVentaCandy=d.idVentaCandy    
@@ -709,7 +709,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>"; 
         $total=0; 
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total 
+        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
         from detalle d, combo c, ventacandy v 
         where d.idCombo=c.idCombo 
         and v.idVentaCandy=d.idVentaCandy 
@@ -724,7 +724,7 @@ ORURO - BOLIVIA
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";  
             $total=$total+$row->total; 
         } 
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total   
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
         from detalle d, producto p, ventacandy v 
         where d.idProducto=p.idProducto 
         and v.idVentaCandy=d.idVentaCandy     
@@ -789,7 +789,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>"; 
         $total=0; 
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total 
+        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
         from detalle d, combo c, ventacandy v 
         where d.idCombo=c.idCombo 
         and v.idVentaCandy=d.idVentaCandy 
@@ -805,7 +805,7 @@ ORURO - BOLIVIA
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";  
             $total=$total+$row->total; 
         } 
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total   
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
         from detalle d, producto p, ventacandy v 
         where d.idProducto=p.idProducto 
         and v.idVentaCandy=d.idVentaCandy     
@@ -871,7 +871,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>"; 
         $total=0; 
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total 
+        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
         from detalle d, combo c, ventacandy v 
         where d.idCombo=c.idCombo 
         and v.idVentaCandy=d.idVentaCandy 
@@ -887,7 +887,7 @@ ORURO - BOLIVIA
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";  
             $total=$total+$row->total; 
         } 
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total   
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
         from detalle d, producto p, ventacandy v 
         where d.idProducto=p.idProducto 
         and v.idVentaCandy=d.idVentaCandy     
@@ -950,7 +950,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>"; 
         $total=0; 
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total 
+        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
         from detalle d, combo c, ventacandy v 
         where d.idCombo=c.idCombo 
         and v.idVentaCandy=d.idVentaCandy 
@@ -964,7 +964,7 @@ ORURO - BOLIVIA
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";  
             $total=$total+$row->total; 
         } 
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total   
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
         from detalle d, producto p, ventacandy v 
         where d.idProducto=p.idProducto 
         and v.idVentaCandy=d.idVentaCandy     
@@ -1024,7 +1024,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>"; 
         $total=0; 
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total 
+        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
         from detalle d, combo c, ventacandy v 
         where d.idCombo=c.idCombo 
         and v.idVentaCandy=d.idVentaCandy 
@@ -1039,7 +1039,7 @@ ORURO - BOLIVIA
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";  
             $total=$total+$row->total; 
         } 
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total   
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
         from detalle d, producto p, ventacandy v 
         where d.idProducto=p.idProducto 
         and v.idVentaCandy=d.idVentaCandy     
@@ -1100,7 +1100,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>"; 
         $total=0; 
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*c.precioVenta) as total 
+        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
         from detalle d, combo c, ventacandy v 
         where d.idCombo=c.idCombo 
         and v.idVentaCandy=d.idVentaCandy 
@@ -1115,7 +1115,7 @@ ORURO - BOLIVIA
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";  
             $total=$total+$row->total; 
         } 
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,precioVenta,(sum(d.cantidad)*precioVenta) as total   
+        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
         from detalle d, producto p, ventacandy v 
         where d.idProducto=p.idProducto 
         and v.idVentaCandy=d.idVentaCandy     
