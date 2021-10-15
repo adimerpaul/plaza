@@ -167,15 +167,23 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
     public function detalleCombo(){
         $fecha1=$_POST['fecha'];
         $id=$_POST['id'];
-        $query=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
-        from detalle d, combo c, ventacandy v
-        where d.idCombo=c.idCombo
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado='ACTIVO'
-        and esCombo='SI'
-        and date(fecha)='$fecha1'
-        and d.idUsuario='$id'
-        group by idCombo,nombreCombo");
+//        $query=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
+//        from detalle d, combo c, ventacandy v
+//        where d.idCombo=c.idCombo
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado='ACTIVO'
+//        and esCombo='SI'
+//        and date(fecha)='$fecha1'
+//        and d.idUsuario='$id'
+//        group by idCombo,nombreCombo");
+        $query=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND d.idUsuario='$id'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario");
+
             $row=$query->row();
                          $myObj=($query->result_array());
                          echo json_encode($myObj);
@@ -716,31 +724,43 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
-        from detalle d, combo c, ventacandy v 
-        where d.idCombo=c.idCombo 
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado ='ACTIVO' 
-        and esCombo='SI' 
-        and date(fecha)='$fecha1' 
-        and d.idUsuario='$id' 
-        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
-
+//        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
+//        from detalle d, combo c, ventacandy v
+//        where d.idCombo=c.idCombo
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado ='ACTIVO'
+//        and esCombo='SI'
+//        and date(fecha)='$fecha1'
+//        and d.idUsuario='$id'
+//        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND d.idUsuario='$id'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario");
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
             $total=$total+$row->total;
         }
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
-        from detalle d, producto p, ventacandy v 
-        where d.idProducto=p.idProducto 
-        and v.idVentaCandy=d.idVentaCandy     
-        and v.estado ='ACTIVO' 
-        and esCombo='NO' 
-        and d.idUsuario='$id' 
-            and date(fecha)='$fecha1' group by p.idProducto,nombreProd 
-            order by nombreProd ");
-
+//        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total
+//        from detalle d, producto p, ventacandy v
+//        where d.idProducto=p.idProducto
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado ='ACTIVO'
+//        and esCombo='NO'
+//        and d.idUsuario='$id'
+//            and date(fecha)='$fecha1' group by p.idProducto,nombreProd
+//            order by nombreProd ");
+        $query=$this->db->query("SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='NO'
+AND d.idUsuario='$id'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         foreach ($query->result() as $row){
 
             $cadena.="<tr><td>$row->nombreProd</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
@@ -777,7 +797,7 @@ ORURO - BOLIVIA
         <span>Av. Tacna y Jaen - Oruro -Bolivia</span><br> 
         <span>Tel: 591-25281290</span><br> 
         <span>ORURO - BOLIVIA</span><br> 
-        <span>TOTAL RECIBO CANDY</span><br> 
+        <span>TOTAL RECIBO CANDY P</span><br> 
         <hr> 
         ";
 
@@ -796,33 +816,51 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
-        from detalle d, combo c, ventacandy v 
-        where d.idCombo=c.idCombo 
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado ='ACTIVO' 
-        and esCombo='SI' 
-        and tipoVenta='RECIBO' 
-        and date(fecha)='$fecha1' 
-        and d.idUsuario='$id' 
-        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
-
+//        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
+//        from detalle d, combo c, ventacandy v
+//        where d.idCombo=c.idCombo
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado ='ACTIVO'
+//        and esCombo='SI'
+//        and tipoVenta='RECIBO'
+//        and date(fecha)='$fecha1'
+//        and d.idUsuario='$id'
+//        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+        $query2=$this->db->query("
+        SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND d.idUsuario='$id'
+AND tipoVenta='RECIBO'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario
+        ");
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
             $total=$total+$row->total;
         }
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
-        from detalle d, producto p, ventacandy v 
-        where d.idProducto=p.idProducto 
-        and v.idVentaCandy=d.idVentaCandy     
-        and v.estado ='ACTIVO' 
-        and esCombo='NO' 
-        and tipoVenta='RECIBO' 
-        and d.idUsuario='$id' 
-            and date(fecha)='$fecha1' group by p.idProducto,nombreProd 
-            order by nombreProd ");
-
+//        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total
+//        from detalle d, producto p, ventacandy v
+//        where d.idProducto=p.idProducto
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado ='ACTIVO'
+//        and esCombo='NO'
+//        and tipoVenta='RECIBO'
+//        and d.idUsuario='$id'
+//            and date(fecha)='$fecha1' group by p.idProducto,nombreProd
+//            order by nombreProd ");
+        $query=$this->db->query("
+        SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='NO'
+AND d.idUsuario='$id'
+AND v.estado='ACTIVO'
+AND tipoVenta='RECIBO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idProducto,d.nombreP,d.pUnitario
+        ");
         foreach ($query->result() as $row){
 
             $cadena.="<tr><td>$row->nombreProd</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
@@ -878,33 +916,47 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
-        from detalle d, combo c, ventacandy v 
-        where d.idCombo=c.idCombo 
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado ='ACTIVO' 
-        and esCombo='SI'
-        and tipoVenta='FACTURA' 
-        and date(fecha)='$fecha1' 
-        and d.idUsuario='$id' 
-        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
-
+//        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
+//        from detalle d, combo c, ventacandy v
+//        where d.idCombo=c.idCombo
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado ='ACTIVO'
+//        and esCombo='SI'
+//        and tipoVenta='FACTURA'
+//        and date(fecha)='$fecha1'
+//        and d.idUsuario='$id'
+//        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND d.idUsuario='$id'
+AND v.estado='ACTIVO'
+AND tipoVenta='FACTURA'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario");
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
             $total=$total+$row->total;
         }
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
-        from detalle d, producto p, ventacandy v 
-        where d.idProducto=p.idProducto 
-        and v.idVentaCandy=d.idVentaCandy     
-        and v.estado ='ACTIVO' 
-        and esCombo='NO' 
-        and tipoVenta='FACTURA' 
-        and d.idUsuario='$id' 
-            and date(fecha)='$fecha1' group by p.idProducto,nombreProd 
-            order by nombreProd ");
-
+//        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total
+//        from detalle d, producto p, ventacandy v
+//        where d.idProducto=p.idProducto
+//        and v.idVentaCandy=d.idVentaCandy
+//        and v.estado ='ACTIVO'
+//        and esCombo='NO'
+//        and tipoVenta='FACTURA'
+//        and d.idUsuario='$id'
+//            and date(fecha)='$fecha1' group by p.idProducto,nombreProd
+//            order by nombreProd ");
+        $query=$this->db->query("SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='NO'
+AND d.idUsuario='$id'
+AND v.estado='ACTIVO'
+AND tipoVenta='FACTURA'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         foreach ($query->result() as $row){
 
             $cadena.="<tr><td>$row->nombreProd</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
@@ -957,28 +1009,26 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
-        from detalle d, combo c, ventacandy v 
-        where d.idCombo=c.idCombo 
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado ='ACTIVO' 
-        and esCombo='SI' 
-        and date(fecha)='$fecha1' 
-        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario
+");
 
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
             $total=$total+$row->total;
         }
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
-        from detalle d, producto p, ventacandy v 
-        where d.idProducto=p.idProducto 
-        and v.idVentaCandy=d.idVentaCandy     
-        and v.estado ='ACTIVO' 
-        and esCombo='NO' 
-            and date(fecha)='$fecha1' group by p.idProducto,nombreProd 
-            order by nombreProd ");
+        $query=$this->db->query("
+SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='NO'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
         foreach ($query->result() as $row){
 
@@ -1031,30 +1081,26 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
-        from detalle d, combo c, ventacandy v 
-        where d.idCombo=c.idCombo 
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado ='ACTIVO' 
-        and esCombo='SI' 
-        and tipoVenta='RECIBO' 
-        and date(fecha)='$fecha1' 
-        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND tipoVenta='RECIBO'
+AND v.estado='ACTIVO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario");
 
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
             $total=$total+$row->total;
         }
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
-        from detalle d, producto p, ventacandy v 
-        where d.idProducto=p.idProducto 
-        and v.idVentaCandy=d.idVentaCandy     
-        and v.estado ='ACTIVO' 
-        and esCombo='NO' 
-        and tipoVenta='RECIBO' 
-            and date(fecha)='$fecha1' group by p.idProducto,nombreProd 
-            order by nombreProd ");
+        $query=$this->db->query(" SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='NO'
+AND v.estado='ACTIVO'
+AND tipoVenta='RECIBO'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
         foreach ($query->result() as $row){
 
@@ -1107,30 +1153,26 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
-        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total 
-        from detalle d, combo c, ventacandy v 
-        where d.idCombo=c.idCombo 
-        and v.idVentaCandy=d.idVentaCandy 
-        and v.estado ='ACTIVO' 
-        and esCombo='SI'
-        and tipoVenta='FACTURA' 
-        and date(fecha)='$fecha1' 
-        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='SI'
+AND v.estado='ACTIVO'
+AND tipoVenta='FACTURA'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idCombo,d.nombreP,d.pUnitario");
 
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
             $total=$total+$row->total;
         }
-        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total   
-        from detalle d, producto p, ventacandy v 
-        where d.idProducto=p.idProducto 
-        and v.idVentaCandy=d.idVentaCandy     
-        and v.estado ='ACTIVO' 
-        and esCombo='NO' 
-        and tipoVenta='FACTURA' 
-            and date(fecha)='$fecha1' group by p.idProducto,nombreProd 
-            order by nombreProd ");
+        $query=$this->db->query("SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+WHERE d.esCombo='NO'
+AND v.estado='ACTIVO'
+AND tipoVenta='FACTURA'
+AND date(d.fecha)='$fecha1'
+GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
         foreach ($query->result() as $row){
 
