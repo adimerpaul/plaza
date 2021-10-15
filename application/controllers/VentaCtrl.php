@@ -318,7 +318,7 @@ class VentaCtrl extends CI_Controller {
 
     public function regVenta(){
         $total=$_POST['total'];
-        $codControl=$_POST['ccontrol'];
+        $codControl=$this->hexToStr($_POST['ccontrol']);
         $codqr=$_POST['codigoqr'];
         $tipo=$_POST['tipo'];
         $idu=$this->session->userdata('idUs');
@@ -327,7 +327,7 @@ class VentaCtrl extends CI_Controller {
         $idcupon=$_POST['cupon'];
         $cupon='null';
         $cancelado=$_POST['cancelado'];
-        $codigotarjeta=$_POST['codigotarjeta'];
+        $codigotarjeta=$this->hexToStr($_POST['codigotarjeta']);
         if($codigotarjeta!='' && strlen($codigotarjeta)>0) $descuento=0.8; else $descuento=1;
         $costo2=0;
         if(is_numeric($idcupon) && $idcupon != 0 && $idcupon !='')
@@ -1520,23 +1520,30 @@ public function datotarifa($id){
 
 public function valtarjeta()
 {
-    $codigo=$_POST['codigo'];
-//        return "a";
-    $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+        $codigo=$this->hexToStr($_POST['codigo']);
+        //return $codigo;
+        $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
 // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
-    $result = $conn->query("SELECT * from cliente where codigo='$codigo'");
-    if ($result->num_rows > 0) {
-        // output data of each row
-        while($row = $result->fetch_assoc()) {
-//                echo $row["nombre"];
-            echo json_encode( $row);
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
         }
-    } else {
-        echo "0";
+        $result = $conn->query("SELECT * from cliente where codigo='$codigo'");
+        if ($result->num_rows > 0) {
+            // output data of each row
+            while($row = $result->fetch_assoc()) {
+//                echo $row["nombre"];
+                echo json_encode( $row);
+            }
+        } else {
+            echo "0";
+        }
+        $conn->close();
+}
+function hexToStr($hex){
+    $string='';
+    for ($i=0; $i < strlen($hex)-1; $i+=2){
+        $string .= chr(hexdec($hex[$i].$hex[$i+1]));
     }
-    $conn->close();
+    return $string;
 }
 }

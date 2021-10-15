@@ -715,7 +715,9 @@ function validacp(){
 $('#cupon').keyup(function(){
     validacp();
 });
-$('#codigo').keyup(function (e) {
+
+$('#codigo').change(function (e) {
+    
     console.log($('#codigo').val());
     
     $.ajax({
@@ -724,6 +726,7 @@ $('#codigo').keyup(function (e) {
         data:{codigo:$('#codigo').val()},
         success:function (response) {
             console.log(response)
+            
             var datos=JSON.parse(response);
 
             $('#saldo').val(datos.saldo);

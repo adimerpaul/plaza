@@ -345,7 +345,8 @@ $(function() {
         $('#cambio').val(parseInt($('#montocliente').val())-parseInt($('#montoapagar').val()));
         e.preventDefault();
     });
-    $('#codigo').keyup(function (e) {
+    $('#codigo').change(function (e) {
+        //e.preventDefault();
         console.log($('#codigo').val());
         
         $.ajax({
@@ -365,6 +366,7 @@ $(function() {
                 $('#terminar').prop('disabled', true);
             }
         })
+        //return false;
     });
     
     $('#cliente').on('show.bs.modal', function (e) {
@@ -480,6 +482,7 @@ $(function() {
                 }
             });
             e.preventDefault();
+            return false;
         }  
     });
 });

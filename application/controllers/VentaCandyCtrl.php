@@ -176,7 +176,7 @@ esCombo='$esCombo'
      */
         public function insertarVenta(){
         $idcliente=$_POST['idcliente'];
-        $codigotarjeta=$_POST['codigo'];
+        $codigotarjeta=$this->hexToStr($_POST['codigo']);
         if($codigotarjeta!='' && strlen($codigotarjeta)>0) $descuento=0.8; else $descuento=1;
         $total=$_POST['total'];
         $tipoVenta=$_POST['tipoVenta'];
@@ -1108,7 +1108,7 @@ s.idSala='$idsala'");
 
     public function valtarjeta()
     {
-        $codigo=$_POST['codigo'];
+        $codigo=$this->hexToStr($_POST['codigo']);
 //        return "a";
         $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
 // Check connection
@@ -1128,4 +1128,11 @@ s.idSala='$idsala'");
         $conn->close();
     }
 
+    public function hexToStr($hex){
+        $string='';
+        for ($i=0; $i < strlen($hex)-1; $i+=2){
+            $string .= chr(hexdec($hex[$i].$hex[$i+1]));
+        }
+        return $string;
+    }
 }
