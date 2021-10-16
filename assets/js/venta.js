@@ -739,13 +739,22 @@ $('#codigo').change(function (e) {
         }
     })
 });
+var totaltarj=0
+var totaltemp=0
+$('#clienteModal').on('hide.bs.modal', function (e) {
+    $('#tarjeta').prop('checked',false)
+    $('#prepago').val(totaltarj.toFixed(2));
+    $('#totalPre').html(totaltemp.toFixed(2));
+})
 $('#clienteModal').on('show.bs.modal', function (e) {
     $('#booltarjeta').hide();
-var totaltarj= $('#prepago').val();
-var totaltemp=$('#totalPre').html();
-
+totaltarj= parseFloat($('#prepago').val());
+totaltemp=parseFloat($('#totalPre').html());
+    $('#codigo').val('');
+    $('#saldo').val('');
 $('#tarjeta').change(function(){
-
+    $('#codigo').val('');
+    $('#saldo').val('');
     console.log($('#tarjeta').prop('checked'));
     if($('#tarjeta').prop('checked'))
     {$('#booltarjeta').show();
@@ -763,7 +772,42 @@ $('#tarjeta').change(function(){
 });
 
 })
-
+$('#formulariocodigo').submit(function (e) {
+    e.preventDefault();
+    // console.log($('#codigo').val());
+    // return false
+    $('#saldo').val('');
+    $('#tnombre').val('');
+    $.ajax({
+        type:'POST',
+        data:{codigo:$('#codigo').val()},
+        url:'VentaCandyCtrl/valtarjeta2',
+        success:function (response) {
+            console.log(response)
+        }
+    })
+    $.ajax({
+        type:'POST',
+        data:{codigo:$('#codigo').val()},
+        url:'VentaCandyCtrl/valtarjeta',
+        success:function (response) {
+            console.log(response)
+            // return false
+            if (response!="0"){
+                var datos=JSON.parse(response);
+                $('#saldo').val(datos.saldo);
+                $('#tnombre').val(datos.nombre);
+                // console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#montoapagar').val()))
+                if(parseFloat($('#saldo').val()) >= parseFloat($('#montoapagar').val())) {
+                    $('#terminar').removeAttr("disabled");
+                    // console.log('val');
+                } else
+                    $('#terminar').prop('disabled', true);
+            }
+        }
+    })
+    return false;
+});
 $('#registrarVenta').click(function(){
     var idcl=0;
     var varidDosif;
