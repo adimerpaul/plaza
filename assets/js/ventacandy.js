@@ -11,12 +11,12 @@ $(function() {
             data: 'fdosif='+moment().format('Y-MM-DD'),
             url: 'VentaCandyCtrl/verifDosifcacion',
             type: 'post',
-            success:  function (response){
+            success: function (response){
                 //console.log(response);
                 if (response == false){
                     $.ajax({
                         url:'VentaCandyCtrl/UpDosificacion',
-                        success:  function (response){
+                        success: function (response){
                             if (response == false)
                                 alert('No se Cuenta con Dosificacion');
                         }
@@ -345,53 +345,78 @@ $(function() {
         $('#cambio').val(parseInt($('#montocliente').val())-parseInt($('#montoapagar').val()));
         e.preventDefault();
     });
-    $('#codigo').change(function (e) {
-        //e.preventDefault();
-        console.log($('#codigo').val());
-        
+    $('#formulariocodigo').submit(function (e) {
+        e.preventDefault();
+        // console.log($('#codigo').val());
+        // return false
+        $('#saldo').val('');
+        $('#tnombre').val('');
         $.ajax({
             type:'POST',
-            url:'VentaCandyCtrl/valtarjeta',
             data:{codigo:$('#codigo').val()},
+            url:'VentaCandyCtrl/valtarjeta2',
             success:function (response) {
                 console.log(response)
-                var datos=JSON.parse(response);
-
-                $('#saldo').val(datos.saldo);
-                $('#tnombre').val(datos.nombre);
-                console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#montoapagar').val()))
-                if(parseFloat($('#saldo').val()) >= parseFloat($('#montoapagar').val()))
-                {$('#terminar').removeAttr("disabled"); console.log('val');}
-                else    
-                $('#terminar').prop('disabled', true);
             }
         })
-        //return false;
-    });
-    
-    $('#cliente').on('show.bs.modal', function (e) {
-                $('#booltarjeta').hide();
-        var totaltarj= $('#montoapagar').val();
-        var totaltemp=$('#totaltemporal').html();
-        $('#tarjeta').change(function(){
-
-                console.log($('#tarjeta').prop('checked'));
-                if($('#tarjeta').prop('checked')) 
-                {$('#booltarjeta').show();
-                $('#montoapagar').val((totaltarj*0.8).toFixed(2));
-                $('#totaltemporal').html((totaltemp*.8).toFixed(2));
+        $.ajax({
+            type:'POST',
+            data:{codigo:$('#codigo').val()},
+            url:'VentaCandyCtrl/valtarjeta',
+            success:function (response) {
+                console.log(response)
+                // return false
+                if (response!="0"){
+                    var datos=JSON.parse(response);
+                    $('#saldo').val(datos.saldo);
+                    $('#tnombre').val(datos.nombre);
+                    // console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#montoapagar').val()))
+                    if(parseFloat($('#saldo').val()) >= parseFloat($('#montoapagar').val())) {
+                        $('#terminar').removeAttr("disabled");
+                        // console.log('val');
+                    } else
+                    $('#terminar').prop('disabled', true);
                 }
-                else {
-                $('#booltarjeta').hide();
-                $('#codigo').val('');
-                $('#saldo').val('');
-                $('#montoapagar').val(totaltarj.toFixed(2));
-                $('#totaltemporal').html(totaltemp.toFixed(2));
             }
-        
-        });
+        })
+        return false;
+    });
+    var totaltarj;
+    var totaltemp;
 
+    $('#cliente').on('show.bs.modal', function (e) {
+        totaltarj=parseFloat($('#montoapagar').val());
+        totaltemp=parseFloat($('#totaltemporal').html());
+        $('#booltarjeta').hide();
+
+        // console.log(totaltarj)
+        $('#tarjeta').change(function(){
+            $('#saldo').val('');
+            $('#tnombre').val('');
+            $('#codigo').val('');
+                // console.log($('#tarjeta').prop('checked'));
+                if($('#tarjeta').prop('checked')) {
+                    $('#terminar').prop('disabled', true);
+                    $('#booltarjeta').show();
+                    $('#montoapagar').val((totaltarj*0.8).toFixed(2));
+                    $('#totaltemporal').html((totaltemp*.8).toFixed(2));
+                } else {
+                    $('#terminar').removeAttr("disabled");
+                    $('#booltarjeta').hide();
+                    $('#codigo').val('');
+                    $('#saldo').val('');
+                    $('#montoapagar').val(totaltarj.toFixed(2));
+                    $('#totaltemporal').html(totaltemp.toFixed(2))
+                }
+        });
       })
+
+    $('#cliente').on('hidden.bs.modal', function (e) {
+        $('#montoapagar').val(totaltarj.toFixed(2));
+        $('#totaltemporal').html(totaltemp.toFixed(2))
+        $('#tarjeta').prop('checked',false)
+    })
+
 
     $('#cliente').submit(function (e) {
         if($('#cambio').val()<0 && $('#temporal').html()==''){
@@ -405,7 +430,7 @@ $(function() {
                 apellidos:$('#apellidos').val(),
                 nombres:$('#nombres').val()
             }
-    
+
             $.ajax({
                 type:'POST',
                 url:'VentaCandyCtrl/sctualizarCliente',
@@ -439,7 +464,7 @@ $(function() {
                             $('#tarjeta').removeAttr('checked');
                             if (response!=0){
                                 console.log(response);
-                            
+
                             if (tipoventa=="FACTURA"){
                             $.ajax({
                                 url: 'FacturaCandy/imprimirfactura/'+response,
@@ -452,16 +477,16 @@ $(function() {
                                     setTimeout(function(){
                                         myWindow.print();
                                         myWindow.close();
-                                        impDetalle(response); 
+                                        impDetalle(response);
 
-                                    //    impAniv(response);                                                                               
+                                    //    impAniv(response);
 
-                                        //impAniv(response);                                                                               
+                                        //impAniv(response);
 
-                                },500); 
-                               
+                                },500);
+
                                 },
-                                
+
                             });
                         }
                             else {
@@ -472,7 +497,7 @@ $(function() {
 
                                         //impAniv(response);
 
-                                },500); 
+                                },500);
                             }
                         }
                         else
@@ -483,7 +508,7 @@ $(function() {
             });
             e.preventDefault();
             return false;
-        }  
+        }
     });
 });
 

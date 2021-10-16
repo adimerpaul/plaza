@@ -22,12 +22,12 @@
     .asignado
     {
         width: 45px;
-        background: #004DFF; 
+        background: #004DFF;
     }
     .vendido
     {
         width: 45px;
-        background: #FF0000; 
+        background: #FF0000;
     }
 </style>
 
@@ -39,7 +39,7 @@
             <div><label for=""> PANEL DE VENTAS Fecha: </label>
             <input type="date" id="fecfuncion"  name="fecfuncion"  min="<?php echo date("Y-m-d");?>" required value="<?php echo date("Y-m-d");?>">
             </div>
-            
+
         </div>
         <div class="card-body">
             <div class="row">
@@ -62,7 +62,7 @@
                 </ol>
                 </div>
             </div>
-            
+
             <hr>
             <div class="row">
             <div class="col-sm-4"></div>
@@ -71,11 +71,11 @@
                                         <li>
                                             <i class="far fa-credit-card"></i>
                                             Disponibles: <strong id="lblEntradasDisponibles"></strong>
-                                        </li>|	
+                                        </li>|
                                         <li>
                                             <i class="fas fa-tags"></i>
                                             Vendidas: <strong id="lblEntradasVendidas"></strong>
-                                        </li>|	
+                                        </li>|
                                         <li>
                                             <i class="fas fa-thumbs-up"></i>
                                             Devueltas: <strong id="lblEntradasDevueltas" style="red"></strong>
@@ -83,7 +83,7 @@
                                         <li>
                                             <i class="fas fa-video"></i>
                                             Capacidad: <strong id="lblCapacidadSala"></strong>
-                                        </li>		
+                                        </li>
                                     </ul>
             </div>
             </div>
@@ -94,9 +94,9 @@
             <div id="horariopelicula">
                 <ol id="selecfun">
                     <li class="ui-widget-content"><span style="border-image: initial; border: 3px solid blue;">S1</span> 15:15 (18:00)</li>
-                    
+
                 </ol>
-            </div>  
+            </div>
             </div>
 
             <div class="col-md-2">
@@ -104,13 +104,13 @@
                 <div id="lcosto">
                     <ol id="selecost">
 
-                    </ol> 
+                    </ol>
                 </div>
             </div>
 
             <div class="col-md-4">
                 <h6>Operaciones</h6><br>
-                
+
                 <div id="pnlOperaciones" class="portlet-body">
                                 <div class="row-fluid">
                                     <a id="btnEntradaMenos"  class="btn btn-light  " style="width:40%">
@@ -132,14 +132,14 @@
                                             <i class="fas fa-plus"></i>
                                             <div>Agregar</div>
                                         </a>
-                                        
+
                                 </div>
                                 </br>
                                 <div class="row-fluid row">
                                     <a id="btnAceptar"  class="btn btn-success " data-toggle="modal" data-target="#clienteModal" style="width:40%">
                                         <i class="fas fa-check"></i>
                                         <div>Cerrar Venta</div>
-                                        
+
                                     </a>
                                     <div><p>&nbsp;</p></div>
                                             <div class="pricing-head pricing-head-active">
@@ -153,16 +153,16 @@
                                                     </strong>
                                                 </h3>
                                     </div>
-        </div>  
+        </div>
             </div>
 
             </div>
             <div class="col-md-4">
             <div class="card ">
-                 
+
                 <h6 class="card-header text-white bg-dark">  <a href="<?=base_url()?>VentaCtrl/deleteTempAll" class="btn btn-danger" id="elimVentaTemp">Cancelar venta</a></h6>
-                
-                 
+
+
             <div class="card-body">
                 <h5 class="card-title">Detalle Venta</h5>
                 <table class="table table-sm">
@@ -176,13 +176,13 @@
                         </tr>
                     </thead>
                     <tbody id="tabPreVenta">
-                    <?php foreach($temporal as $row): ?>                        
+                    <?php foreach($temporal as $row): ?>
                         <tr>
                             <th scope="row">1</th>
                             <td><?php echo $row['fechaFuncion'].' '.$row['horaFuncion']; ?></td>
                             <td><?php echo $row['titulo']; ?></td>
                             <td class="costo"><?php echo $row['costo']; ?></td>
-                            <td><a class="btn btn-outline-danger btn-sm" href="<?=base_url()?>VentaCtrl/deleteTemporal/<?=$row['idTemporal']?>"><i class="far fa-trash-alt"></i></a></td>                                                        
+                            <td><a class="btn btn-outline-danger btn-sm" href="<?=base_url()?>VentaCtrl/deleteTemporal/<?=$row['idTemporal']?>"><i class="far fa-trash-alt"></i></a></td>
                         </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -193,11 +193,11 @@
                 <label for="" id="totalPre">0,0</label>Bs
                 </div>
             </div>
-            </div>                
             </div>
-        </div>            
+            </div>
         </div>
-    </div>  
+        </div>
+    </div>
 </div>
 
 
@@ -279,90 +279,121 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-      <div class="modal-body"> 
+      <div class="modal-body">
           <div class="form-row">
             <div class="form-group col-md-6">
-                <label for="cinit1">CI / NIT:</label>   
-                <input type="text" class="form-control" id="cinit1" name="cinit1" required>  
+                <label for="cinit1">CI / NIT:</label>
+                <input type="text" class="form-control" id="cinit1" name="cinit1" required>
             </div>
             <div class="form-group col-md-6">
-                <label for="buscar" ></label>  <br> 
-               <a class="btn btn-info" id="buscarCliente" hidden><i class="fas fa-search"></i> BUSCAR</a> 
+                <label for="buscar" ></label>  <br>
+               <a class="btn btn-info" id="buscarCliente" hidden><i class="fas fa-search"></i> BUSCAR</a>
             </div>
          </div>
          <div class="form-row">
             <div class="form-group col-md-4">
-                <label for="pago">Monto:</label>   
-                <input type="number" step="any" class="form-control" id="pago" name="pago" min=0 step='0.01' requiered value=0>  
+                <label for="pago">Monto:</label>
+                <input type="number" step="any" class="form-control" id="pago" name="pago" min=0 step='0.01' requiered value=0>
             </div>
             <div class="form-group col-md-4">
-                <label for="prepago">Monto a Cancelar:</label>   
-                <input type="number" step="any" class="form-control" id="prepago" name="prepago" readonly step='0.01'>  
+                <label for="prepago">Monto a Cancelar:</label>
+                <input type="number" step="any" class="form-control" id="prepago" name="prepago" readonly step='0.01'>
             </div>
             <div class="form-group col-md-4">
-                <label for="resultado">Vuelto:</label>   
-                <input type="number" step="any" class="form-control" id="resultado" name="resultado" readonly step='0.01' value=0>  
+                <label for="resultado">Vuelto:</label>
+                <input type="number" step="any" class="form-control" id="resultado" name="resultado" readonly step='0.01' value=0>
             </div>
         </div>
   <div class="form-row">
     <div class="form-group col-md-6">
-      <label for="cinit">CI / NIT:</label>   
-      <input type="text" class="form-control" id="cinit" name="cinit" readonly required>  
-      <input type="hidden" id="idcliente" name="idcliente">  
+      <label for="cinit">CI / NIT:</label>
+      <input type="text" class="form-control" id="cinit" name="cinit" readonly required>
+      <input type="hidden" id="idcliente" name="idcliente">
     </div>
     <div class="form-group col-md-2">
         <label for=""></label>   <br>
         <input class="form-control" id="vtipo" type="checkbox" data-toggle="toggle" data-on="F" data-off="O"  data-onstyle="primary" data-offstyle="success" checked>
     </div>
     <div class="form-group col-md-4">
-      <label for="cupon">Nro Cortesia:</label>   
+      <label for="cupon">Nro Cortesia:</label>
       <input type="checkbox" id="checkcupon" >
-      <input type="number" class="form-control" id="cupon" name="cupon"> 
+      <input type="number" class="form-control" id="cupon" name="cupon">
       <span id="errorcupon" style="color: red;" ></span>
     </div>
   </div>
 
   <div class="form-row">
   <div class="form-group col-md-6">
-      <label for="apellido">Apellido:</label>   
-      <input type="text" class="form-control" id="apellido" name="apellido" Required style="text-transform: uppercase;" minlength=3>  
+      <label for="apellido">Apellido:</label>
+      <input type="text" class="form-control" id="apellido" name="apellido" Required style="text-transform: uppercase;" minlength=3>
     </div>
     <div class="form-group col-md-6">
-      <label for="nombre">Nombre:</label>   
-      <input type="text" class="form-control" id="nombre" name="nombre"  style="text-transform: uppercase;" minlength=3>  
-      <input type="hidden" id="idcliente" name="idcliente">  
+      <label for="nombre">Nombre:</label>
+      <input type="text" class="form-control" id="nombre" name="nombre"  style="text-transform: uppercase;" minlength=3>
+      <input type="hidden" id="idcliente" name="idcliente">
     </div>
   </div>
   <div class="form-group row">
-        <div class="form-check ">
-            <input class="form-control" type="checkbox" value="" id="tarjeta" name="tarjeta" >
-            <label class="form-check-label" for="tarjeta">
-                Tarjeta
-            </label>
-        </div>
-        <div id="booltarjeta" name="booltarjeta"  class="row"  >
-            <div class="col-sm-4">
-                <label for="codigo">Codigo</label>
-                <input type="text" class="form-control" id="codigo" name="codigo" >
-            </div>
-            <div class="col-sm-4">
-                <label for="saldo">Saldo</label>
-                <input type="text" class="form-control" id="saldo" name="saldo" disabled>
-            </div>
-            <div class="col-sm-4">
-                <input type="text" class="form-control" id="tnombre" name="tnombre" disabled>
-            </div>
-        </div>
+      <div class="col-12">
+          <form id="formulariocodigo">
+              <div class="form-group row">
+                  <div class="col-3">
+                      <label class="form-control" for="tarjeta">
+                          Tarjeta
+                      </label>
+                      <input class="form-control" type="checkbox" value="" id="tarjeta" name="tarjeta" >
+
+                  </div>
+                  <div class="col-9">
+                      <div id="booltarjeta" name="booltarjeta"  class="row"  >
+                          <div class="col-sm-4">
+                              <label for="codigo">Codigo</label>
+                              <input type="text" class="form-control" id="codigo" name="codigo" >
+                          </div>
+                          <div class="col-sm-4">
+                              <label for="saldo">Saldo</label>
+                              <input type="text" class="form-control" id="saldo" name="saldo" disabled>
+                          </div>
+                          <div class="col-sm-4">
+                              <label for="saldo">Nombre</label>
+                              <input type="text" class="form-control" id="tnombre" name="tnombre" disabled>
+                          </div>
+                          <input style="display: none" type="submit">
+                      </div>
+                  </div>
+
+              </div>
+          </form>
+      </div>
+<!--        <div class="form-check ">-->
+<!--            <input class="form-control" type="checkbox" value="" id="tarjeta" name="tarjeta" >-->
+<!--            <label class="form-check-label" for="tarjeta">-->
+<!--                Tarjeta-->
+<!--            </label>-->
+<!--        </div>-->
+<!--        <div id="booltarjeta" name="booltarjeta"  class="row"  >-->
+<!--            <div class="col-sm-4">-->
+<!--                <label for="codigo">Codigo</label>-->
+<!--                <input type="text" class="form-control" id="codigo" name="codigo" >-->
+<!--            </div>-->
+<!--            <div class="col-sm-4">-->
+<!--                <label for="saldo">Saldo</label>-->
+<!--                <input type="text" class="form-control" id="saldo" name="saldo" disabled>-->
+<!--            </div>-->
+<!--            <div class="col-sm-4">-->
+<!--                <input type="text" class="form-control" id="tnombre" name="tnombre" disabled>-->
+<!--            </div>-->
+<!--        </div>-->
     </div>
 
   <div class="form-row" hidden>
     <div class="form-group col-md-6">
-      <label for="email" hidden>Email:</label>   
-      <input type="text" class="form-control" id="email" name="email" hidden>  
+      <label for="email" hidden>Email:</label>
+      <input type="text" class="form-control" id="email" name="email" hidden>
     </div>
     <div class="form-group col-md-6">
-      <label for="telef" hidden>Telefono:</label>   
-      <input type="text" class="form-control" id="telef" name="telef" hidden>  
+      <label for="telef" hidden>Telefono:</label>
+      <input type="text" class="form-control" id="telef" name="telef" hidden>
     </div>
   </div>
 

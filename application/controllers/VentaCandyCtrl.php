@@ -1105,11 +1105,14 @@ s.idSala='$idsala'");
         if ($query->num_rows() == 1) echo true;
         else echo false;
     }
+    public function valtarjeta2(){
+        echo $this->hexToStr($_POST['codigo']);
+    }
 
     public function valtarjeta()
     {
         $codigo=$this->hexToStr($_POST['codigo']);
-//        return "a";
+//        echo $codigo;
         $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
 // Check connection
         if ($conn->connect_error) {

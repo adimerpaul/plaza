@@ -3,11 +3,11 @@ $('#fecfuncion').change(function(){
     if($(this).prop('value') < new Date())
     bloqueobtn();
     caltotalventa();
-}); 
+});
 
 $(document).ready(listado());
 $(document).ready(caltotalventa());
-$(document).ready(valDosificacion());  
+$(document).ready(valDosificacion());
 $(document).ready(calculo());
 $(document).ready(VerificaDosificacion());
 $(document).ready(
@@ -15,10 +15,10 @@ $(document).ready(
         console.log($('#tabPreVenta tr').length);
 if ($('#tabPreVenta tr').length > 0 || parseInt($('#lblCantidadEntradas').html())>0)
     $('#btnAgregar').removeClass("disabled");
-    else 
+    else
     $('#btnAgregar').addClass("disabled");
 $('#cupon').hide();
-if($('#selecost').html()=="" && $('#selecfun').html()=="")    
+if($('#selecost').html()=="" && $('#selecfun').html()=="")
 {$('#btnAceptar').addClass("disabled");
 if ($('#totalPre').html()!="0")
 $('#btnAceptar').removeClass("disabled");
@@ -30,67 +30,67 @@ $('#btnAceptar').removeClass("disabled");
 );
 function caltotalventa(){
     param={'fecha':$('#fecfuncion').val() }
-        $.ajax({                        
-                        data:  param,
-                        url:   'VentaCtrl/totalventa',  
-                        type:  'post',
-                        beforeSend: function () {
-                                //$("#selecfun").html("Procesando, espere por favor... "+parametros['idpel']);
-                        },
-                        success:  function (response) {
+    $.ajax({
+        data: param,
+        url: 'VentaCtrl/totalventa',
+        type: 'post',
+        beforeSend: function () {
+        //$("#selecfun").html("Procesando, espere por favor... "+parametros['idpel']);
+        },
+        success: function (response) {
                            console.log(response);
                           var datos=JSON.parse(response)[0];
                           if($.isNumeric(datos.totalv))
                           $('#tventa').html('Venta Boletos Dia: '+datos.totalv);
-                          else 
+                          else
                           $('#tventa').html('Venta Boletos Dia: 0');
                       }
                   }
-              ) 
+              )
 };
 
 function datosiniciales(){
     $('#lblEntradasDisponibles').html(0);
     $('#lblEntradasVendidas').html(0);
     $('#lblEntradasDevueltas').html(0);
-    $('#lblCapacidadSala').html(0);  
-} 
+    $('#lblCapacidadSala').html(0);
+}
 function mostrardatos(varid){
     console.log(varid);
     var parametros = {
-                        "idfun" : varid
-                          };
-              $.ajax({                        
-                      data:  parametros,
-                      url:   'VentaCtrl/boletoFuncion',  
-                      type:  'post',
-                      beforeSend: function () {
-                              //$("#selecfun").html("Procesando, espere por favor... "+parametros['idpel']);
-                      },
-                      success:  function (response) {
+        "idfun" : varid
+                  };
+      $.ajax({
+      data: parametros,
+      url: 'VentaCtrl/boletoFuncion',
+      type: 'post',
+      beforeSend: function () {
+      //$("#selecfun").html("Procesando, espere por favor... "+parametros['idpel']);
+      },
+      success: function (response) {
                          console.log(response);
                         var datos=JSON.parse(response)[0];
                         $('#lblEntradasDisponibles').html(parseInt(datos.ctotal)-parseInt(datos.vendido)-parseInt(datos.temp));
                         $('#lblEntradasVendidas').html(parseInt(datos.vendido)+parseInt(datos.temp));
                         $('#lblEntradasDevueltas').html(parseInt(datos.devuelto));
                         $('#lblCapacidadSala').html(parseInt(datos.ctotal));
-                        
-                        
+
+
                     }
                 }
             )
 }
 
-$( function() { 
-    
+$( function() {
+
 $('#elimVentaTemp').click(function(){
     var r =confirm("Seguro que Desea Eliminar");
     if(r==true)
         $(this).attr('href',"VentaCtrl/deleteTempAll");
         else
         $(this).attr('href','');
-    
-}); 
+
+});
     $( "#selecost" ).selectable({
         stop: function(){
             var id=0;
@@ -116,12 +116,12 @@ $('#elimVentaTemp').click(function(){
             bloqueobtn();
             else
             desbloqueobtn();
-            
-            
+
+
         })}
- 
+
     });
-   
+
 
 $("#selectable").selectable(
     {
@@ -130,22 +130,22 @@ $("#selectable").selectable(
     $( ".ui-selected", this ).each(function() {
           console.log($(this).prop('value'));
           id=$(this).attr('value')+'';
-        
+
               var cadenahorario="";
               var parametros = {
-                                "idpel" : id,
-                                "fecha1" : $('#fecfuncion').prop('value')
-                                  };
-                      $.ajax({                        
-                              data:  parametros,
-                              url:   'VentaCtrl/horario',  
-                              type:  'post',
-                              beforeSend: function () {
-                                      $("#selecfun").html("Procesando, espere por favor... "+parametros['idpel']);
-                              },
-                              success:  function (response) {
-                                $("#selecfun").html("");
-                                $("#selecost").html("");
+                "idpel" : id,
+                "fecha1" : $('#fecfuncion').prop('value')
+                          };
+              $.ajax({
+              data: parametros,
+              url: 'VentaCtrl/horario',
+              type: 'post',
+              beforeSend: function () {
+              $("#selecfun").html("Procesando, espere por favor... "+parametros['idpel']);
+              },
+              success: function (response) {
+                               $("#selecfun").html("");
+                               $("#selecost").html("");
                                  console.log(response);
                                 var datos=JSON.parse(response);
                                     datos.forEach(row => {
@@ -158,7 +158,7 @@ $("#selectable").selectable(
                                             else{
                                                 if(row.porcentaje>50 && row.porcentaje<=100)
                                                 var fondo=" style='background:green;'";
-                                                else 
+                                                else
                                                 var fondo=" style='background:gray;'";
                                             }
                                         }*/
@@ -167,11 +167,11 @@ $("#selectable").selectable(
                                         cadenahorario=cadenahorario+'<label hidden>'+ row.horaIn+'</label>';
                                         cadenahorario=cadenahorario+'<h6 hidden>'+ row.porcentaje+'</h6>';
                                         cadenahorario=cadenahorario+'</li>';
- 
+
                                      }),
 
 
-                                         $("#selecfun").html(cadenahorario);          
+                                    $("#selecfun").html(cadenahorario);
                                          //$('#selecfun li:first').addClass('ui-selected');
                                          //mostrardatos($("#selecfun .ui-selected").prop('value'));
                                          datosiniciales();
@@ -179,14 +179,14 @@ $("#selectable").selectable(
                                          $("#lblPrecio").html("0Bs");
                                          $("#lblCantidadEntradas").html("0");
                                          bloqueobtn();
-                              },
-                          })
+              },
+                  })
 
-               
+
         });
     }
   });
-  
+
 function colorfuncion(){
     $('#selecfun li').each(function(){
         var por=$("h6",this).html();
@@ -199,7 +199,7 @@ function colorfuncion(){
             else{
                 if(por>50 && por<=100)
                 var fondo=" background:green";
-                else 
+                else
                 var fondo=" background:gray";
             }
         }
@@ -220,29 +220,29 @@ function colorfuncion(){
                     else{
                         if(aaa>50 && aaa<=100)
                         var fondo=" background:green";
-                        else 
+                        else
                         var fondo=" background:gray";
                     }
                 }
                 $(this,"li span").attr('style',fondo);
                }
-           }),   */        
+           }),   */
             $( ".ui-selected", this ).each(function() {
                 colorfuncion();
                 $("#selecfun .ui-selected").attr('style','');
               var cadenacosto="";
               var param = {
-                                "idfun":  $("#selecfun .ui-selected").prop('value')
-                                  };
-                      $.ajax({                        
-                              data:  param,
-                              url:   'VentaCtrl/horario2',  
-                              type:  'post',
-                              beforeSend: function () {
-                                      $("#selecost").html("Procesando, espere por favor... ");
-                              },
-                              success:  function (response) {
-                                $("#selecost").html("");
+                "idfun":  $("#selecfun .ui-selected").prop('value')
+                          };
+              $.ajax({
+              data: param,
+              url: 'VentaCtrl/horario2',
+              type: 'post',
+              beforeSend: function () {
+              $("#selecost").html("Procesando, espere por favor... ");
+              },
+              success: function (response) {
+                               $("#selecost").html("");
                                  console.log(response);
                                  console.log(param);
                                 var datos=JSON.parse(response);
@@ -253,8 +253,8 @@ function colorfuncion(){
                                         cadenacosto=cadenacosto+'<span hidden name="tarifa">'+row.precio+'</span>';
                                         cadenacosto=cadenacosto+'</li>';
                                      }),
-               
-                                         $("#selecost").html(cadenacosto);
+
+                                    $("#selecost").html(cadenacosto);
                                          $('#selecost li:first').addClass('ui-selected');
                                          $("#lblPrecio").html("0Bs");
                                          $("#lblCantidadEntradas").html("0");
@@ -262,13 +262,13 @@ function colorfuncion(){
                                          if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
                                          bloqueobtn();
                                          else
-                                         desbloqueobtn();      
-                              },
-                          })
-            
-            
+                                         desbloqueobtn();
+              },
+                  })
+
+
         })}
- 
+
     });
 
   $( "#selecfun" ).selectable({
@@ -283,15 +283,15 @@ $('#lblCantidadEntradas').bind("DOMSubtreeModified",function(){
     var tarifa=parseFloat($('#selecost .ui-selected span').html());
     var valor=parseFloat($('#lblCantidadEntradas').html());
     var total=(valor*tarifa);
-    $('#lblPrecio').html(total+'Bs');    
-    
+    $('#lblPrecio').html(total+'Bs');
+
     if ($('#tabPreVenta tr').length > 0 || parseInt($('#lblCantidadEntradas').html())>0)
-    
+
     $('#btnAgregar').removeClass("disabled");
     else
     $('#btnAgregar').addClass("disabled");
 ;
-    
+
 });
 
 $('#btnEntradaMenos').click(function(){
@@ -310,12 +310,12 @@ $('#btnEntradaMas').click(function(){
         valor = valor + 1;
     $('#lblCantidadEntradas').html("");
     $('#lblCantidadEntradas').html(valor);
-    
+
     }
     else alert("SOLO SE PERMITE UN MAXIMO DE 200 ENTRADAS");
-    
+
 });
-    
+
 function listado(){
     var cadenapelicula="";
     $("#selecost").html("");
@@ -323,34 +323,34 @@ function listado(){
 
     bloqueobtn();
     var parametros = {
-                        "fecha1" : $('#fecfuncion').prop('value')
-                };
-            $.ajax({                        
-                    data:  parametros,
-                    url:   'VentaCtrl/listafuncion',  
-                    type:  'post',
-                    beforeSend: function () {
-                            $("#selectable").html("Procesando, espere por favor...");
-                    },
-                    success:  function (response) {
-                        $("#selectable").html("");
+        "fecha1" : $('#fecfuncion').prop('value')
+        };
+    $.ajax({
+    data: parametros,
+    url: 'VentaCtrl/listafuncion',
+    type: 'post',
+    beforeSend: function () {
+    $("#selectable").html("Procesando, espere por favor...");
+    },
+    success: function (response) {
+                       $("#selectable").html("");
                         console.log(response);
                         var dd="";
                         var datos=JSON.parse(response);
                         datos.forEach(row => {
                             if(row.formato == 1) dd="3D";
-                            else dd="2D";   
+                            else dd="2D";
                             cadenapelicula=cadenapelicula+'<li class="ui-widget-content" value="'+row.idPelicula+'" > ';
                             cadenapelicula=cadenapelicula+'<input type="hidden" value="'+row.nombre+' '+dd+'">';
                             cadenapelicula=cadenapelicula+''+row.nombre+' <br><div class="row detalle"><p class="ptipo">'+ dd +'</p><p class="pnum"> '+ row.totalp+'</p></div> ';
-                            cadenapelicula=cadenapelicula+'</li>'; 
+                            cadenapelicula=cadenapelicula+'</li>';
                         }),
-                         $("#selectable").html(cadenapelicula)
-                          
+                    $("#selectable").html(cadenapelicula)
 
-                    },
-                })
-    }; 
+
+    },
+        })
+    };
 
     function bloqueobtn(){
         $('#btnEntradaMenos').addClass("disabled");
@@ -366,19 +366,19 @@ function listado(){
         $('#lblCantidadEntradas').addClass("disabled");
         $('#lblCantidadEntradas').html("0");
         $('#lblPrecio').html('0Bs');
-        
+
     }
 
        function desbloqueobtn(){
         $('#btnEntradaMenos').removeClass("disabled");
         $('#btnEntradaMas').removeClass("disabled");
         $('#btnCancelar').removeClass("disabled");
-        if ($('#tabPreVenta tr').length > 0 && $('#totalPre').html()!="0" )        
+        if ($('#tabPreVenta tr').length > 0 && $('#totalPre').html()!="0" )
         $('#btnAceptar').removeClass("disabled");
         VerificaDosificacion();
     }
- 
-  
+
+
 var capacidad=0;
 var asientos;
 
@@ -391,17 +391,17 @@ $('#exampleModal').on('show.bs.modal', function (event) {
     console.log($("#selecfun .ui-selected input").prop('value'));
     var parametros = {
         "tabla" : 'asiento',
-        "where" : 'idsala',         
+        "where" : 'idsala',
         "dato" : $('#selecfun .ui-selected').prop('value'),
     };
     $.ajax({
-        data:  parametros,
-        url:   'VentaCtrl/datosBoleto',
-        type:  'post',
+        data: parametros,
+        url: 'VentaCtrl/datosBoleto',
+        type: 'post',
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             asientos=JSON.parse(response);
             asi=JSON.parse(response)[0];
             console.log(asientos);
@@ -412,13 +412,13 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                 "dato" : idsala,
             };
             $.ajax({
-                data:  parametros,
-                url:   'VentaCtrl/datos',
-                type:  'post',
+                data: parametros,
+                url: 'VentaCtrl/datos',
+                type: 'post',
                 beforeSend: function () {
                     //$("#resultado").html("Procesando, espere por favor...");
                 },
-                success:  function (response) {
+                success: function (response) {
                     //console.log(response);
                     var datos=JSON.parse(response)[0];
                     //console.log(datos);
@@ -450,7 +450,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                  $(this).data('estado',2);
                                  cantaux++;
                              }
-                             
+
                              if(varest== "2"){
                                  $(this).removeClass('asignado');
                                  $(this).addClass('libre');
@@ -458,7 +458,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                  cantaux--;
                              }
                              $('#numasignada').html(cantaux);
-                             
+
                          });
                          $('#bolacepta').click(function(){
                              var total="";
@@ -478,7 +478,7 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                  var col=$(this).data('numero');
                                  var fil=$(this).data('fila');
                                          var ptemporal = {
-                                                           "idasiento" : idsien,
+                                            "idasiento" : idsien,
                                                            "numerofuncion" :numerofuncion,
                                                            "serietarifa":tarSerie,
                                                            "codigosala":codSala,
@@ -491,16 +491,16 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                                            "idfuncion":idfunreg,
                                                            "idtarifa":idtar,
                                                            "titulo":pelicula
-                                                           
-                                                    };
-                                                    $.ajax({
-                                                            data:  ptemporal,
-                                                            url:   'VentaCtrl/insertTemporal',
-                                                            type:  'post',
-                                                            beforeSend: function () {
-                                                                    //$("#resultado").html("Procesando, espere por favor...");
-                                                            },
-                                                            success:  function (response) {
+
+                                            };
+                                            $.ajax({
+                                            data: ptemporal,
+                                            url: 'VentaCtrl/insertTemporal',
+                                            type: 'post',
+                                            beforeSend: function () {
+                                            //$("#resultado").html("Procesando, espere por favor...");
+                                            },
+                                            success: function (response) {
                                                                 $('#btnAceptar').removeClass("disabled");
                                                                 relleno();
                                                                 calculo();
@@ -514,12 +514,12 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                                                         success:function(r){}
                                                                     })
                                                                 }
-                                                    
+
                                                             }
                                                         })
-                                            
-                                     
-                                 
+
+
+
                                 //console.log(idsien+' '+idfunreg+' '+numerofuncion+' '+tarSerie+' '+nunSala+' '+codSala+' '+fecfun+' '+costo+' '+col+' '+fil+' '+pelicula+' '+horafun);
                             })
 
@@ -534,15 +534,15 @@ $('#exampleModal').on('show.bs.modal', function (event) {
                                  console.log(validar);
 
                              }
-                         
+
                             }
                     );
-                   
+
                 }
             });
 
         }
-        
+
     });
 
 })
@@ -572,7 +572,7 @@ function relleno(){
             });
             $('#totalPre').html(total);
             $('#prepago').prop('value',total);
-            
+
         }
     });
 }
@@ -621,13 +621,13 @@ function buscarCl(){
         "cinit" : cinit
     };
     $.ajax({
-        data:  parametros,
-        url:   'ClienteCtrl/datocliente',
-        type:  'post',
+        data: parametros,
+        url: 'ClienteCtrl/datocliente',
+        type: 'post',
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             var datos=JSON.parse(response);
             if (datos.cinit==''){
                 $('#idcliente').prop('value','');
@@ -645,8 +645,8 @@ function buscarCl(){
                 $('#telef').prop('value',datos.telefono);
                 if (datos.cinit=='0')
                     $('#vtipo').bootstrapToggle('off');
-                else 
-                    $('#vtipo').bootstrapToggle('on');    
+                else
+                    $('#vtipo').bootstrapToggle('on');
             }
         }
     })
@@ -665,7 +665,7 @@ $('#checkcupon').on('click',function(){
 }
 else {
     $('#cupon').hide();
-    $('#cupon').prop('value','');          
+    $('#cupon').prop('value','');
     $('#vtipo').bootstrapToggle('enable');
     $('#cinit1').prop('readonly',false);
     $("#cupon").prop('required',false);
@@ -675,13 +675,13 @@ else {
 function validacp(){
     var par={"idcupon": $('#cupon').prop('value')};
     $.ajax({
-        data:  par,
-        url:   'VentaCtrl/validaCuponreg',
-        type:  'post',
+        data: par,
+        url: 'VentaCtrl/validaCuponreg',
+        type: 'post',
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             //var datos=JSON.parse(response);
             console.log(response);
             var datocupon =JSON.parse(response);
@@ -691,42 +691,42 @@ function validacp(){
             else {
             $('#errorcupon').html('');
             $.ajax({
-                data:  par,
-                url:   'VentaCtrl/validaCupon',
-                type:  'post',
+                data: par,
+                url: 'VentaCtrl/validaCupon',
+                type: 'post',
                 beforeSend: function () {
                     //$("#resultado").html("Procesando, espere por favor...");
                 },
-                success:  function (response){
+                success: function (response){
                     //var datos=JSON.parse(response);
                     console.log(response);
                     var datocupon =JSON.parse(response);
                     console.log(datocupon.length);
                     if(datocupon.length > 0)
                     $('#errorcupon').html('');
-                    else 
+                    else
                     $('#errorcupon').html('No existe cupon o caduco');
-                    
+
                 }})}
-            
+
         }})};
 
- 
+
 $('#cupon').keyup(function(){
     validacp();
 });
 
 $('#codigo').change(function (e) {
-    
+
     console.log($('#codigo').val());
-    
+
     $.ajax({
         type:'POST',
         url:'VentaCtrl/valtarjeta',
         data:{codigo:$('#codigo').val()},
         success:function (response) {
             console.log(response)
-            
+
             var datos=JSON.parse(response);
 
             $('#saldo').val(datos.saldo);
@@ -734,7 +734,7 @@ $('#codigo').change(function (e) {
             console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#prepago').val()))
             if(parseFloat($('#saldo').val()) >= parseFloat($('#prepago').val()))
             {$('#registrarVenta').removeAttr("disabled"); console.log('val');}
-            else    
+            else
             $('#registrarVenta').prop('disabled', true);
         }
     })
@@ -747,7 +747,7 @@ var totaltemp=$('#totalPre').html();
 $('#tarjeta').change(function(){
 
     console.log($('#tarjeta').prop('checked'));
-    if($('#tarjeta').prop('checked')) 
+    if($('#tarjeta').prop('checked'))
     {$('#booltarjeta').show();
     $('#prepago').val((totaltarj*0.8).toFixed(2));
     $('#totalPre').html((totaltemp*.8).toFixed(2));
@@ -783,15 +783,15 @@ $('#registrarVenta').click(function(){
     if ($("#checkcupon").is(":checked")){
         if($("#errorcupon").html() == '' && $("#checkcupon").prop('value')!="")
         validocupon=true;
-        else 
+        else
         validocupon=false;
     }
-    else 
+    else
     validocupon=true;
 
 
     if($('#cinit').prop('value')!='' && $('#apellido').prop('value')!='' && $('#apellido').val().length>=2 && validocupon && $('#tabPreVenta tr').length > 0)
-    {   
+    {
     if($('#idcliente').prop('value')==''){
         var parametros = {
             "cinit" : $('#cinit').prop('value'),
@@ -801,37 +801,37 @@ $('#registrarVenta').click(function(){
             "telefono":$('#telef').prop('value')
         };
         $.ajax({
-            data:  parametros,
-            url:   'VentaCtrl/registrarVenta',
-            type:  'post',
+            data: parametros,
+            url: 'VentaCtrl/registrarVenta',
+            type: 'post',
             beforeSend: function () {
                 //$("#resultado").html("Procesando, espere por favor...");
             },
-            success:  function (response){
+            success: function (response){
                 //var datos=JSON.parse(response);
                 console.log(response);
                 idcl=response;
             }
-        })                    
+        })
     }
     else{
         var parame = {
-                "id":$('#idcliente').prop('value'),            
+                "id":$('#idcliente').prop('value'),
                 "nombre": $('#nombre').prop('value'),
                 "apellido": $('#apellido').prop('value'),
                 "email": $('#email').prop('value'),
                 "telefono":$('#telef').prop('value')
             };
             $.ajax({
-                data:  parame,
-                url:   'VentaCtrl/updatecliente',
-                type:  'post',
-                success:  function (response){
+                data: parame,
+                url: 'VentaCtrl/updatecliente',
+                type: 'post',
+                success: function (response){
                     //var datos=JSON.parse(response);
                     console.log(response);
                 }
-            })                    
-    
+            })
+
             idcl=$('#idcliente').prop('value');
         }
     factCinit=$('#cinit').prop('value');
@@ -839,17 +839,17 @@ $('#registrarVenta').click(function(){
     $('#apellido').prop('value','');
     var montoTotal=parseFloat($('#totalPre').html());
     var cancelado=0;
-    if ($.isNumeric($('#pago').val())) 
+    if ($.isNumeric($('#pago').val()))
     cancelado=$('#pago').val();
     else
     cancelado=0;
     $.ajax({
-        url: 'DosificacionCtrl/ultimaDosificacion', 
+        url: 'DosificacionCtrl/ultimaDosificacion',
         type: 'post',
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             var vardosif=JSON.parse(response)[0];
             console.log(vardosif);
             varidDosif =vardosif.idDosif;
@@ -860,7 +860,7 @@ $('#registrarVenta').click(function(){
             varnroFactura=parseInt(vardosif.nroFactura) + 1;//incrementar 1!!!!!!!
             varfechaqr=moment().format('YMMDD');
             varfechaventa=moment().format('Y-MM-DD H:i:s');
-            
+
             //console.log(codControl);
             parametro={
                 "numeroa": varnroAutorizacion,
@@ -872,13 +872,13 @@ $('#registrarVenta').click(function(){
 
             };
             $.ajax({
-                data:  parametro,                
-                url: 'VentaCtrl/cControl', 
+                data: parametro,
+                url: 'VentaCtrl/cControl',
                 type: 'post',
                 beforeSend: function () {
                     //$("#resultado").html("Procesando, espere por favor...");
                 },
-                success:  function (response){
+                success: function (response){
                     console.log(response);
                     codControl=response;
 
@@ -897,18 +897,18 @@ $('#registrarVenta').click(function(){
                             'tipo':tipo ,
                             'idCliente': idcl,
                             'iddosif':varidDosif,
-                             "cancelado":cancelado,                            
+                             "cancelado":cancelado,
                              'cupon': $('#cupon').prop('value'),
                              'codigotarjeta':$('#codigo').prop('value'),
                         };
                         $.ajax({
-                            data:  parventa,
-                            url:   'VentaCtrl/regVenta',
-                            type:  'post',
+                            data: parventa,
+                            url: 'VentaCtrl/regVenta',
+                            type: 'post',
                             beforeSend: function () {
                                 //$("#resultado").html("Procesando, espere por favor...");
                             },
-                            success:  function (response){
+                            success: function (response){
                                 $('#tarjeta').removeAttr('checked');
                                 console.log(response);
                                 var idventa=response;
@@ -929,7 +929,7 @@ $('#registrarVenta').click(function(){
                                             myWindow.print();
                                             myWindow.close();
                                             boletos(idventa);
-                                            
+
                                           // aniversario(idventa);
 
                                            //aniversario(idventa);
@@ -939,7 +939,7 @@ $('#registrarVenta').click(function(){
                                         },500);
                                     }
                                 });
-                                
+
                                 }else {
                                     boletos(idventa);
                                     //aniversario(idventa);
@@ -949,16 +949,16 @@ $('#registrarVenta').click(function(){
 
                                 }
                             }
-                                
+
                             }
-                            
+
                         })
                 }
             })
         }
 
     })
-    
+
     }
     else
     alert('Verifique monto y los campos esten llenados');
@@ -991,10 +991,10 @@ function boletos(idventa){
 
             };
             relleno();
-            
+
         }
     });
-    
+
 }
 
 
@@ -1049,7 +1049,7 @@ function comboboleteria (idventa){
     });
 }
 function promo(idventa){
-                
+
     $.ajax({
         url: 'VentaCtrl/impPromo/'+idventa,
         success: async function (resp) {
@@ -1069,10 +1069,10 @@ $('#btnAceptar').click(function () {
 });
 function calculo(){
     var total=0.0;
-    $('.costo').each(function(){    
+    $('.costo').each(function(){
         //console.log(($(this).html())),
         total = total + parseFloat($(this).html())
-    
+
 });
     $('#totalPre').html(total);
     $('#prepago').prop('value',total);
@@ -1080,7 +1080,7 @@ function calculo(){
 
 function insertVenta(){
     var totalventa=$('#totalPre').html();
-} 
+}
 
 
 $('#pago').keyup(function(event){
@@ -1092,7 +1092,7 @@ $('#pago').keyup(function(event){
         $('#resultado').css('color','red');
         else
         $('#resultado').css('color','green');
-        
+
         console.log($p);
 });
 
@@ -1100,12 +1100,12 @@ function valDosificacion(){
     parm={'fdosif':moment().add(5, 'days').format('Y-MM-DD')}
     $.ajax({
         data: parm,
-        url: 'VentaCtrl/verifDosifcacion', 
+        url: 'VentaCtrl/verifDosifcacion',
         type: 'post',
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             console.log(response);
             if (response == false){
                 alert('Dosificacion Falta menos de 5 Dias');}
@@ -1116,12 +1116,12 @@ function VerificaDosificacion(){
     parm={'fdosif':moment().format('Y-MM-DD')}
     $.ajax({
         data: parm,
-        url: 'VentaCtrl/verifDosifcacion', 
+        url: 'VentaCtrl/verifDosifcacion',
         type: 'post',
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             console.log(response);
             if (response == false){
             $('#btnAceptar').addClass("disabled");
@@ -1131,7 +1131,7 @@ function VerificaDosificacion(){
                 beforeSend: function () {
                     //$("#resultado").html("Procesando, espere por favor...");
                 },
-                success:  function (response){
+                success: function (response){
                     if (response == false)
                     alert('No se Cuenta con Dosificacion');
                 }
@@ -1149,15 +1149,15 @@ function datostarifa(idtarifa){
     console.log(param);
     $.ajax({
         data: parm,
-        url: 'VentaCtrl/datotarifa/'+idtarifa, 
+        url: 'VentaCtrl/datotarifa/'+idtarifa,
         beforeSend: function () {
             //$("#resultado").html("Procesando, espere por favor...");
         },
-        success:  function (response){
+        success: function (response){
             console.log(response);
             var dato=JSON.parse(response)[0];
             console.log(dato.precio);
-            
+
         }
     })
 

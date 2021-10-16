@@ -201,31 +201,40 @@
                         </div>
                     </div>
                     <hr>
-                    <div class="form-group row">
-                        <div class="form-check ">
-                            <input class="form-control" type="checkbox" value="" id="tarjeta" name="tarjeta" >
-                            <label class="form-check-label" for="tarjeta">
-                                Tarjeta
-                            </label>
-                        </div>
-                        <div id="booltarjeta" name="booltarjeta"  class="row"  >
-                        <div class="col-sm-4">
-                            <label for="codigo">Codigo</label>
-                            <input type="text" class="form-control" id="codigo" name="codigo" >
-                        </div>
-                        <div class="col-sm-4">
-                            <label for="saldo">Saldo</label>
-                            <input type="text" class="form-control" id="saldo" name="saldo" disabled>
-                        </div> 
-                        <div class="col-sm-4">
-                            <input type="text" class="form-control" id="tnombre" name="tnombre" disabled>
-                        </div>
-                        </div>
-                    </div>
+
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash"></i> Cancelar</button>
                         <button type="submit" class="btn btn-success" id='terminar'> <i class="fa fa-check"></i> Terminar venta</button>
                     </div>
+                </form>
+                <form id="formulariocodigo">
+                <div class="form-group row">
+                    <div class="col-3">
+                        <label class="form-control" for="tarjeta">
+                            Tarjeta
+                        </label>
+                        <input class="form-control" type="checkbox" value="" id="tarjeta" name="tarjeta" >
+
+                    </div>
+                    <div class="col-9">
+                        <div id="booltarjeta" name="booltarjeta"  class="row"  >
+                            <div class="col-sm-4">
+                                <label for="codigo">Codigo</label>
+                                <input type="text" class="form-control" id="codigo" name="codigo" >
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="saldo">Saldo</label>
+                                <input type="text" class="form-control" id="saldo" name="saldo" disabled>
+                            </div>
+                            <div class="col-sm-4">
+                                <label for="saldo">Nombre</label>
+                                <input type="text" class="form-control" id="tnombre" name="tnombre" disabled>
+                            </div>
+                            <input style="display: none" type="submit">
+                        </div>
+                    </div>
+
+                </div>
                 </form>
             </div>
         </div>
