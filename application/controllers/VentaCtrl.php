@@ -318,7 +318,7 @@ class VentaCtrl extends CI_Controller {
 
     public function regVenta(){
         $total=$_POST['total'];
-        $codControl=$this->hexToStr($_POST['ccontrol']);
+        $codControl=$_POST['ccontrol'];
         $codqr=$_POST['codigoqr'];
         $tipo=$_POST['tipo'];
         $idu=$this->session->userdata('idUs');
