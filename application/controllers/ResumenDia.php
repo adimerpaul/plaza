@@ -636,7 +636,7 @@ ORURO - BOLIVIA
     and esCombo='SI'
     and date(fecha)='$fecha1'
     and d.idUsuario='$id'
-    group by idCombo,nombreCombo ORDER BY nombreCombo asc");
+    group by idCombo,nombreCombo,d.Unitario ORDER BY nombreCombo asc");
     foreach ($query2->result() as $row){
         //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
         $left = str_pad("$row->nombreCombo", 25) ;
@@ -653,7 +653,7 @@ ORURO - BOLIVIA
     and v.estado ='ACTIVO'
     and esCombo='NO'
     and d.idUsuario='$id'
-        and date(fecha)='$fecha1' group by p.idProducto,nombreProd
+        and date(fecha)='$fecha1' group by p.idProducto,nombreProd, p.Unitario
         order by nombreProd ");
 
     foreach ($query->result() as $row){

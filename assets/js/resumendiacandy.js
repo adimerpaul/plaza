@@ -93,7 +93,7 @@ function calculaDetalle(){
                 resdetalle+="<td>"+row.precioVenta+"</td>";
                 resdetalle+="<td>"+row.total+"</td>";
                 resdetalle+="</tr>";
-                total=total+parseInt(row.total);
+                total=total+parseFloat(row.total);
             });
             $.ajax({
                 data: param,
@@ -113,7 +113,7 @@ function calculaDetalle(){
                         resdetalle+="<td>"+row.precioVenta+"</td>";
                         resdetalle+="<td>"+row.total+"</td>";
                         resdetalle+="</tr>";
-                        total=total+parseInt(row.total);
+                        total=total+parseFloat(row.total);
                     });
                     resdetalle+="<tr><th></th><th></th><th></th><th>Total</th><th>"+total+"</th></tr>";
 

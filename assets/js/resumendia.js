@@ -101,7 +101,7 @@ function calculaDetalle(){
                 resdetalle+="<td>"+row.fecha+"</td>";                
                 resdetalle+="<td>"+row.total+"</td>";                
                 resdetalle+="</tr>";
-                total=total+parseInt(row.total);
+                total=total+parseFloat(row.total);
             });
             resdetalle+="<tr><th></th><th></th><th>Total</th><th>"+total+"</th></tr>";
             $('#tabPelicula').html(resdetalle);
@@ -264,7 +264,7 @@ function totalpromo(){
             datos2=JSON.parse(response);
             var total=0;
             datos2.forEach(row => {
-                total+=parseInt(row.ticket);
+                total+=parseFloat(row.ticket);
             });
             if(total>0)
             $('#promot').html('<b><label>Total Ticket Promo: </label></b> '+total);
