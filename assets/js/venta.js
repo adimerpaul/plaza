@@ -722,7 +722,7 @@ $('#formulariocodigo').submit(function (e) {
     $('#saldo').val('');
     $('#tnombre').val('');
     let cod=$('#codigo').val();
-    $('#codigo').val(cod.replace(' ',''));
+    $('#codigo').val(cod.replaceAll(' ',''));
     console.log(cod)
     $.ajax({
         type:'POST',
@@ -752,7 +752,7 @@ $('#codigo').change(function (e) {
     console.log($('#codigo').val());
 
     let cod=$('#codigo').val();
-    $('#codigo').val(cod.replace(' ',''));
+    $('#codigo').val(cod.replaceAll(' ',''));
     $.ajax({
         type:'POST',
         url:'VentaCtrl/valtarjeta',

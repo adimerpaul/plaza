@@ -352,7 +352,7 @@ $(function() {
         $('#saldo').val('');
         $('#tnombre').val('');
         let cod=$('#codigo').val();
-        $('#codigo').val(cod.replace(' ',''));
+        $('#codigo').val(cod.replaceAll(' ',''));
         console.log(cod)
         $.ajax({
             type:'POST',
