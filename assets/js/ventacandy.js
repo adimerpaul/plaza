@@ -351,6 +351,9 @@ $(function() {
         // return false
         $('#saldo').val('');
         $('#tnombre').val('');
+        let cod=$('#codigo').val();
+        $('#codigo').val(cod.replace(' ',''));
+        console.log(cod)
         $.ajax({
             type:'POST',
             data:{codigo:$('#codigo').val()},
