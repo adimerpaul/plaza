@@ -724,6 +724,7 @@ ORURO - BOLIVIA
                 <th>DESCRIPCION</th> <th>CANTIDAD</th><th>P.U.</th><th>TOTAL</th></tr> 
                 </thead><tbody>";
         $total=0;
+        $totaltarjeta=0;
 //        $query2=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
 //        from detalle d, combo c, ventacandy v
 //        where d.idCombo=c.idCombo
@@ -733,7 +734,7 @@ ORURO - BOLIVIA
 //        and date(fecha)='$fecha1'
 //        and d.idUsuario='$id'
 //        group by idCombo,nombreCombo ORDER BY nombreCombo asc");
-        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+        $query2=$this->db->query("SELECT d.idCombo,d.nombreP nombreCombo,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total,v.tarjeta
 FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='SI'
 AND d.idUsuario='$id'
@@ -743,7 +744,10 @@ GROUP BY d.idCombo,d.nombreP,d.pUnitario");
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
             $cadena.="<tr><td>$row->nombreCombo</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
-            $total=$total+$row->total;
+            if($row->tarjeta=='S')
+                $totaltarjeta=$totaltarjeta+$row->total;
+            else
+                $total=$total+$row->total;
         }
 //        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total
 //        from detalle d, producto p, ventacandy v
@@ -754,7 +758,7 @@ GROUP BY d.idCombo,d.nombreP,d.pUnitario");
 //        and d.idUsuario='$id'
 //            and date(fecha)='$fecha1' group by p.idProducto,nombreProd
 //            order by nombreProd ");
-        $query=$this->db->query("SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total
+        $query=$this->db->query("SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad) cant, sum(d.cantidad)*d.pUnitario total,v.tarjeta
 FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='NO'
 AND d.idUsuario='$id'
@@ -764,17 +768,27 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         foreach ($query->result() as $row){
 
             $cadena.="<tr><td>$row->nombreProd</td><td>$row->cant</td><td>$row->precioVenta</td><td>$row->total</td></tr>";
+            if($row->tarjeta=='S')
+            $totaltarjeta=$totaltarjeta+$row->total;
+        else
             $total=$total+$row->total;
         }
+
         $cadena.="</tbody></table></center>";
 
         $total=number_format($total,2);
         $d = explode('.',$total);
         $entero=$d[0];
         $decimal=$d[1];
+        $totaltarjeta=number_format($totaltarjeta,2);
+        $d2 = explode('.',$totaltarjeta);
+        $entero2=$d2[0];
+        $decimal2=$d2[1];
         $cadena.="<hr>";
         $cadena.="<br><div class='textor'>TOTAL: $total Bs.</div><br>";
         $cadena.="  SON: ".NumerosEnLetras::convertir($entero)."$decimal/100 Bolivianos<br>";
+        $cadena.="<br><div class='textor'>TOTAL VIP: $totaltarjeta Bs.</div><br>";
+        $cadena.="  SON: ".NumerosEnLetras::convertir($entero2)."$decimal2/100 Bolivianos<br>";
 
         $cadena.= "<br><br><br><span style='font-size: x-small;'>ENTREGE CONFORME &nbsp; &nbsp; &nbsp; &nbsp;  RECIBI CONFORME<span></div>";
         echo $cadena;

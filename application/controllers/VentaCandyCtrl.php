@@ -177,7 +177,9 @@ esCombo='$esCombo'
         public function insertarVenta(){
         $idcliente=$_POST['idcliente'];
         $codigotarjeta=$this->hexToStr($_POST['codigo']);
-        if($codigotarjeta!='' && strlen($codigotarjeta)>0) $descuento=0.8; else $descuento=1;
+        if($codigotarjeta!='' && strlen($codigotarjeta)>0) 
+        {$descuento=0.8; $tarjeta='S';}
+         else {$descuento=1; $tarjeta='N';}
         $total=$_POST['total'];
         $tipoVenta=$_POST['tipoVenta'];
         $cinit=$_POST['cinit'];
@@ -227,7 +229,8 @@ esCombo='$esCombo'
                 idDosif='$iddosif',
                 idUsuario='".$_SESSION['idUs']."',
                 nroComprobante='$invoiceNumber',
-                cancelado=$cancelado
+                cancelado=$cancelado,
+                tarjeta='$tarjeta'
             ");
 
             if($this->db->affected_rows()==0){
