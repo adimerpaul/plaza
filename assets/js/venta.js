@@ -715,11 +715,44 @@ function validacp(){
 $('#cupon').keyup(function(){
     validacp();
 });
+$('#formulariocodigo').submit(function (e) {
+    e.preventDefault();
+    // console.log($('#codigo').val());
+    // return false
+    $('#saldo').val('');
+    $('#tnombre').val('');
+    let cod=$('#codigo').val();
+    $('#codigo').val(cod.replaceAll(' ',''));
+    console.log(cod)
+    $.ajax({
+        type:'POST',
+        data:{codigo:$('#codigo').val()},
+        url:'VentaCtrl/valtarjeta',
+        success:function (response) {
+            console.log(response)
+            // return false
+            if (response!="0"){
+                var datos=JSON.parse(response);
+                // console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#montoapagar').val()))
+                $('#saldo').val(datos.saldo);
+                $('#tnombre').val(datos.nombre);
+                console.log(parseFloat($('#saldo').val()) >= parseFloat ($('#prepago').val()))
+                if(parseFloat($('#saldo').val()) >= parseFloat($('#prepago').val()))
+                {$('#registrarVenta').removeAttr("disabled"); console.log('val');}
+                else
+                $('#registrarVenta').prop('disabled', true);
+            }
+        }
+    })
+    return false;
+});
 
 $('#codigo').change(function (e) {
 
     console.log($('#codigo').val());
 
+    let cod=$('#codigo').val();
+    $('#codigo').val(cod.replaceAll(' ',''));
     $.ajax({
         type:'POST',
         url:'VentaCtrl/valtarjeta',
