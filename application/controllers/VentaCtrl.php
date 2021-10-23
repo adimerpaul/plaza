@@ -328,7 +328,8 @@ class VentaCtrl extends CI_Controller {
         $cupon='null';
         $cancelado=$_POST['cancelado'];
         $codigotarjeta=$this->hexToStr($_POST['codigotarjeta']);
-        if($codigotarjeta!='' && strlen($codigotarjeta)>0) $descuento=0.8; else $descuento=1;
+        if($codigotarjeta!='' && strlen($codigotarjeta)>0) {$descuento=0.8; $tarjeta="SI";}
+        else {$descuento=1; $tarjeta="NO";}
         $costo2=0;
         if(is_numeric($idcupon) && $idcupon != 0 && $idcupon !='')
         { $total=0;
@@ -360,7 +361,8 @@ class VentaCtrl extends CI_Controller {
                 idCliente,
                 idDosif,
                 idCupon,
-                cancelado) VALUES (
+                cancelado,
+                tarjeta) VALUES (
                     '$total',
                     '$codControl',
                     '$codqr',
@@ -370,7 +372,8 @@ class VentaCtrl extends CI_Controller {
                     '$idCl',
                     '$idd',
                     $cupon,
-                    $cancelado)";
+                    $cancelado,
+                    '$tarjeta')";
         $this->db->query($query);
         if($this->db->affected_rows()==0){
             $idVenta=$this->dosificaciones_model->errorenfactura($idd);
@@ -399,7 +402,8 @@ class VentaCtrl extends CI_Controller {
                 idCliente,
                 idDosif,
                 idCupon,
-                cancelado) VALUES (
+                cancelado,
+                tarjeta) VALUES (
                     '$total',
                     '',
                     '',
@@ -409,7 +413,8 @@ class VentaCtrl extends CI_Controller {
                     '$idCl',
                     '$idd',
                     $cupon,
-                    $cancelado)";
+                    $cancelado,
+                    '$tarjeta')";
         $this->db->query($query);
         if($this->db->affected_rows()>0)
         $idVenta=$this->db->insert_id();
