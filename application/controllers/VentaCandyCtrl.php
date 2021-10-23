@@ -178,8 +178,8 @@ esCombo='$esCombo'
         $idcliente=$_POST['idcliente'];
         $codigotarjeta=$this->hexToStr($_POST['codigo']);
         if($codigotarjeta!='' && strlen($codigotarjeta)>0) 
-        {$descuento=0.8; $tarjeta='S';}
-         else {$descuento=1; $tarjeta='N';}
+        {$descuento=0.8; $tarjeta='SI';}
+         else {$descuento=1; $tarjeta='NO';}
         $total=$_POST['total'];
         $tipoVenta=$_POST['tipoVenta'];
         $cinit=$_POST['cinit'];
