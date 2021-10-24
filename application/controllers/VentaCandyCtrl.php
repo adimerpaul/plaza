@@ -256,7 +256,9 @@ esCombo='$esCombo'
                         cantidad='$tCantidad',
                         pUnitario='$pUnitario',
                         idUsuario='".$_SESSION['idUs']."',
-                        nombreP='$nombreP'
+                        nombreP='$nombreP',
+                        tarjeta='$tarjeta'
+
                     ");
                 }
                 $this->db->query("DELETE FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
