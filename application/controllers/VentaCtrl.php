@@ -460,7 +460,8 @@ class VentaCtrl extends CI_Controller {
               `idVenta`,
               `idCupon`,
               `tipoCompra`,
-              `idTarifa`) VALUES (
+              `idTarifa`,
+              `tarjeta`) VALUES (
                   '$numboc', 
                   '$numboleto',
                   '$row->idFuncion', 
@@ -479,7 +480,8 @@ class VentaCtrl extends CI_Controller {
                   '$idVenta',
                   $cupon,
                   '$tipo',
-                  '$row->idTarifa');");
+                  '$row->idTarifa',
+                  '$tarjeta');");
         };
         //header("Location inde.php");
 
