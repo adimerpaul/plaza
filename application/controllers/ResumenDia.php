@@ -301,7 +301,7 @@ public function pruebaImpresion(){
         WHERE b.idUsuario='$id'
         AND  date(b.fecha)='$fecha1'
         and b.devuelto='NO' and b.idCupon is null
-        GROUP BY p.idPelicula,p.nombre
+        GROUP BY p.idPelicula,p.nombre,b.tarjeta
                         ");
                 foreach ($query->result() as $row){
                     $cadena.="<tr><td>".$row->nomb."</td><td>".$row->cantidadb."</td><td>".$row->total."</td></tr>";
@@ -364,7 +364,7 @@ public function pruebaRecImpresion(){
     WHERE b.idUsuario='$id'
     AND  date(b.fecha)='$fecha1'
     and tipoCompra='RECIBO' and b.devuelto='NO' and b.idCupon is null
-    GROUP BY p.idPelicula,p.nombre
+    GROUP BY p.idPelicula,p.nombre,b.tarjeta
                     ");
             foreach ($query->result() as $row){
                 $cadena.="<tr><td>".$row->nomb."</td><td>".$row->cantidadb."</td><td>".$row->total."</td></tr>";
@@ -426,7 +426,7 @@ public function pruebaFactImpresion(){
     WHERE b.idUsuario='$id'
     AND  date(b.fecha)='$fecha1'
     and tipoCompra='FACTURA' and b.devuelto = 'NO'
-    GROUP BY p.idPelicula,p.nombre
+    GROUP BY p.idPelicula,p.nombre,b.tarjeta
                     ");
             foreach ($query->result() as $row){
                 $cadena.="<tr><td>".$row->nomb."</td><td>".$row->cantidadb."</td><td>".$row->total."</td></tr>";
@@ -482,7 +482,7 @@ public function todopruebaImpresion(){
     INNER JOIN boleto b ON b.idFuncion=f.idFuncion
     INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
     where date(b.fecha)='$fecha1' and b.devuelto='NO' and b.idCupon is null
-    GROUP BY p.idPelicula,p.nombre
+    GROUP BY p.idPelicula,p.nombre,b.tarjeta
                     ");
             foreach ($query->result() as $row){
                 $cadena.="<tr><td>".$row->nomb."</td><td>".$row->cantidadb."</td><td>".$row->total."</td></tr>";
@@ -546,7 +546,7 @@ INNER JOIN boleto b ON b.idFuncion=f.idFuncion
 INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
 where  date(b.fecha)='$fecha1'
 and tipoCompra='RECIBO' and b.devuelto='NO' and b.idCupon is null
-GROUP BY p.idPelicula,p.nombre
+GROUP BY p.idPelicula,p.nombre,b.tarjeta
                 ");
         foreach ($query->result() as $row){
             $cadena.="<tr><td>".$row->nomb."</td><td>".$row->cantidadb."</td><td>".$row->total."</td></tr>";
@@ -603,7 +603,7 @@ INNER JOIN boleto b ON b.idFuncion=f.idFuncion
 INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
 where  date(b.fecha)='$fecha1' and b.devuelto='NO' and b.idCupon is null
 and tipoCompra='FACTURA'
-GROUP BY p.idPelicula,p.nombre
+GROUP BY p.idPelicula,p.nombre,b.tarjeta
                 ");
         foreach ($query->result() as $row){
             $cadena.="<tr><td>".$row->nomb."</td><td>".$row->cantidadb."</td><td>".$row->total."</td></tr>";
