@@ -256,11 +256,13 @@ esCombo='$esCombo'
                         cantidad='$tCantidad',
                         pUnitario='$pUnitario',
                         idUsuario='".$_SESSION['idUs']."',
-                        nombreP='$nombreP'
+                        nombreP='$nombreP',
+                        tarjeta='$tarjeta'
+
                     ");
                 }
                 $this->db->query("DELETE FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
-                $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+                $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
                 // Check connection
                         if ($conn->connect_error) {
                             die("Connection failed: " . $conn->connect_error);
@@ -1116,7 +1118,7 @@ s.idSala='$idsala'");
     {
         $codigo=$this->hexToStr($_POST['codigo']);
 //        echo $codigo;
-        $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+        $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
 // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);

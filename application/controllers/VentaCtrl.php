@@ -487,7 +487,7 @@ class VentaCtrl extends CI_Controller {
 
         $idUser=$this->session->userdata('idUs');
         $this->temporal_model->deleteAll($idUser);
-        $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+        $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
         // Check connection
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
@@ -589,9 +589,6 @@ GROUP BY b.idFuncion,p.nombre,p.formato,t.precio");
             $cadena.=( "$cantidad  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;formato: $for         &nbsp;&nbsp;&nbsp;$precio     &nbsp;&nbsp;&nbsp;$subtotal   <br>");
             $total=$total+$subtotal;
         }
-
-
-
         $total=number_format($total,2);
         $d = explode('.',$total);
         $entero=$d[0];
@@ -1529,7 +1526,7 @@ public function valtarjeta()
 {
         $codigo=$this->hexToStr($_POST['codigo']);
         //return $codigo;
-        $conn = mysqli_connect("165.227.143.191", "myuser", "mypass", "tarjetaplaza");
+        $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
 // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
