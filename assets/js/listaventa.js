@@ -4,8 +4,8 @@ $('#fecini').change(function(){
     $('#fecfin').val(fecha);
     $('#fecfin').attr('min',fecha);
 });
-   
-   
+
+
    $('#exampleModal').on('show.bs.modal', function (event) {
         var button = $(event.relatedTarget) // Button that triggered the modal
         var idventa = button.data('idventa') // Extract info from data-* attributes
@@ -13,16 +13,16 @@ $('#fecini').change(function(){
         var dev="";
         var totalv=0;
         var parametros = {
-                          "idventa" : idventa
-                  };
-                  $.ajax({
-                          data:  parametros,
-                          url:   'verdatoventa',
-                          type:  'post',
-                          beforeSend: function () {
-                                  //$("#resultado").html("Procesando, espere por favor...");
-                          },
-                          success:  function (response) {
+          "idventa" : idventa
+          };
+          $.ajax({
+          data: parametros,
+          url: 'verdatoventa',
+          type: 'post',
+          beforeSend: function () {
+          //$("#resultado").html("Procesando, espere por favor...");
+          },
+          success: function (response) {
                               console.log(response);
                               var datos=JSON.parse(response);
                               $('#idVenta').html(datos.idVenta);
@@ -38,14 +38,14 @@ $('#fecini').change(function(){
                               dev=datos.estado;
                               var tipo=datos.tipoVenta;
                               $.ajax({
-                                data:  parametros,
-                                url:   'listaBoletos',
-                                type:  'post',
-                                                beforeSend: function () {
-                                                        //$("#resultado").html("Procesando, espere por favor...");
-                                                },
-                                                success:  function (response) { 
-                                    var cadena=""; 
+                                data: parametros,
+                                url: 'listaBoletos',
+                                type: 'post',
+                                beforeSend: function () {
+                                //$("#resultado").html("Procesando, espere por favor...");
+                                },
+                                success: function (response) {
+                                    var cadena="";
                                     var asiento;
                                     var datos2=JSON.parse(response);
                                     console.log(datos2);
@@ -53,7 +53,7 @@ $('#fecini').change(function(){
                                     datos2.forEach(row => {
                                         if(row.devuelto=='SI')
                                             asiento = '-'
-                                        else 
+                                        else
                                         asiento=String.fromCharCode(parseInt(row.fila) + 64)+'-'+row.fila+"-"+row.columna+'';
                                         cadena+="<tr>";
                                         cadena=cadena+"<td>"+row.fecha+"</td>";
@@ -65,7 +65,7 @@ $('#fecini').change(function(){
                                         cadena=cadena+"<td>"+asiento+"</td>";
                                         cadena=cadena+"<td><a class='btn btn-success text-white btn-sm impboleto'  data-bol='"+row.idBoleto+"'>Imp</a></td>";
                                         cadena+="</tr>";
-                                    
+
                                     $('#tabbody').html(cadena);
                                     $('.impboleto').click(function () {
                                         idboleto=$(this).data("bol");
@@ -86,28 +86,28 @@ $('#fecini').change(function(){
                                 })
                                 }
 
-                                
+
                             })
                             $('#btnDevolver').click(function(){
                                 var id=$('#idVen').prop('value');
-                                
+
                                 var conf=prompt('Esta Seguro de Devolver Motivo?') ;
                                 if(conf!=null && dev=='ACTIVO') {console.log('ok')
                                 var param = {
-                                                    "idventa" : id,
+                                    "idventa" : id,
                                                     "motivo" : conf,
                                                     "total" : totalv
-                                            }; 
-                                console.log(param);  
-                                
+                                    };
+                                console.log(param);
+
                                 $.ajax({
-                                    data:  param,
-                                    url:   'devolucion',
-                                    type:  'post',
-                                                    beforeSend: function () {
-                                                            //$("#resultado").html("Procesando, espere por favor...");
-                                                    },
-                                                    success:  function (response) { 
+                                    data: param,
+                                    url: 'devolucion',
+                                    type: 'post',
+                                    beforeSend: function () {
+                                    //$("#resultado").html("Procesando, espere por favor...");
+                                    },
+                                    success: function (response) {
                                         console.log(response);
                                     }
                                 })}
@@ -115,10 +115,10 @@ $('#fecini').change(function(){
                                 window.location.href = 'listaVenta';
                             });
 
-                          } 
-                  });
+          }
+          });
 
-    
+
           $('#btnImpresion').click(function(){
               id=$('#idVen').val();
               console.log(id);
@@ -140,7 +140,7 @@ $('#fecini').change(function(){
 
           });
 
-          
+
       });
 
 function boletos(idventa){
@@ -184,9 +184,9 @@ function boleto(idboleto){
         }
     });
 }
- 
+
 function promo(idventa){
-                
+
     $.ajax({
         url: 'impPromo/'+idventa,
         success: async function (resp) {

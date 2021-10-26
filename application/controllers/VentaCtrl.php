@@ -614,8 +614,7 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
 //        QRcode::png($qr, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
 //        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
         //$cadena.='<img  id="img" src="temp/test.png" /> <br>';
-    $cadena.="<small class='textoimp'><img width='125px' src='".base_url()."barcode.php?s=qrl&d=$qr'></small><br>";
-
+    $cadena.='<small class="textoimp"><img width="125px"" src="'.base_url().'barcode.php?s=qrl&d=$qr"></small><br>';
 $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
 </small>";
 $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
@@ -1390,12 +1389,12 @@ WHEN s.idSala='7' THEN '#827717'
 
 END)as 'color'
 ,  idFuncion as id
-, CONCAT(fecha,' ',horaInicio) as 'start' 
+, CONCAT(fecha,' ',horaInicio) as 'start'
 ,CONCAT(fecha,' ',horaFin) as 'end'
-, CONCAT(p.nombre)  as 'title' 
+, CONCAT(p.nombre)  as 'title'
 , s.idSala
 , p.idPelicula
-,fecha 
+,fecha
 ,horaInicio
 ,subtitulada
 ,numerada
@@ -1432,16 +1431,16 @@ WHEN s.idSala='7' THEN '#827717'
 
 END)as 'color'
 ,  idFuncion as id
-, CONCAT(fecha,' ',horaInicio) as 'start' 
+, CONCAT(fecha,' ',horaInicio) as 'start'
 ,CONCAT(fecha,' ',horaFin) as 'end'
-, CONCAT(p.nombre)  as 'title' 
+, CONCAT(p.nombre)  as 'title'
 , s.idSala
 , p.idPelicula
-,fecha 
+,fecha
 ,horaInicio
 ,subtitulada
 ,numerada
-,idTarifa 
+,idTarifa
 ,nroSala
 ,nroFuncion
 ,nombre
