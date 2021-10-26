@@ -71,7 +71,7 @@
                             <select name="idsala" id="idsala" required class="form-control">
                                 <option value="">Seleccionar..</option>
                                 <?php
-                                $query=$this->db->query("SELECT * FROM SALA");
+                                $query=$this->db->query("SELECT * FROM sala");
                                 foreach ($query->result() as $row){
                                     echo "<option value='".$row->idSala."'>".$row->nombreSala."</option>";
                                 }
