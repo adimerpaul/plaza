@@ -614,7 +614,7 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
 //        QRcode::png($qr, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
 //        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
         //$cadena.='<img  id="img" src="temp/test.png" /> <br>';
-    $cadena.='<small class="textoimp"><img width="125px"" src="'.base_url().'barcode.php?s=qrl&d=$qr"></small><br>';
+    $cadena.='<small class="textoimp"><img width="125px"" src="'.base_url().'barcode.php?s=qrl&d='.$qr.'"></small><br>';
 $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
 </small>";
 $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
