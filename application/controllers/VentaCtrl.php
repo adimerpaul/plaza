@@ -10,6 +10,8 @@ use Mike42\Escpos\EscposImage;
 use Mike42\Escpos\PrintConnectors\WindowsPrintConnector;
 use Mike42\Escpos\PrintConnectors\FilePrintConnector;
 use Mike42\Escpos\CapabilityProfile;
+include "vendor/autoload.php"; // Incluimos la libreria
+
 
 class VentaCtrl extends CI_Controller {
 
@@ -614,7 +616,22 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
 //        QRcode::png($qr, $filename, $errorCorrectionLevel, $matrixPointSize, 2);
 //        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
         //$cadena.='<img  id="img" src="temp/test.png" /> <br>';
-    $cadena.='<small class="textoimp"><img width="125px"" src="'.base_url().'qrcode.php?s=qr&d='.$qr.'"></small><br>';
+        $barcode = new \Com\Tecnick\Barcode\Barcode();
+
+        $bobj = $barcode->getBarcodeObj(
+            'QRCODE,H',                     // Tipo de Barcode o Qr
+            $qr,          // Datos
+            -5,                             // Width
+            -5,                             // Height
+            'black',                        // Color del codigo
+            array(-2, -2, -2, -2)           // Padding
+        )->setBackgroundColor('white'); // Color de fondo
+
+        $imageData = $bobj->getPngData(); // Obtenemos el resultado en formato PNG
+
+        file_put_contents('qrcode.png', $imageData); //
+
+        $cadena.='<small class="textoimp"><img width="125px"" src="'.base_url().'qrcode.png"></small><br>';
 $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
 </small>";
 $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
