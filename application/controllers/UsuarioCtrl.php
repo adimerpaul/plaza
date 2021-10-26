@@ -7,7 +7,7 @@ class UsuarioCtrl extends CI_Controller {
 	{
 		parent::__construct();
 		$this->load->model('Usuarios_model');
-		$this->load->model('temporal_model');
+		$this->load->model('Temporal_model');
 
 
 	}
@@ -40,7 +40,7 @@ class UsuarioCtrl extends CI_Controller {
 		  $this->session->set_userdata($datosusr);
 
 		  $user = $this->session->userdata('idUs');
-        	$this->temporal_model->deleteAll($user);
+        	$this->Temporal_model->deleteAll($user);
 		  	$dato=$this->Usuarios_model->validaIngreso($user);
 			  $this->load->view('templates/header',$dato);
 			  $this->load->view('inicio');
