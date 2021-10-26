@@ -16,12 +16,12 @@ class VentaCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('temporal_model');
-        $this->load->model('boletos_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Temporal_model');
+        $this->load->model('Boletos_model');
 
-        $this->load->model('ventas_model'); // This loads the library
-        $this->load->model('dosificaciones_model');
+        $this->load->model('Ventas_model'); // This loads the library
+        $this->load->model('Dosificaciones_model');
 	}
 
     public function index()
@@ -30,8 +30,8 @@ class VentaCtrl extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $temporal['temporal'] = $this->temporal_model->listaTemporal();
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $temporal['temporal'] = $this->Temporal_model->listaTemporal();
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('panelventa',$temporal);
                 $dato2['js']="<script src='".base_url()."assets/js/venta.js'></script>";
@@ -188,13 +188,13 @@ class VentaCtrl extends CI_Controller {
     }
 
     public function deleteTemporal($id){
-        $this->temporal_model->deleteTemp($id);
+        $this->Temporal_model->deleteTemp($id);
         header("Location: ".base_url()."VentaCtrl");
     }
 
     public function deleteTempAll(){
         $idUser=$this->session->userdata('idUs');
-        $this->temporal_model->deleteAll($idUser);
+        $this->Temporal_model->deleteAll($idUser);
 
 
      header("Location: ".base_url()."VentaCtrl");
@@ -202,7 +202,7 @@ class VentaCtrl extends CI_Controller {
 
     public function pruebadeleteTempAll(){
         $idUser=$this->session->userdata('idUs');
-        $this->temporal_model->deleteAll($idUser);
+        $this->Temporal_model->deleteAll($idUser);
         echo "ok";
     }
 
@@ -307,13 +307,13 @@ class VentaCtrl extends CI_Controller {
         $kDosif=$_POST["llave"];
 
         //echo $nautorizacion.$nroFact.$cinit.$fecVenta.$monto.$kDosif;
-       echo $this->ventas_model->generate($nautorizacion,$nroFact,$cinit,$fecVenta,$monto,$kDosif);  // This calls the creation of ajax methods
+       echo $this->Ventas_model->generate($nautorizacion,$nroFact,$cinit,$fecVenta,$monto,$kDosif);  // This calls the creation of ajax methods
        //echo "aa";
     }
 
     public function cControlprueba($nautorizacion,$nroFact,$cinit,$fecVenta,$monto,$kDosif){
 
-       echo $this->ventas_model->generate($nautorizacion,$nroFact,$cinit,$fecVenta,$monto,$kDosif);  // This calls the creation of ajax methods
+       echo $this->Ventas_model->generate($nautorizacion,$nroFact,$cinit,$fecVenta,$monto,$kDosif);  // This calls the creation of ajax methods
     }
 
     public function regVenta(){
@@ -340,7 +340,7 @@ class VentaCtrl extends CI_Controller {
             $tipo='FACTURA';
         if($tipo=='FACTURA'){
 
-            $this->dosificaciones_model->updatenfactura($idd);
+            $this->Dosificaciones_model->updatenfactura($idd);
         $query=$this->db->query("SELECT idDosif,nroFactura from dosificacion where tipo='BOLETERIA' AND activo=1 ORDER BY idDosif DESC");
         $row=$query->row();
         $nroComprobante=$row->nroFactura;
@@ -376,13 +376,13 @@ class VentaCtrl extends CI_Controller {
                     '$tarjeta')";
         $this->db->query($query);
         if($this->db->affected_rows()==0){
-            $idVenta=$this->dosificaciones_model->errorenfactura($idd);
+            $idVenta=$this->Dosificaciones_model->errorenfactura($idd);
             }
         else
         $idVenta=$this->db->insert_id();
         }
         else{
-            $idVenta=$this->dosificaciones_model->errorenfactura($idd);
+            $idVenta=$this->Dosificaciones_model->errorenfactura($idd);
 
         }
        // $query.= ",'".$codControl."','".$codqr."',(SELECT nroFactura from dosificacion where tipo='BOLETERIA' AND activo=1)";
@@ -486,7 +486,7 @@ class VentaCtrl extends CI_Controller {
         //header("Location inde.php");
 
         $idUser=$this->session->userdata('idUs');
-        $this->temporal_model->deleteAll($idUser);
+        $this->Temporal_model->deleteAll($idUser);
         $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
         // Check connection
                 if ($conn->connect_error) {
@@ -759,7 +759,7 @@ else $salida=$cancelado-$total;
         if($this->session->userdata('login')==1){
 
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             if( empty($_POST['fecini']) || empty($_POST['fecfin']))
                 {
                     $venta['fecinicio'] = date('Y-m-d');
@@ -781,7 +781,7 @@ else $salida=$cancelado-$total;
         if($this->session->userdata('login')==1){
 
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
                 $this->load->view('listadodevolucion');
                 $dato2['js']="<script></script>";
@@ -1335,8 +1335,8 @@ public function devolucion(){
     $motivo=$_POST['motivo'];
     $total=$_POST['total'];
     $user = $this->session->userdata('idUs');
-    $this->ventas_model->devolVenta($idventa);
-    $this->boletos_model->devolBoleto($idventa);
+    $this->Ventas_model->devolVenta($idventa);
+    $this->Boletos_model->devolBoleto($idventa);
     $this->db->query("INSERT INTO devolucion (idVenta,idUsuario,monto,motivo,tipo) values ('$idventa','$user','$total','$motivo','BOLETERIA')");
     echo $this->db->insert_id();
 }
@@ -1345,8 +1345,8 @@ public function devolucion(){
 public function devolucionfuncion($id){
 
     $user = $this->session->userdata('idUs');
-    //$this->ventas_model->devolVenta($idventa);
-    //$this->boletos_model->devolBoleto($idventa);
+    //$this->Ventas_model->devolVenta($idventa);
+    //$this->Boletos_model->devolBoleto($idventa);
     //$this->db->query("INSERT INTO devolucion (idVenta,idUsuario) values ('$idventa','$user')");
 }
 
@@ -1364,7 +1364,7 @@ public function paneldevol($id="")
 {
     if($this->session->userdata('login')==1){
         $user = $this->session->userdata('idUs');
-        $dato=$this->usuarios_model->validaIngreso($user);
+        $dato=$this->Usuarios_model->validaIngreso($user);
         $this->load->view('templates/header', $dato);
 
         $this->load->view('paneldevolucion');

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class usuarios_model extends CI_Model {
+class Usuarios_model extends CI_Model {
 
     public function listarUsuario()
     {

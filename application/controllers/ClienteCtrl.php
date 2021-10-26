@@ -6,8 +6,8 @@ class ClienteCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('clientes_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Clientes_model');
 
 
     }
@@ -18,7 +18,7 @@ class ClienteCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('clientereg');
                 $dato['js']="<script src='".base_url()."assets/js/cliente.js'></script>";    
@@ -34,8 +34,8 @@ class ClienteCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $cliente['cliente'] = $this->clientes_model->listaClientes();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $cliente['cliente'] = $this->Clientes_model->listaClientes();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('clientever',$cliente);
                 $dato['js']="<script src='".base_url()."assets/js/cliente.js'></script>";    
@@ -47,20 +47,20 @@ class ClienteCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->clientes_model->store();
+        $this->Clientes_model->store();
         $this->index();
     } 
 
     public function update()
     {
-        $this->clientes_model->update();
+        $this->Clientes_model->update();
         header("Location: ".base_url()."ClienteCtrl/clientever");
     }
 
     public function delete($idCliente)
     {
 
-        $this->clientes_model->delete($idCliente);
+        $this->Clientes_model->delete($idCliente);
         header("Location: ".base_url()."ClienteCtrl/clientever");
     }
 

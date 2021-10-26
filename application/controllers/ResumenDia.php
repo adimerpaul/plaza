@@ -13,7 +13,7 @@ class ResumenDia extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
+        $this->load->model('Usuarios_model');
     }
 
     public function index()
@@ -22,7 +22,7 @@ class ResumenDia extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('resumendia');
             $dato['js']="<script src='".base_url()."assets/js/resumendia.js'></script>";
@@ -37,7 +37,7 @@ class ResumenDia extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('resumendiacandy');
             $dato['js']="<script src='".base_url()."assets/js/resumendiacandy.js'></script>";

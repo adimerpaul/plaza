@@ -6,8 +6,8 @@ class TarifaCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('tarifas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Tarifas_model');
 
 
 	}
@@ -18,7 +18,7 @@ class TarifaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('tarifareg');
                 $dato['js']="<script></script>";    
@@ -29,12 +29,12 @@ class TarifaCtrl extends CI_Controller {
     
     public function store()
     {
-        $this->tarifas_model->store();
+        $this->Tarifas_model->store();
         $this->index();
     }
     public function update()
     {
-        $this->tarifas_model->update();
+        $this->Tarifas_model->update();
         $this->tarifaver();
     }
 
@@ -45,9 +45,9 @@ class TarifaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
            
-            $tarifa['tarifa'] = $this->tarifas_model->listaTarifa();
+            $tarifa['tarifa'] = $this->Tarifas_model->listaTarifa();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('tarifaver',$tarifa);
                 $dato2['js']="<script src='".base_url()."assets/js/tarifa.js'></script>";    
@@ -63,9 +63,9 @@ class TarifaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
            
-            $tarifa['tarifa'] = $this->tarifas_model->listaTarifainact();
+            $tarifa['tarifa'] = $this->Tarifas_model->listaTarifainact();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('tarifaver',$tarifa);
                 $dato2['js']="<script src='".base_url()."assets/js/tarifa.js'></script>";    
@@ -88,7 +88,7 @@ class TarifaCtrl extends CI_Controller {
     public function delete($idtarifa)
     {
 
-        $this->tarifas_model->delete($idtarifa);
+        $this->Tarifas_model->delete($idtarifa);
         $this->tarifaver();
     }
 }

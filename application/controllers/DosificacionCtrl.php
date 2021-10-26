@@ -6,8 +6,8 @@ class DosificacionCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('dosificaciones_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Dosificaciones_model');
     }
     
     public function index()
@@ -16,7 +16,7 @@ class DosificacionCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('dosificacionreg');
                 $dato['js']="<script></script>";    
@@ -27,7 +27,7 @@ class DosificacionCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->dosificaciones_model->store();
+        $this->Dosificaciones_model->store();
         $this->index();
     }
 
@@ -35,8 +35,8 @@ class DosificacionCtrl extends CI_Controller {
     {
         if($this->session->userdata('login')==1){            
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $dosif['dosif'] = $this->dosificaciones_model->listaDosificacion();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $dosif['dosif'] = $this->Dosificaciones_model->listaDosificacion();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('dosificacionver',$dosif);
                 $dato2['js']="<script src='".base_url()."assets/js/dosificacion.js'></script>";    
@@ -47,7 +47,7 @@ class DosificacionCtrl extends CI_Controller {
 
     public function update()
     {
-        $this->dosificaciones_model->update();
+        $this->Dosificaciones_model->update();
         $this->dosificacionver();  
     }
 
@@ -64,7 +64,7 @@ class DosificacionCtrl extends CI_Controller {
     public function delete($idDosif)
     {
 
-        $this->dosificaciones_model->delete($idDosif);
+        $this->Dosificaciones_model->delete($idDosif);
         $this->dosificacionver();
     }
 

@@ -6,7 +6,7 @@
  * Time: 10:06
  */
 
-class funcion_model extends CI_Model{
+class Funcion_model extends CI_Model{
     public function store()
     {
         $query=$this->db->query("SELECT * FROM pelicula WHERE idpelicula='".$_POST['idpelicula']."'");

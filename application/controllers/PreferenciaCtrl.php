@@ -6,16 +6,16 @@ class PreferenciaCtrl extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('preferencias_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Preferencias_model');
     }
 
     public function index()
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $preferencia['preferencia']=$this->preferencias_model->listaPreferencia();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $preferencia['preferencia']=$this->Preferencias_model->listaPreferencia();
             $this->load->view('templates/header', $dato);
             $this->load->view('preferenciaver',$preferencia);
             $dato2['js']="<script src='".base_url()."assets/js/preferencia.js'></script>";
@@ -29,7 +29,7 @@ class PreferenciaCtrl extends CI_Controller {
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
 
             $this->load->view('templates/header', $dato);
             $this->load->view('preferenciareg');
@@ -44,7 +44,7 @@ class PreferenciaCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->preferencias_model->store();
+        $this->Preferencias_model->store();
         //$this->index();
         header('Location: '.base_url().'PreferenciaCtrl');
     }
@@ -52,7 +52,7 @@ class PreferenciaCtrl extends CI_Controller {
 
 
     public function update(){
-        $this->preferencias_model->update();
+        $this->Preferencias_model->update();
         header("Location: ".base_url()."PreferenciaCtrl");
     }
 
@@ -60,7 +60,7 @@ class PreferenciaCtrl extends CI_Controller {
     public function delete($idpreferencia)
     {
 
-        $this->preferencias_model->delete($idpreferencia);
+        $this->Preferencias_model->delete($idpreferencia);
         header("Location: ".base_url()."PreferenciaCtrl");
     }
 

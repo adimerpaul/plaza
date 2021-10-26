@@ -6,8 +6,8 @@ class ProductoCtrl extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('productos_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Productos_model');
 
     }
 
@@ -15,8 +15,8 @@ class ProductoCtrl extends CI_Controller {
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $producto['producto']=$this->productos_model->listaProducto();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $producto['producto']=$this->Productos_model->listaProducto();
             $this->load->view('templates/header', $dato);
 
             $this->load->view('productover',$producto);
@@ -32,7 +32,7 @@ class ProductoCtrl extends CI_Controller {
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
 
             $this->load->view('templates/header', $dato);
 
@@ -47,7 +47,7 @@ class ProductoCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->productos_model->store();
+        $this->Productos_model->store();
         header('Location: '.base_url().'ProductoCtrl');
     }
 
@@ -55,7 +55,7 @@ class ProductoCtrl extends CI_Controller {
 
     public function update()
     {   
-        $this->productos_model->update();
+        $this->Productos_model->update();
         header("Location: ".base_url()."ProductoCtrl");
     }
 
@@ -63,7 +63,7 @@ class ProductoCtrl extends CI_Controller {
     public function delete($idproducto)
     {
 
-        $this->productos_model->delete($idproducto);
+        $this->Productos_model->delete($idproducto);
         header("Location: ".base_url()."ProductoCtrl");
     }
 

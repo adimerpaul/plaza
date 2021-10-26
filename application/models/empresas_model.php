@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class empresas_model extends CI_Model {
+class Empresas_model extends CI_Model {
 
     public function listaEmpresa()
     {

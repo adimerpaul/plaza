@@ -11,7 +11,7 @@ class InformeSemanal extends CI_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
+        $this->load->model('Usuarios_model');
             }
 
     public function index()
@@ -20,7 +20,7 @@ class InformeSemanal extends CI_Controller{
 
             $user = $this->session->userdata('idUs');
 
-            $dato = $this->usuarios_model->validaIngreso($user);
+            $dato = $this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('informesemanal');
             $dato['js'] = "";

@@ -6,7 +6,7 @@
  * Time: 9:27
  */
 
-class cupon_model extends CI_Model
+class Cupon_model extends CI_Model
 {
 
 }

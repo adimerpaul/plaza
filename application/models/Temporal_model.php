@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class temporal_model extends CI_Model {
+class Temporal_model extends CI_Model {
     public function listaTemporal()
     {
         $user = $this->session->userdata('idUs');

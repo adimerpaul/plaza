@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class rubros_model extends CI_Model {
+class Rubros_model extends CI_Model {
 
 
     public function listaRubros()

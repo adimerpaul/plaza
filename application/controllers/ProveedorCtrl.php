@@ -6,8 +6,8 @@ class ProveedorCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('proveedores_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Proveedores_model');
     }
     
     public function index()
@@ -16,8 +16,8 @@ class ProveedorCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $proveedor['proveedor'] = $this->proveedores_model->listaProveedor();
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $proveedor['proveedor'] = $this->Proveedores_model->listaProveedor();
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('proveedorver',$proveedor);
                 $dato['js']="<script></script>";    
@@ -28,7 +28,7 @@ class ProveedorCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->proveedores_model->store();
+        $this->Proveedores_model->store();
         header("Location: ".base_url()."ProveedorCtrl");
     }
 
@@ -39,9 +39,9 @@ class ProveedorCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
            
-            $proveedor['proveedor'] = $this->proveedores_model->listaProveedor();
+            $proveedor['proveedor'] = $this->Proveedores_model->listaProveedor();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('proveedorver',$proveedor);
                 $dato2['js']="<script src='".base_url()."assets/js/proveedor.js'></script>";    
@@ -62,14 +62,14 @@ class ProveedorCtrl extends CI_Controller {
 
     public function update()
     {
-        $this->proveedores_model->update();
+        $this->Proveedores_model->update();
         header("Location: ".base_url()."ProveedorCtrl/proveedorver");
     }
 
     public function delete($idproveedor)
     {
 
-        $this->proveedores_model->delete($idproveedor);
+        $this->Proveedores_model->delete($idproveedor);
         header("Location: ".base_url()."ProveedorCtrl/proveedorver");
     }
 

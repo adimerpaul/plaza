@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class sala_model extends CI_Model {
+class Sala_model extends CI_Model {
 
     public function listaSala()
     {

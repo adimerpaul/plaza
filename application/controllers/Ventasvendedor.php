@@ -7,8 +7,8 @@ class Ventasvendedor extends CI_Controller
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('empresas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Empresas_model');
 
 
     }
@@ -19,7 +19,7 @@ class Ventasvendedor extends CI_Controller
 
             $user = $this->session->userdata('idUs');
 
-            $dato = $this->usuarios_model->validaIngreso($user);
+            $dato = $this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('ventasvendedor');
             $dato['js'] = "<script src='".base_url()."assets/js/ventasvendedor.js'></script>";
@@ -35,7 +35,7 @@ class Ventasvendedor extends CI_Controller
 
             $user = $this->session->userdata('idUs');
 
-            $dato = $this->usuarios_model->validaIngreso($user);
+            $dato = $this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('verresumenventas');
             $dato['js'] = "<script src='".base_url()."assets/js/resumenventas.js'></script>";
@@ -49,7 +49,7 @@ class Ventasvendedor extends CI_Controller
 
             $user = $this->session->userdata('idUs');
 
-            $dato = $this->usuarios_model->validaIngreso($user);
+            $dato = $this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('verresumenboleto');
             $dato['js'] = "<script src='".base_url()."assets/js/resumenboletos.js'></script>";

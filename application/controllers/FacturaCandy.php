@@ -15,12 +15,12 @@ class FacturaCandy extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('temporal_model');
-        $this->load->model('boletos_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Temporal_model');
+        $this->load->model('Boletos_model');
 
-        $this->load->model('ventas_model'); // This loads the library
-        $this->load->model('dosificaciones_model');
+        $this->load->model('Ventas_model'); // This loads the library
+        $this->load->model('Dosificaciones_model');
     }
 
 

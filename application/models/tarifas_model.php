@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class tarifas_model extends CI_Model {
+class Tarifas_model extends CI_Model {
     public function listaTarifa()
     {
     

@@ -6,7 +6,7 @@ class ReporteCandy extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
+        $this->load->model('Usuarios_model');
     }
 
     public function index()
@@ -20,7 +20,7 @@ class ReporteCandy extends CI_Controller {
             else{
                 $data['fecha1']=date('Y-m-d');
                 $data['fecha2']=date('Y-m-d');}
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('ventaProducto',$data);
             $dato['js']="<script src='".base_url()."assets/js/productovendido.js'></script>";
@@ -71,7 +71,7 @@ class ReporteCandy extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('resumenVentaCandy');
             $dato['js']="<script src='".base_url()."assets/js/resumenCandy.js'></script>";
@@ -111,7 +111,7 @@ class ReporteCandy extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('resumenCandyDia',$datosdia);
             $dato['js']="<script src='".base_url()."assets/js/resumenCandyDia.js'></script>";

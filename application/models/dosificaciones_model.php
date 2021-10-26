@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class dosificaciones_model extends CI_Model {
+class Dosificaciones_model extends CI_Model {
 
     public function listaDosificacion()
     {   

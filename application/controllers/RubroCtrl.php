@@ -6,16 +6,16 @@ class RubroCtrl extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('rubros_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Rubros_model');
     }
 
     public function index()
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $rubro['rubro']=$this->rubros_model->listaRubros();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $rubro['rubro']=$this->Rubros_model->listaRubros();
             $this->load->view('templates/header', $dato);
             $this->load->view('rubrover',$rubro);
             $dato2['js']="<script src='".base_url()."assets/js/rubro.js'></script>";
@@ -28,7 +28,7 @@ class RubroCtrl extends CI_Controller {
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
 
             $this->load->view('templates/header', $dato);
 
@@ -45,7 +45,7 @@ class RubroCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->rubros_model->store();
+        $this->Rubros_model->store();
         header('Location: '.base_url().'RubroCtrl');
     }
 
@@ -53,7 +53,7 @@ class RubroCtrl extends CI_Controller {
 
     public function update()
     {
-        $this->rubros_model->update();
+        $this->Rubros_model->update();
         header('Location: '.base_url().'RubroCtrl');
     }
 
@@ -61,7 +61,7 @@ class RubroCtrl extends CI_Controller {
     public function delete($idrubro)
     {
 
-        $this->rubros_model->delete($idrubro);
+        $this->Rubros_model->delete($idrubro);
         header("Location: ".base_url()."RubroCtrl");
     }
     public function datos(){

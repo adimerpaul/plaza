@@ -11,9 +11,9 @@ class ListadoCandyCtrl extends CI_Controller{
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('cupon_model');
-        $this->load->model('ventas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Cupon_model');
+        $this->load->model('Ventas_model');
 
 
     }
@@ -23,7 +23,7 @@ class ListadoCandyCtrl extends CI_Controller{
         if($this->session->userdata('login')==1){
 
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             if( empty($_POST['fecini']) || empty($_POST['fecfin'])) 
                 {
                     $venta['fecinicio'] = date('Y-m-d');
@@ -73,7 +73,7 @@ class ListadoCandyCtrl extends CI_Controller{
         $motivo=$_POST['motivo'];
         $total=$_POST['total'];
         $user = $this->session->userdata('idUs');
-        $this->ventas_model->devolVentaCandy($idventa);
+        $this->Ventas_model->devolVentaCandy($idventa);
         $this->db->query("INSERT INTO devolucion (idVenta,idUsuario,monto,motivo,tipo) values ('$idventa','$user','$total','$motivo','CANDY')");
         echo $this->db->insert_id();
     }
@@ -82,7 +82,7 @@ class ListadoCandyCtrl extends CI_Controller{
         if($this->session->userdata('login')==1){
 
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
                 $this->load->view('listadevCandy');
                 $dato2['js']="<script></script>";

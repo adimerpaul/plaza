@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class boletos_model extends CI_Model {
+class Boletos_model extends CI_Model {
 
     public function listaBoletos()
     {

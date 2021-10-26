@@ -6,7 +6,7 @@ class Reporte extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
+        $this->load->model('Usuarios_model');
 
 
     }
@@ -19,7 +19,7 @@ class Reporte extends CI_Controller {
             $data['fecha1']=$_POST['fecha1'];
             else
             $data['fecha1']=date('Y-m-d');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('reportefuncion',$data);
             $dato['js']="<script src='".base_url()."assets/js/reportefuncion.js'></script>";
@@ -38,7 +38,7 @@ class Reporte extends CI_Controller {
             else{
                 $data['fecha1']=date('Y-m-d');
                 $data['fecha2']=date('Y-m-d');}
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('reportesemana',$data);
             $dato['js']="<script src='".base_url()."assets/js/reportesemana.js'></script>";
@@ -63,7 +63,7 @@ class Reporte extends CI_Controller {
                 $data['fecha2']=date("Y-m-d",strtotime(date("Y-m-d")."+ 7 days"));
                 $data['pelicula']=null;
             }
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('borderauxdistribuidor',$data);
             $dato['js']="<script src='".base_url()."assets/js/reportedistribuidor.js'></script>";
@@ -85,7 +85,7 @@ class Reporte extends CI_Controller {
                 $data['fecha1']=date('Y-m-d');               
                 $data['fecha2']=date("Y-m-d",strtotime(date("Y-m-d")."+ 7 days"));
             }
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('borderauxfuncion',$data);
             $dato['js']="<script src='".base_url()."assets/js/reportedistribuidor.js'></script>";
@@ -105,7 +105,7 @@ class Reporte extends CI_Controller {
                 {
                 $data['fecha1']=date('Y-m-d');               
             }
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('informeboleteria',$data);
             $dato['js']="<script src=''></script>";
@@ -127,7 +127,7 @@ class Reporte extends CI_Controller {
                 $data['fecha1']=date('Y-m-d');               
                 $data['fecha2']=date("Y-m-d",strtotime(date("Y-m-d")."+ 7 days"));
             }
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('reportedistribuidor',$data);
             $dato['js']="<script src='".base_url()."assets/js/reportesemana.js'></script>";

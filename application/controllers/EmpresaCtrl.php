@@ -6,8 +6,8 @@ class EmpresaCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('empresas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Empresas_model');
 
 
 	}
@@ -18,7 +18,7 @@ class EmpresaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('empresareg');
                 $dato['js']="<script></script>";    
@@ -35,8 +35,8 @@ class EmpresaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $empres['empresa'] = $this->empresas_model->listaEmpresa();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $empres['empresa'] = $this->Empresas_model->listaEmpresa();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('empresaver',$empres);
                 $dato['js']="<script src='".base_url()."assets/js/empresa.js'></script>";    
@@ -47,16 +47,16 @@ class EmpresaCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->empresas_model->store();
+        $this->Empresas_model->store();
         $this->index();
     }
 
     public function empresamod($id)
     {
         
-        $resultado = $this->empresas_model->getEmpresa($id);
+        $resultado = $this->Empresas_model->getEmpresa($id);
         $user = $this->session->userdata('idUs');
-        $dato=$this->usuarios_model->validaIngreso($user);
+        $dato=$this->Usuarios_model->validaIngreso($user);
         
             $this->load->view('templates/header', $dato);
             $this->load->view('empresamod',$resultado[0]);
@@ -73,7 +73,7 @@ class EmpresaCtrl extends CI_Controller {
     
     public function update()
     {
-        $this->empresas_model->update();
+        $this->Empresas_model->update();
         $this->empresaver();  
     }
 
@@ -91,7 +91,7 @@ class EmpresaCtrl extends CI_Controller {
     public function delete($idempresa)
     {
 
-        $this->empresas_model->delete($idempresa);
+        $this->Empresas_model->delete($idempresa);
         $this->empresaver();
     }
 }

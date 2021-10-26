@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class butacas_model extends CI_Model {
+class Butacas_model extends CI_Model {
 
     public function listaButacas()
     {

@@ -5,7 +5,7 @@ class BoletoCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
+        $this->load->model('Usuarios_model');
         $this->load->model('boletos_model');
 
 
@@ -17,7 +17,7 @@ class BoletoCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             if( empty($_POST['fechaboleto']) ) 
             {
                 $boleto['fecha1']= date('Y-m-d'); }

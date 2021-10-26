@@ -6,15 +6,15 @@ class ProgramacionCtrl extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('funcion_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Funcion_model');
     }
 
     public function index($nrosala="")
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
 
             $this->load->view('templates/header', $dato);
 
@@ -29,7 +29,7 @@ class ProgramacionCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->funcion_model->store();
+        $this->Funcion_model->store();
         //$this->index();
         header('Location: '.base_url().'ProgramacionCtrl');
     }
@@ -102,7 +102,7 @@ where s.nroSala = '$nrosala' and
     }
     public function update()
     {   $idfuncion=$_POST['idfuncion'];
-        $this->funcion_model->update();
+        $this->Funcion_model->update();
         $query=$this->db->query("DELETE FROM funciontarifa WHERE idFUncion=$idfuncion");
         $query=$this->db->query("SELECT * FROM tarifa WHERE activo=1");
         foreach ($query->result() as $row){
@@ -154,7 +154,7 @@ OR (time('$horafin')>=ADDTIME(horaInicio, '-00:05:00') AND time('$horafin')<=hor
     public function delete($idfuncion)
     {
 
-        $this->funcion_model->delete($idfuncion);
+        $this->Funcion_model->delete($idfuncion);
         header("Location: ".base_url()."ProgramacionCtrl");
     }
     public function cantidadtarifa(){

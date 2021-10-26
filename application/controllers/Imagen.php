@@ -5,7 +5,7 @@ class Imagen extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-		$this->load->model('usuarios_model');
+		$this->load->model('Usuarios_model');
 
 
 	}
@@ -13,7 +13,7 @@ class Imagen extends CI_Controller {
     {
         if($this->session->userdata('login')==1){
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header',$dato);
             $this->load->view('imagenver');
             $dato['js']="";

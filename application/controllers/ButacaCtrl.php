@@ -6,8 +6,8 @@ class ButacaCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('butacas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Butacas_model');
 
 
     }
@@ -18,7 +18,7 @@ class ButacaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
                 $this->load->view('templates/header', $dato);
                 $this->load->view('butacareg');
                 $dato['js']="<script></script>";    
@@ -34,8 +34,8 @@ class ButacaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $butaca['butaca'] = $this->butacas_model->listaButacas();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $butaca['butaca'] = $this->Butacas_model->listaButacas();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('butacaver',$butaca);
                 $dato['js']="<script src='".base_url()."assets/js/butaca.js'></script>";    
@@ -51,8 +51,8 @@ class ButacaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $butaca['butaca'] = $this->butacas_model->listaButacasInac();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $butaca['butaca'] = $this->Butacas_model->listaButacasInac();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('butacaver',$butaca);
                 $dato['js']="<script src='".base_url()."assets/js/butaca.js'></script>";    
@@ -63,20 +63,20 @@ class ButacaCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->butacas_model->store();
+        $this->Butacas_model->store();
         $this->index();
     } 
 
     public function update()
     {
-        $this->butacas_model->update();
+        $this->Butacas_model->update();
         $this->butacaver();
     }
 
     public function delete($idButaca)
     {
 
-        $this->butacas_model->delete($idButaca);
+        $this->Butacas_model->delete($idButaca);
         $this->butacaver();
     }
 

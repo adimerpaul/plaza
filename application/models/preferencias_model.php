@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class preferencias_model extends CI_Model {
+class Preferencias_model extends CI_Model {
 
 
     public function listaPreferencia()

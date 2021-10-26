@@ -6,8 +6,8 @@ class SalaCtrl extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('sala_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Sala_model');
 
 
     }
@@ -18,7 +18,7 @@ class SalaCtrl extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('salareg');
             $dato['js']="<script src='".base_url()."assets/js/salareg.js'></script>";
@@ -34,8 +34,8 @@ class SalaCtrl extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $distrib['sala'] = $this->sala_model->listaSala();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $distrib['sala'] = $this->Sala_model->listaSala();
             $this->load->view('templates/header', $dato);
             $this->load->view('salaver',$distrib);
             $dato['js']="<script src='".base_url()."assets/js/sala.js'></script>";
@@ -46,7 +46,7 @@ class SalaCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->sala_model->store();
+        $this->Sala_model->store();
         header("Location: ".base_url()."SalaCtrl");
        // echo $_POST['B1'];
     }
@@ -70,20 +70,20 @@ class SalaCtrl extends CI_Controller {
     public function update()
     {
 
-        $this->sala_model->update();
+        $this->Sala_model->update();
         header("Location: ".base_url()."SalaCtrl/Salaver");
     }
     public function manual()
     {
 
-        $this->sala_model->manual();
+        $this->Sala_model->manual();
         header("Location: ".base_url()."SalaCtrl/Salaver");
     }
 
     public function delete($idSala)
     {
 
-        $this->sala_model->delete($idSala);
+        $this->Sala_model->delete($idSala);
 
         header("Location: ".base_url()."SalaCtrl/Salaver");
     }

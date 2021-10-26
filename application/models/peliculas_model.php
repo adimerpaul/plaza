@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class peliculas_model extends CI_Model {
+class Peliculas_model extends CI_Model {
 
     public function listaDistribuidores()
     {

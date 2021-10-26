@@ -6,8 +6,8 @@ class PeliculaCtrl extends CI_Controller {
 	function __construct()
 	{
 		parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('peliculas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Peliculas_model');
     }
     
     public function index()
@@ -16,8 +16,8 @@ class PeliculaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
-            $distribuidor['distribuidor']=$this->peliculas_model->listaDistribuidores();
+            $dato=$this->Usuarios_model->validaIngreso($user);
+            $distribuidor['distribuidor']=$this->Peliculas_model->listaDistribuidores();
                 $this->load->view('templates/header', $dato);
                 $this->load->view('peliculareg',$distribuidor);
                 $dato['js']="<script></script>";    
@@ -28,7 +28,7 @@ class PeliculaCtrl extends CI_Controller {
 
     public function store()
     {
-        $this->peliculas_model->store();
+        $this->Peliculas_model->store();
         $this->index();
     }
 
@@ -39,10 +39,10 @@ class PeliculaCtrl extends CI_Controller {
             
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
            
-            $pelicula['pelicula'] = $this->peliculas_model->listaPeliculas();
-            $pelicula['distribuidor']=$this->peliculas_model->listaDistribuidores();    
+            $pelicula['pelicula'] = $this->Peliculas_model->listaPeliculas();
+            $pelicula['distribuidor']=$this->Peliculas_model->listaDistribuidores();    
                 $this->load->view('templates/header', $dato);
                 $this->load->view('peliculaver',$pelicula);
                 $dato2['js']="<script src='".base_url()."assets/js/pelicula.js'></script>";    
@@ -63,14 +63,14 @@ class PeliculaCtrl extends CI_Controller {
 
     public function update()
     {
-        $this->peliculas_model->update();
+        $this->Peliculas_model->update();
         $this->peliculaver();  
     }
 
     public function delete($idpelicula)
     {
 
-        $this->peliculas_model->delete($idpelicula);
+        $this->Peliculas_model->delete($idpelicula);
         $this->peliculaver();
     }
 

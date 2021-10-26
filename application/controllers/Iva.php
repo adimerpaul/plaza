@@ -6,8 +6,8 @@ class Iva extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('peliculas_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Peliculas_model');
     }
 
     public function index()
@@ -15,7 +15,7 @@ class Iva extends CI_Controller {
         if($this->session->userdata('login')==1){
 
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             if (isset($_POST['mes'])){
                 $data['mes']=$_POST['mes'];
 
@@ -43,7 +43,7 @@ class Iva extends CI_Controller {
         if($this->session->userdata('login')==1){
 
             $user = $this->session->userdata('idUs');
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             if (isset($_POST['mes'])){
                 $data['mes']=$_POST['mes'];
             }else{
@@ -64,7 +64,7 @@ class Iva extends CI_Controller {
     
     public function store()
     {
-        $this->peliculas_model->store();
+        $this->Peliculas_model->store();
         $this->index();
     }
 
@@ -80,14 +80,14 @@ class Iva extends CI_Controller {
 
     public function update()
     {
-        $this->peliculas_model->update();
+        $this->Peliculas_model->update();
         $this->peliculaver();
     }
 
     public function delete($idpelicula)
     {
 
-        $this->peliculas_model->delete($idpelicula);
+        $this->Peliculas_model->delete($idpelicula);
         $this->peliculaver();
     }
 

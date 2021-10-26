@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class ventas_model extends CI_Model {
+class Ventas_model extends CI_Model {
         public function listaventa($fi,$ff){
             $this->db->join('usuario','usuario.idUsuario=venta.idUsuario');
             $this->db->join('cliente','cliente.idCliente=venta.idCliente');

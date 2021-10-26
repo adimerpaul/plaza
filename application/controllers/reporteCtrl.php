@@ -6,8 +6,8 @@ class ReporteCtrl extends CI_Controller {
     function __construct()
     {
         parent::__construct();
-        $this->load->model('usuarios_model');
-        $this->load->model('venta_model');
+        $this->load->model('Usuarios_model');
+        $this->load->model('Venta_model');
 
 
     }
@@ -18,7 +18,7 @@ class ReporteCtrl extends CI_Controller {
 
             $user = $this->session->userdata('idUs');
 
-            $dato=$this->usuarios_model->validaIngreso($user);
+            $dato=$this->Usuarios_model->validaIngreso($user);
             $this->load->view('templates/header', $dato);
             $this->load->view('salareg');
             $dato['js']="<script src='".base_url()."assets/js/salareg.js'></script>";

@@ -1,7 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-class envases_model extends CI_Model {
+class Envases_model extends CI_Model {
 
     public function listaEnvase()
     {
