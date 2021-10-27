@@ -133,8 +133,11 @@ $('#fecini').change(function(){
                           var te= await e;
                           myWindow.document.write(te);
                           myWindow.document.close();
-                        myWindow.print();
-                        myWindow.focus();
+                          setTimeout(function(){
+                            myWindow.print();
+                            myWindow.close();
+
+                        },500);
                       }
                   });
               }
