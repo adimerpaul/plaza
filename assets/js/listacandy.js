@@ -118,11 +118,11 @@ $('#btnImpresion').click(function(){
         $.ajax({
             url: 'FacturaCandy/imprimirfactura/'+id,
             success: async function (e) {
+                console.log(e);
                 myWindow = window.open("", "myWindow", "width=200,height=100");
                 var te= await e;
                 myWindow.document.write(te);
                 myWindow.document.close();
-                myWindow.focus();
                 setTimeout(function()  {
                     myWindow.print();
                     myWindow.close();

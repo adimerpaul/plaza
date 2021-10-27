@@ -6,7 +6,7 @@
  * Time: 9:26
  */
 defined('BASEPATH') OR exit('No direct script access allowed');
-include "tcpdf.php";
+//include "tcpdf.php";
 class ListadoCandyCtrl extends CI_Controller{
     function __construct()
     {
