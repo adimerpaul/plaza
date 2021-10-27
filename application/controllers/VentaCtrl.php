@@ -616,7 +616,6 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
 //        QRcode::png('PHP QR Code :)', $filename, $errorCorrectionLevel, $matrixPointSize, 2);
         //$cadena.='<img  id="img" src="temp/test.png" /> <br>';
         $barcode = new \Com\Tecnick\Barcode\Barcode();
-        $barcode = new \Com\Tecnick\Barcode\Barcode();
 
         $bobj = $barcode->getBarcodeObj(
             'QRCODE,H',                     // Tipo de Barcode o Qr
