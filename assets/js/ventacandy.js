@@ -486,7 +486,7 @@ $(function() {
 
                                         //impAniv(response);
 
-                                },500);
+                                },1000);
 
                                 },
 
@@ -500,7 +500,7 @@ $(function() {
 
                                         //impAniv(response);
 
-                                },500);
+                                },1000);
                             }
                         }
                         else

@@ -128,7 +128,7 @@ $('#btnImpresion').click(function(){
                     myWindow.close();
                     impDetalle(id);
            
-                }, 500);
+                }, 1000);
                     
             },
             
