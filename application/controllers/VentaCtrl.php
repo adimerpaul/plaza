@@ -618,7 +618,7 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
         $barcode = new \Com\Tecnick\Barcode\Barcode();
 
         $bobj = $barcode->getBarcodeObj(
-            'QRCODE,H',                     // Tipo de Barcode o Qr
+            'QRCODE',                     // Tipo de Barcode o Qr
             $qr,          // Datos
             -5,                             // Width
             -5,                             // Height
