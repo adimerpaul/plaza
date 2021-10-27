@@ -629,7 +629,7 @@ Fecha Lim. de Emision: ". date("d/m/Y", strtotime($fechahasta)) ."<br></div>";
         $imageData = $bobj->getPngData(); // Obtenemos el resultado en formato PNG
 
         file_put_contents('qrcode.png', $imageData); // Guardamos el resultado
-    $cadena.='<small class="textoimp"><img width="125px" src="qrcode.png"></small><br>';
+    $cadena.='<small class="textoimp"><img width="125px" src="'.base_url().'qrcode.png"></small><br>';
 $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
 </small>";
 $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
