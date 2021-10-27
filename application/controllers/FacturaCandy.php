@@ -392,7 +392,7 @@ $query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant
 
             $barcode = new \Com\Tecnick\Barcode\Barcode();
             $bobj = $barcode->getBarcodeObj(
-                'QRCODE,H',                     // Tipo de Barcode o Qr
+                'QRCODE',                     // Tipo de Barcode o Qr
                 $qr,          // Datos
                 -5,                             // Width
                 -5,                             // Height
@@ -403,7 +403,7 @@ $query2=$this->db->query("SELECT c.idCombo, nombreCombo ,sum(d.cantidad) as cant
             $imageData = $bobj->getPngData(); // Obtenemos el resultado en formato PNG
 
             file_put_contents('qrcodecandy.png', $imageData); // Guardamos el resultado
-            $cadena.='<small class="textoimp"><img width="125px" src="qrcodecandy.png"></small><br>';
+            $cadena.='<small class="textoimp"><img width="125px" src="'.base_url().'qrcodecandy.png"></small><br>';
     $cadena.="<small> ESTA FACTURA CONTRIBUYE AL DESARROLLO DEL PAIS. EL USO ILICITO DE ESTA SERA SANCIONADO DE ACUERDO A LEY <br>
     </small>";
     $cadena.="<div class='textoimp'> <span>$leyenda</span></div>";
