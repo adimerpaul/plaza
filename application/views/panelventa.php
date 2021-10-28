@@ -37,7 +37,7 @@
     <div class="card ">
         <div class="card-header text-white bg-success" >
             <div><label for=""> PANEL DE VENTAS Fecha: </label>
-            <input type="date" id="fecfuncion"  name="fecfuncion"  min="<?php echo date("Y-m-d");?>" required value="<?php echo date("Y-m-d");?>">
+            <input type="date" id="fecfuncion"  name="fecfuncion"  required value="<?php echo date("Y-m-d");?>">
             </div>
 
         </div>
