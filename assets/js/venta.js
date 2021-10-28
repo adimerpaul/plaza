@@ -1,7 +1,7 @@
 $('#fecfuncion').change(listado);
 $('#fecfuncion').change(function(){
-    //if($(this).prop('value') < new Date())
-    //bloqueobtn();
+    if($(this).prop('value') < new Date())
+    bloqueobtn();
     caltotalventa();
 });
 
@@ -97,9 +97,9 @@ $('#elimVentaTemp').click(function(){
         $( ".ui-selected", this ).each(function() {
             $("#lblPrecio").html("0Bs");
             $("#lblCantidadEntradas").html("0");
-            //if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
-            //bloqueobtn();
-            //else
+            if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
+            bloqueobtn();
+            else
             desbloqueobtn();
         })}
     });
@@ -112,9 +112,9 @@ $('#elimVentaTemp').click(function(){
             $("#lblPrecio").html("0Bs");
             $("#lblCantidadEntradas").html("0");
             //mostrardatos($("#selecfun .ui-selected").prop('value'));
-            //if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
-            //bloqueobtn();
-            //else
+            if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
+            bloqueobtn();
+            else
             desbloqueobtn();
 
 
@@ -259,9 +259,9 @@ function colorfuncion(){
                                          $("#lblPrecio").html("0Bs");
                                          $("#lblCantidadEntradas").html("0");
                                             mostrardatos($("#selecfun .ui-selected").prop('value'));
-                                         //if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
-                                         //bloqueobtn();
-                                         //else
+                                         if( moment().format('Y-MM-DD') > $('#fecfuncion').prop('value'))
+                                         bloqueobtn();
+                                         else
                                          desbloqueobtn();
               },
                   })
