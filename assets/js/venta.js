@@ -652,6 +652,7 @@ function buscarCl(){
     })
 };
 
+
 $('#checkcupon').on('click',function(){
     if ($("#checkcupon").is(":checked"))
 {
@@ -671,6 +672,9 @@ else {
     $("#cupon").prop('required',false);
     $('#errorcupon').html('');
 }
+});
+$('#cupon').keyup(function(){
+    validacp();
 });
 function validacp(){
     var par={"idcupon": $('#cupon').prop('value')};
@@ -712,9 +716,7 @@ function validacp(){
         }})};
 
 
-$('#cupon').keyup(function(){
-    validacp();
-});
+
 $('#formulariocodigo').submit(function (e) {
     e.preventDefault();
     // console.log($('#codigo').val());
