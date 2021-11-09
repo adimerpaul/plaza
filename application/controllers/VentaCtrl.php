@@ -1488,7 +1488,7 @@ public function validaCuponreg(){
 public function validaCupon(){
 
     $idcupon=$_POST['idcupon'];
-    $query=$this->db->query("SELECT * FROM  cupon c, subCupon s WHERE  c.idCupon=s.idcupon and s.idsubcupon='$idcupon' and date(fechaFin) >= CURDATE()");
+    $query=$this->db->query("SELECT * FROM  cupon c, subcupon s WHERE  c.idCupon=s.idcupon and s.idsubcupon='$idcupon' and date(fechaFin) >= CURDATE()");
     $row=$query->row();
     $myObj=($query->result_array());
     echo json_encode($myObj);
