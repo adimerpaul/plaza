@@ -704,9 +704,9 @@ function validacp(){
                 success: function (response){
                     //var datos=JSON.parse(response);
                     console.log(response);
-                    var datocupon =JSON.parse(response);
-                    console.log(datocupon.length);
-                    if(datocupon.length > 0)
+                    var datocupon2 =JSON.parse(response);
+                    console.log(datocupon2.length);
+                    if(datocupon2.length > 0)
                     $('#errorcupon').html('');
                     else
                     $('#errorcupon').html('No existe cupon o caduco');
