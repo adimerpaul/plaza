@@ -262,7 +262,9 @@ esCombo='$esCombo'
                     ");
                 }
                 $this->db->query("DELETE FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
-                $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
+               // $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
+                $conn = mysqli_connect("10.200.100.19", "example_user", "password", "tarjetaplaza");
+                
                 // Check connection
                         if ($conn->connect_error) {
                             die("Connection failed: " . $conn->connect_error);
@@ -1118,7 +1120,7 @@ s.idSala='$idsala'");
     {
         $codigo=$this->hexToStr($_POST['codigo']);
 //        echo $codigo;
-        $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
+        $conn = mysqli_connect("10.200.100.19", "example_user", "password", "tarjetaplaza");
 // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);

@@ -488,7 +488,7 @@ class VentaCtrl extends CI_Controller {
 
         $idUser=$this->session->userdata('idUs');
         $this->Temporal_model->deleteAll($idUser);
-        $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
+        $conn = mysqli_connect("10.200.100.19", "example_user", "password", "tarjetaplaza");
         // Check connection
                 if ($conn->connect_error) {
                     die("Connection failed: " . $conn->connect_error);
@@ -1540,7 +1540,7 @@ public function valtarjeta()
 {
         $codigo=$this->hexToStr($_POST['codigo']);
         //return $codigo;
-        $conn = mysqli_connect("165.227.143.191", "myuser", "ORRKWKtehUul1p4z", "tarjetaplaza");
+        $conn = mysqli_connect("10.200.100.19", "example_user", "password", "tarjetaplaza");
 // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
