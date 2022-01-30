@@ -4,11 +4,38 @@ $(document).ready(function(){
     // calculototal();
 });
 
-// $('#fechacandy').change(function(){
+$('#fechacandy').change(function(){
 //     calculaCaja();
 //     calculaDetalle();
 //     calculototal();
-// });
+    if($('#fechacandy').val()>$('#fechacandy2').val()){
+        $('#consulta').prop('disabled',true);
+        $('#imprimirCandy').prop('disabled',true);
+        $('#impCandyTodos').prop('disabled',true);
+    }
+    else
+    {
+        $('#consulta').prop('disabled',false);
+        $('#imprimirCandy').prop('disabled',false);
+        $('#impCandyTodos').prop('disabled',false);  
+    }
+});
+$('#fechacandy2').change(function(){
+    //     calculaCaja();
+    //     calculaDetalle();
+    //     calculototal();
+        if($('#fechacandy').val()>$('#fechacandy2').val()){
+            $('#consulta').prop('disabled',true);
+            $('#imprimirCandy').prop('disabled',true);
+            $('#impCandyTodos').prop('disabled',true);
+        }
+        else
+        {
+            $('#consulta').prop('disabled',false);
+            $('#imprimirCandy').prop('disabled',false);
+            $('#impCandyTodos').prop('disabled',false);  
+        }
+    });
 // $('#vendedor').change(function(){
 //     calculaCaja();
 //     calculaDetalle();

@@ -73,9 +73,9 @@
                 <label for="" id="totalfactura"></label>
             </div>
             <br>
-            <a class="btn btn-success btn-block" id="imprimirCandy"> <i class="fas fa-print"></i> Imprimir ventas del dia</a>
+            <button class="btn btn-success btn-block text-dark" id="imprimirCandy"> <i class="fas fa-print"></i> Imprimir ventas del dia</button>
             <br>
-            <a class="btn btn-success btn-block" id="impCandyTodos"> <i class="fas fa-print"></i> Imprimir ventas del dia Todos Us.</a>
+            <button class="btn btn-success btn-block text-dark" id="impCandyTodos"> <i class="fas fa-print"></i> Imprimir ventas del dia Todos Us.</button>
 
         </div>
 
