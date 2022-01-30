@@ -724,6 +724,7 @@ ORURO - BOLIVIA
 
     public function pruebaCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 
         $cadena="<style>
@@ -744,7 +745,7 @@ ORURO - BOLIVIA
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-                Fecha Caja: ".$fecha1."<br>";
+                Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
                 $query01=$this->db->query("SELECT * from usuario where idUsuario =$id");
                 $nomuser=$query01->result()[0]->nombreUser;
@@ -773,7 +774,7 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='SI'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario");
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
@@ -797,7 +798,7 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='NO'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1' AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         foreach ($query->result() as $row){
 
@@ -826,6 +827,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function pruebaRecCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 
         $cadena="<style>
@@ -841,12 +843,12 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         <span>Av. Tacna y Jaen - Oruro -Bolivia</span><br> 
         <span>Tel: 591-25281290</span><br> 
         <span>ORURO - BOLIVIA</span><br> 
-        <span>TOTAL RECIBO CANDY P</span><br> 
+        <span>TOTAL RECIBO CANDY </span><br> 
         <hr> 
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br> 
-                Fecha Caja: ".$fecha1."<br>";
+                Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
                 $query01=$this->db->query("SELECT * from usuario where idUsuario =$id");
                 $nomuser=$query01->result()[0]->nombreUser;
@@ -878,7 +880,7 @@ WHERE d.esCombo='SI'
 AND d.idUsuario='$id'
 AND tipoVenta='RECIBO'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1' AND date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario
         ");
         foreach ($query2->result() as $row){
@@ -906,7 +908,7 @@ WHERE d.esCombo='NO'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
 AND tipoVenta='RECIBO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1' AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario
         ");
         foreach ($query->result() as $row){
@@ -935,6 +937,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario
 
     public function pruebaFactCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 
         $cadena="<style>
@@ -955,7 +958,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-        Fecha Caja: ".$fecha1."<br>";
+        Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
         $query01=$this->db->query("SELECT * from usuario where idUsuario =$id");
                 $nomuser=$query01->result()[0]->nombreUser;
@@ -986,7 +989,8 @@ WHERE d.esCombo='SI'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
 AND tipoVenta='FACTURA'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario");
         foreach ($query2->result() as $row){
             //$printer->text( " $row->nombreCombo  $row->cant    $row->precioVenta    $row->total  \n");
@@ -1012,7 +1016,8 @@ WHERE d.esCombo='NO'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
 AND tipoVenta='FACTURA'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         foreach ($query->result() as $row){
 
@@ -1040,6 +1045,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function todopruebaCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
 
         $cadena="<style>
         .margen{padding: 0px 15px 0px 15px;}
@@ -1059,7 +1065,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-        Fecha Caja: ".$fecha1."<br>";
+        Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
 
         $cadena.="
@@ -1076,7 +1082,8 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='SI'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario
 ");
 
@@ -1093,7 +1100,8 @@ SELECT d.idProducto,d.nombreP nombreProd,d.pUnitario  precioVenta,sum(d.cantidad
 FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='NO'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
         foreach ($query->result() as $row){
@@ -1105,6 +1113,13 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
             $total=$total+$row->total;
         }
         $cadena.="</tbody></table></center>";
+        $query3=$this->db->query("SELECT u.nombreUser as nombre, sum(v.total) as total from usuario u inner join ventacandy v on u.idUsuario=v.idUsuario 
+        where date(v.fechaVenta)>='$fecha1' and date(v.fechaVenta)<='$fecha2' AND v.estado='ACTIVO' group by u.nombreUser;");
+        $cadena.="<hr><center><table><tr><td><b>USUARIO</b></td><td><b>MONTO</b></td></tr>";
+        foreach ($query3->result() as $rw) {
+            $cadena.="<tr><td>$rw->nombre</td><td>$rw->total</td></tr>";
+        }
+        $cadena.="</table></center>";
 
         $total=number_format($total,2);
         $totaltarjeta=number_format($totaltarjeta,2);
@@ -1122,6 +1137,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function todopruebaRecCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
 
         $cadena="<style>
         .margen{padding: 0px 15px 0px 15px;}
@@ -1141,7 +1157,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-        Fecha Caja: ".$fecha1."<br>";
+        Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
         $cadena.="
                  <hr><br></div> 
@@ -1158,7 +1174,8 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='SI'
 AND tipoVenta='RECIBO'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario");
 
         foreach ($query2->result() as $row){
@@ -1174,7 +1191,8 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='NO'
 AND v.estado='ACTIVO'
 AND tipoVenta='RECIBO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
         foreach ($query->result() as $row){
@@ -1203,6 +1221,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function todopruebaFactCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
 
         $cadena="<style>
         .margen{padding: 0px 15px 0px 15px;}
@@ -1222,7 +1241,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-        Fecha Caja: ".$fecha1."<br>";
+        Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
         $cadena.=" 
                  <hr><br></div> 
@@ -1239,7 +1258,8 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='SI'
 AND v.estado='ACTIVO'
 AND tipoVenta='FACTURA'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario");
 
         foreach ($query2->result() as $row){
@@ -1255,7 +1275,8 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='NO'
 AND v.estado='ACTIVO'
 AND tipoVenta='FACTURA'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1'
+AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
         foreach ($query->result() as $row){

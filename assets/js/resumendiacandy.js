@@ -139,9 +139,11 @@ function calculaDetalle(){
 
 $('#imprimirCandy').click(function(){
     var fecha=$('#fechacandy').val();
+    var fecha2=$('#fechacandy2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
+        'fecha2':fecha2,
         'id':id
     };
     $.ajax({
@@ -196,8 +198,10 @@ $('#imprimirCandy').click(function(){
 
 $('#impCandyTodos').click(function(){
     var fecha=$('#fechacandy').val();
+    var fecha2=$('#fechacandy2').val();
     var param={
-        'fecha':fecha
+        'fecha':fecha,
+        'fecha2':fecha2
     };
     $.ajax({
         data: param,
