@@ -48,15 +48,16 @@ class ResumenDia extends CI_Controller {
 
     public function reportediaCandy(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
         $query=$this->db->query("SELECT * FROM ventacandy v 
         INNER JOIN cliente c ON v.idCliente=c.idCliente
         INNER JOIN usuario u ON u.idUsuario=v.idUsuario
             WHERE u.idUsuario='$id'
-            AND date(fechaVenta)='$fecha1'");
-            $row=$query->row();
-                         $myObj=($query->result_array());
-                         echo json_encode($myObj);
+            AND date(fechaVenta)>='$fecha1' AND date(fechaVenta)<='$fecha2'");
+        $row=$query->row();
+        $myObj=($query->result_array());
+        echo json_encode($myObj);
 
     }
 
@@ -95,6 +96,7 @@ class ResumenDia extends CI_Controller {
 
     public function detalleProducto(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 //        $query=$this->db->query("SELECT p.idProducto,nombreProd,sum(d.cantidad) as cant,d.pUnitario as precioVenta,(sum(d.cantidad)*d.pUnitario) as total
 //        from detalle d, producto p, ventacandy v
@@ -109,28 +111,29 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='NO'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1' AND date(d.fecha)<='$fecha2'
 GROUP BY d.idProducto,d.nombreP,d.pUnitario");
-            $row=$query->row();
-                         $myObj=($query->result_array());
-                         echo json_encode($myObj);
+        $row=$query->row();
+        $myObj=($query->result_array());
+        echo json_encode($myObj);
 
     }
 
     public function total(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 
         $query=$this->db->query("SELECT (select sum(total) from ventacandy 
-        WHERE date(fechaVenta)='$fecha1' and idUsuario='$id'
+        WHERE date(fechaVenta)>='$fecha1' AND date(fechaVenta)<='$fecha2' and idUsuario='$id'
         and tipoVenta='FACTURA' and estado='ACTIVO') AS tfactura,
         (select sum(total) from ventacandy 
-        WHERE date(fechaVenta)='$fecha1' and idUsuario='$id'
+        WHERE date(fechaVenta)>='$fecha1' AND date(fechaVenta)<='$fecha2' and idUsuario='$id'
         and tipoVenta='RECIBO' and estado='ACTIVO') as trecibo
         from dual ");
-            $row=$query->row();
-                         $myObj=($query->result_array())[0];
-                         echo json_encode($myObj);
+        $row=$query->row();
+        $myObj=($query->result_array())[0];
+        echo json_encode($myObj);
 
     }
 
@@ -166,6 +169,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function detalleCombo(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 //        $query=$this->db->query("SELECT c.idCombo,nombreCombo,d.pUnitario as precioVenta,sum(d.cantidad) as cant, (sum(cantidad)*d.pUnitario) as total
 //        from detalle d, combo c, ventacandy v
@@ -181,12 +185,12 @@ FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
 WHERE d.esCombo='SI'
 AND d.idUsuario='$id'
 AND v.estado='ACTIVO'
-AND date(d.fecha)='$fecha1'
+AND date(d.fecha)>='$fecha1' AND date(d.fecha)<='$fecha2'
 GROUP BY d.idCombo,d.nombreP,d.pUnitario");
 
-            $row=$query->row();
-                         $myObj=($query->result_array());
-                         echo json_encode($myObj);
+        $row=$query->row();
+        $myObj=($query->result_array());
+        echo json_encode($myObj);
 
     }
 

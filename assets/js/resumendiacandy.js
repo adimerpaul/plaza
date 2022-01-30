@@ -1,24 +1,33 @@
 $(document).ready(function(){
-    calculaCaja();
-    calculaDetalle();
-    calculototal();
+    // calculaCaja();
+    // calculaDetalle();
+    // calculototal();
 });
 
-$('#fechacandy').change(function(){
-    calculaCaja();
-    calculaDetalle();
-    calculototal();
-});
-$('#vendedor').change(function(){
+// $('#fechacandy').change(function(){
+//     calculaCaja();
+//     calculaDetalle();
+//     calculototal();
+// });
+// $('#vendedor').change(function(){
+//     calculaCaja();
+//     calculaDetalle();
+//     calculototal();
+// })
+
+$('#consulta').click(function (){
     calculaCaja();
     calculaDetalle();
     calculototal();
 })
+
 function calculaCaja(){
     var fecha=$('#fechacandy').val();
+    var fecha2=$('#fechacandy2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
+        'fecha2':fecha2,
         'id':id
     };
     var resFactura="";
@@ -35,9 +44,9 @@ function calculaCaja(){
         },
         success: function (response){
             $('#rfactura').html('');
-            console.log(response);
+            // console.log(response);
             datos2=JSON.parse(response);
-            console.log(param);
+            // console.log(param);
             datos2.forEach(row => {
                 resFactura+="<tr>";
                 resFactura+="<td>"+row.idVentaCandy+"</td>";
@@ -65,10 +74,12 @@ function calculaCaja(){
 
 function calculaDetalle(){
     var fecha=$('#fechacandy').val();
+    var fecha2=$('#fechacandy2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
-        'id':id
+        'id':id,
+        fecha2
     };
     var resdetalle="";
     var total=0;
@@ -240,10 +251,12 @@ $('#impCandyTodos').click(function(){
 
 function calculototal(){
     var fecha=$('#fechacandy').val();
+    var fecha2=$('#fechacandy2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
-        'id':id
+        'id':id,
+        fecha2
     };
     $.ajax({
         data: param,
@@ -255,7 +268,7 @@ function calculototal(){
         success: function (response){
             $('#totalrecibo').html('0');
             $('#totalfactura').html('0');
-            console.log(response);
+            // console.log(response);
             datos2=JSON.parse(response);
             $('#totalrecibo').html(' '+datos2.trecibo+' Bs');
             $('#totalfactura').html(' '+datos2.tfactura+' Bs');

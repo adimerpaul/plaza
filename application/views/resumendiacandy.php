@@ -16,19 +16,21 @@
         <div class="card-body">
             <label for="">Fecha de Caja:</label>
             <input type="date" name="fechacandy" id="fechacandy" value="<?php echo date('Y-m-d');?>">
+            <input type="date" name="fechacandy2" id="fechacandy2" value="<?php echo date('Y-m-d');?>">
             <br>
             <br>
             <label for="">Elija Vendedor: </label>
             <select name="vendedor" id="vendedor" required>
                 <option value="">Elija</option>
-                
+
                 <?php
                                     $query=$this->db->query("SELECT * FROM usuario");
                                     foreach ($query->result() as $row){
                                         echo "<option value='".$row->idUsuario."'> $row->nombreUser</option>";
-                                    
+
                                              }?>
             </select>
+            <button id="consulta" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> Consultar</button>
             <br>
             <h3>Ventas por factura</h3>
             <table  class="table-bordered" style="width:100%">
@@ -42,7 +44,7 @@
                 </tr>
                 </thead>
                 <tbody id="rfactura">
-       
+
 
                 </tbody>
             </table><br>
