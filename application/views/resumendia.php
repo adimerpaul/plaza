@@ -12,9 +12,11 @@
     <div class="card ">
         <div class="card-header text-white bg-info" >
             <i class="fas fa-money-check"></i> Ventas del dia
-            <br>
+            </div>
+        <div class="card-body">
             <label for="">Fecha de Caja:</label>
             <input type="date" name="fechacandy" id="fechadia" value="<?php echo date('Y-m-d');?>">
+            <input type="date" name="fechacandy2" id="fechadia2" value="<?php echo date('Y-m-d');?>">
             <br>
             <label for="">Elija Vendedor: </label>
             <select name="vendedor" id="vendedor" required>
@@ -27,8 +29,8 @@
                                     
                                              }?>
             </select>
-        </div>
-        <div class="card-body">
+            <button id="consultadia" class="btn btn-info btn-sm"><i class="fa fa-plus-circle"></i> Consultar</button>
+
             <h3>Ventas por factura</h3>
             <table  class="table-bordered" style="width:100%">
                 <thead class="table-success">
@@ -85,8 +87,8 @@
                 <label for="" id="cortesiat"></label>
             </div>
             <br>
-            <a  class="btn btn-success btn-block" id="imprimir"> <i class="fas fa-print"></i> Imprimir ventas del dia</a>
-            <a  class="btn btn-success btn-block" id="imptodo"> <i class="fas fa-print"></i> Imprimir ventas del dia Todos Us.</a>
+            <button  class="btn btn-success btn-block text-dark" id="imprimir"> <i class="fas fa-print"></i> Imprimir ventas del dia</button>
+            <button  class="btn btn-success btn-block text-dark" id="imptodo"> <i class="fas fa-print"></i> Imprimir ventas del dia Todos Us.</button>
         </div>
 
     </div>

@@ -63,12 +63,14 @@ class ResumenDia extends CI_Controller {
 
     public function reportedia(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
         $query=$this->db->query("SELECT * FROM venta v 
         INNER JOIN cliente c ON v.idCliente=c.idCliente
         INNER JOIN usuario u ON u.idUsuario=v.idUsuario
             WHERE u.idUsuario='$id'
-            AND date(fechaVenta)='$fecha1' and idCupon is null");
+            AND date(fechaVenta)>='$fecha1' AND date(fechaVenta)<='$fecha2'
+             and idCupon is null");
             $row=$query->row();
                          $myObj=($query->result_array());
                          echo json_encode($myObj);
@@ -77,6 +79,7 @@ class ResumenDia extends CI_Controller {
 
     public function detallePelicula(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
         $query=$this->db->query("SELECT p.idPelicula,f.fecha,p.nombre ,p.formato,COUNT(*) 'cantidadb',SUM(b.costo) as total
         FROM pelicula p 
@@ -85,7 +88,8 @@ class ResumenDia extends CI_Controller {
         INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
         INNER JOIN usuario u ON u.idUsuario=b.idUsuario
         WHERE b.idUsuario='$id'
-        AND  date(b.fecha)='$fecha1'
+        AND  date(b.fecha)>='$fecha1'
+        AND  date(b.fecha)<='$fecha2'
         and b.devuelto='NO' and b.idCupon is null
         GROUP BY p.idPelicula,f.fecha,p.nombre,p.formato");
             $row=$query->row();
@@ -139,13 +143,14 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function totalBol(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
 
         $query=$this->db->query("SELECT (select sum(total) from venta 
-        WHERE date(fechaVenta)='$fecha1' and idUsuario='$id'
+        WHERE date(fechaVenta)>='$fecha1' and date(fechaVenta)<='$fecha2' and idUsuario='$id'
         and tipoVenta='FACTURA' and estado='ACTIVO') AS tfactura,
         (select sum(total) from venta 
-        WHERE date(fechaVenta)='$fecha1' and idUsuario='$id'
+        WHERE date(fechaVenta)>='$fecha1' and date(fechaVenta)<='$fecha2'and idUsuario='$id'
         and tipoVenta='RECIBO' and estado='ACTIVO' and idCupon is null) as trecibo
         from dual ");
             $row=$query->row();
@@ -157,9 +162,10 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function totalCortesia(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
 
         $query=$this->db->query("SELECT count(*) as cortesia from venta
-        WHERE date(fechaVenta)='$fecha1' 
+        WHERE date(fechaVenta)>='$fecha1' and date(fechaVenta)<='$fecha2' 
         and tipoVenta='RECIBO' and estado='ACTIVO' and idCupon is not null");
             $row=$query->row();
                          $myObj=($query->result_array());
@@ -261,6 +267,7 @@ GROUP BY p.idPelicula,p.nombre
 
 public function pruebaImpresion(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
         $id=$_POST['id'];
         $cadena='';
         $cadena .= "
@@ -282,7 +289,7 @@ public function pruebaImpresion(){
         ";
 
         $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-                Fecha Caja: ".$fecha1."<br>";
+                Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
                 $query01=$this->db->query("SELECT * from usuario where idUsuario =$id");
                 $nomuser=$query01->result()[0]->nombreUser;
 
@@ -303,7 +310,8 @@ public function pruebaImpresion(){
         INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
         INNER JOIN usuario u ON u.idUsuario=b.idUsuario
         WHERE b.idUsuario='$id'
-        AND  date(b.fecha)='$fecha1'
+        AND  date(b.fecha)>='$fecha1'
+        AND  date(b.fecha)<='$fecha2'
         and b.devuelto='NO' and b.idCupon is null
         GROUP BY p.idPelicula,p.nombre,b.tarjeta
                         ");
@@ -324,6 +332,7 @@ public function pruebaImpresion(){
 
 public function pruebaRecImpresion(){
     $fecha1=$_POST['fecha'];
+    $fecha2=$_POST['fecha2'];
     $id=$_POST['id'];
     $cadena='';
     $cadena .= "
@@ -345,7 +354,7 @@ public function pruebaRecImpresion(){
     ";
 
     $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-                Fecha Caja: ".$fecha1."<br>";
+                Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
                 $query01=$this->db->query("SELECT * from usuario where idUsuario =$id");
             $nomuser=$query01->result()[0]->nombreUser;
 
@@ -366,7 +375,8 @@ public function pruebaRecImpresion(){
     INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
     INNER JOIN usuario u ON u.idUsuario=b.idUsuario
     WHERE b.idUsuario='$id'
-    AND  date(b.fecha)='$fecha1'
+    AND  date(b.fecha)>='$fecha1'
+    AND  date(b.fecha)<='$fecha2'
     and tipoCompra='RECIBO' and b.devuelto='NO' and b.idCupon is null
     GROUP BY p.idPelicula,p.nombre,b.tarjeta
                     ");
@@ -386,6 +396,7 @@ public function pruebaRecImpresion(){
 }
 public function pruebaFactImpresion(){
     $fecha1=$_POST['fecha'];
+    $fecha2=$_POST['fecha2'];
     $id=$_POST['id'];
     $cadena='';
     $cadena .= "
@@ -407,7 +418,7 @@ public function pruebaFactImpresion(){
     ";
 
     $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-                Fecha Caja: ".$fecha1."<br>";
+                Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
                 $query01=$this->db->query("SELECT * from usuario where idUsuario =$id");
             $nomuser=$query01->result()[0]->nombreUser;
 
@@ -428,7 +439,8 @@ public function pruebaFactImpresion(){
     INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
     INNER JOIN usuario u ON u.idUsuario=b.idUsuario
     WHERE b.idUsuario='$id'
-    AND  date(b.fecha)='$fecha1'
+    AND  date(b.fecha)>='$fecha1'
+    AND  date(b.fecha)<='$fecha2'
     and tipoCompra='FACTURA' and b.devuelto = 'NO'
     GROUP BY p.idPelicula,p.nombre,b.tarjeta
                     ");
@@ -449,6 +461,7 @@ public function pruebaFactImpresion(){
 
 public function todopruebaImpresion(){
     $fecha1=$_POST['fecha'];
+    $fecha2=$_POST['fecha2'];
     $cadena='';
     $cadena .= "
     <style>    .margen{padding: 0px 15px 0px 15px;}
@@ -468,7 +481,7 @@ public function todopruebaImpresion(){
     ";
 
     $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-                Fecha Caja: ".$fecha1."<br>";
+                Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
     $cadena.="
              <hr><br></div>
              <center>
@@ -485,7 +498,8 @@ public function todopruebaImpresion(){
     INNER JOIN funcion f ON f.idPelicula=p.idPelicula
     INNER JOIN boleto b ON b.idFuncion=f.idFuncion
     INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
-    where date(b.fecha)='$fecha1' and b.devuelto='NO' and b.idCupon is null
+    where date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2' 
+    and b.devuelto='NO' and b.idCupon is null
     GROUP BY p.idPelicula,p.nombre,b.tarjeta
                     ");
             foreach ($query->result() as $row){
@@ -496,10 +510,18 @@ public function todopruebaImpresion(){
                     $total=$total+$row->total;
             }
             $cadena.="</tbody></table></center>";
+
+            $query3=$this->db->query("SELECT u.nombreUser as nombre, sum(v.total) as total from usuario u inner join venta v on u.idUsuario=v.idUsuario 
+            where date(v.fechaVenta)>='$fecha1' and date(v.fechaVenta)<='$fecha2' AND v.estado='ACTIVO' group by u.nombreUser;");
+            $cadena.="<hr><center><table><tr><td><b>USUARIO</b></td><td><b>MONTO</b></td></tr>";
+            foreach ($query3->result() as $rw) {
+                $cadena.="<tr><td>$rw->nombre</td><td>$rw->total</td></tr>";
+            }
+            $cadena.="</table></center>";
             $cadena.= "<br><div class='textor'>VIP: $totaltarjeta Bs.</div>";
             $cadena.= "<br><div class='textor'>TOTAL: $total Bs.</div><br>";
             $query3=$this->db->query("SELECT count(*) as cortesia from venta 
-            where date(fechaVenta)='$fecha1' and tipoVenta='RECIBO' and idCupon is not null  ");
+            where date(fechaVenta)>='$fecha1' and date(fechaVenta)<='$fecha2' and tipoVenta='RECIBO' and idCupon is not null  ");
             if($query3->num_rows()>=1)
              $cort=$query3->result()[0]->cortesia;
             else $cort=0;
@@ -511,6 +533,7 @@ public function todopruebaImpresion(){
 
 public function todopruebaRecImpresion(){
 $fecha1=$_POST['fecha'];
+$fecha2=$_POST['fecha2'];
 $cadena='';
 $cadena .= "
 <style>
@@ -531,7 +554,7 @@ hr{border: 1px dashed ;}</style>
 ";
 
 $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-            Fecha Caja: ".$fecha1."<br>";
+            Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
 $cadena.="
          <hr><br></div>
@@ -548,7 +571,7 @@ FROM pelicula p
 INNER JOIN funcion f ON f.idPelicula=p.idPelicula
 INNER JOIN boleto b ON b.idFuncion=f.idFuncion
 INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
-where  date(b.fecha)='$fecha1'
+where  date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2'
 and tipoCompra='RECIBO' and b.devuelto='NO' and b.idCupon is null
 GROUP BY p.idPelicula,p.nombre,b.tarjeta
                 ");
@@ -568,6 +591,7 @@ echo $cadena;
 }
 public function todopruebaFactImpresion(){
 $fecha1=$_POST['fecha'];
+$fecha2=$_POST['fecha2'];
 $cadena='';
 $cadena .= "
 <style>
@@ -588,7 +612,7 @@ hr{border: 1px dashed ;}</style>
 ";
 
 $cadena.="<div class='textmed'>Fecha: ".date('Y-m-d H:m:s')."<br>
-            Fecha Caja: ".$fecha1."<br>";
+            Fecha Caja: ".$fecha1." al ".$fecha2."<br>";
 
 $cadena.="
          <hr><br></div>
@@ -605,7 +629,8 @@ FROM pelicula p
 INNER JOIN funcion f ON f.idPelicula=p.idPelicula
 INNER JOIN boleto b ON b.idFuncion=f.idFuncion
 INNER JOIN tarifa t ON b.idTarifa=t.idTarifa
-where  date(b.fecha)='$fecha1' and b.devuelto='NO' and b.idCupon is null
+where  date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2'
+ and b.devuelto='NO' and b.idCupon is null
 and tipoCompra='FACTURA'
 GROUP BY p.idPelicula,p.nombre,b.tarjeta
                 ");
@@ -1305,8 +1330,11 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
 
     public function totalpromo(){
         $fecha1=$_POST['fecha'];
+        $fecha2=$_POST['fecha2'];
+
         $query=$this->db->query("SELECT IF(mod(count(*),2)!=0,count(*)-1,count(*))/2 as ticket from boleto b,tarifa t
-        where b.idTarifa=t.idTarifa and date(b.fechaFuncion)='$fecha1' and promo='on' and devuelto='NO'
+        where b.idTarifa=t.idTarifa and date(b.fechaFuncion)>='$fecha1' and date(b.fechaFuncion)<='$fecha2'
+        and promo='on' and devuelto='NO'
         group by idVenta ");
                     $row=$query->row();
                     $myObj=($query->result_array());

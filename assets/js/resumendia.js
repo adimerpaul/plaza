@@ -1,26 +1,75 @@
 $(document).ready(function(){
-    calculaCaja();
-    calculaDetalle();
-    calculototal();
-    totalpromo();
+    //calculaCaja();
+    //calculaDetalle();
+    //calculototal();
+    //totalpromo();
 });  
 
-$('#fechadia').change(function(){ 
-    calculaCaja();
-    calculaDetalle();
-    calculototal();
-    totalpromo();
-});
-$('#vendedor').change(function(){
-    calculaCaja();
-    calculaDetalle();
-    calculototal();
-})
+//$('#fechadia').change(function(){ 
+    //calculaCaja();
+    //calculaDetalle();
+    //calculototal();
+    //totalpromo();
+//});
+
+//$('#vendedor').change(function(){
+//    calculaCaja();
+//    calculaDetalle();
+ //   calculototal();
+//})
+$('#fechadia').change(function(){
+    //     calculaCaja();
+    //     calculaDetalle();
+    //     calculototal();
+        if($('#fechadia').val()>$('#fechadia2').val()){
+            $('#consultadia').prop('disabled',true);
+            $('#imprimir').prop('disabled',true);
+            $('#imptodo').prop('disabled',true);
+        }
+        else
+        {
+            $('#consultadia').prop('disabled',false);
+            $('#imprimir').prop('disabled',false);
+            $('#imptodo').prop('disabled',false);  
+        }
+    });
+    
+    $('#fechadia2').change(function(){
+        //     calculaCaja();
+        //     calculaDetalle();
+        //     calculototal();
+            if($('#fechadia').val()>$('#fechadia2').val()){
+                $('#consultadia').prop('disabled',true);
+                $('#imprimir').prop('disabled',true);
+                $('#imptodo').prop('disabled',true);
+            }
+            else
+            {
+                $('#consultadia').prop('disabled',false);
+                $('#imprimir').prop('disabled',false);
+                $('#imptodo').prop('disabled',false);  
+            }
+        });
+    // $('#vendedor').change(function(){
+    //     calculaCaja();
+    //     calculaDetalle();
+    //     calculototal();
+    // })
+    
+    $('#consultadia').click(function (){
+        calculaCaja();
+        calculaDetalle();
+        calculototal();
+        totalpromo();
+    })
+
 function calculaCaja(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
+        'fecha2':fecha2,
         'id':id
     };
     var resFactura="";
@@ -68,9 +117,11 @@ function calculaCaja(){
 
 function calculaDetalle(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
+        'fecha2':fecha2,
         'id':id
     };
     var resdetalle="";
@@ -112,9 +163,11 @@ function calculaDetalle(){
 
 $('#imprimir').click(function(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
+        'fecha2':fecha2,
         'id':id
     };
     $.ajax({
@@ -166,10 +219,13 @@ $('#imprimir').click(function(){
                       myWindow.close();
                 }})     
 });
+
 $('#imptodo').click(function(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var param={
-        'fecha':fecha
+        'fecha':fecha,
+        'fecha2':fecha2,
     };
     $.ajax({
         data:  param,
@@ -223,9 +279,11 @@ $('#imptodo').click(function(){
 
 function calculototal(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var id=$('#vendedor').val();
     var param={
         'fecha':fecha,
+        'fecha2':fecha2,
         'id':id
     };
     $.ajax({
@@ -248,8 +306,10 @@ function calculototal(){
 
 function totalpromo(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var param={
-        'fecha':fecha
+        'fecha':fecha,
+        'fecha2':fecha2
     };
     $.ajax({
         data:  param,
@@ -276,8 +336,10 @@ function totalpromo(){
 
 function totalcortesia(){
     var fecha=$('#fechadia').val();
+    var fecha2=$('#fechadia2').val();
     var param={
-        'fecha':fecha
+        'fecha':fecha,
+        'fecha2':fecha2
     };
     $.ajax({
         data:  param,
