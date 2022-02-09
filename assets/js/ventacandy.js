@@ -418,6 +418,7 @@ $(function() {
         $('#montoapagar').val(totaltarj.toFixed(2));
         $('#totaltemporal').html(totaltemp.toFixed(2))
         $('#tarjeta').prop('checked',false)
+        $('#credito').prop('checked',false)
     })
 
 
@@ -450,6 +451,7 @@ $(function() {
                         cinit:$('#cinit').val(),
                         total:$('#totaltemporal').html(),
                         cancelado:parseFloat($('#montocliente').val()),
+                        credito:$('#credito').is(':checked'),
                         tipoVenta:tipoventa,
                         codigo:$('#codigo').val(),
                     }
@@ -463,6 +465,10 @@ $(function() {
                         url:'VentaCandyCtrl/insertarVenta',
                         data:datos,
                         success:function (response) {
+                            if(response=="error"){
+                                alert('Error al Insertar presione F5');
+                                return false
+                            }
                             console.log(response);
                             $('#tarjeta').removeAttr('checked');
                             if (response!=0){

@@ -5,6 +5,11 @@ $('#fecfuncion').change(function(){
     caltotalventa();
 });
 
+$('#credito').attr('checked', false);
+$('#credito').click(function(){
+    console.log($(this).is(':checked'));
+});
+
 $(document).ready(listado());
 $(document).ready(caltotalventa());
 $(document).ready(valDosificacion());
@@ -916,6 +921,7 @@ $('#registrarVenta').click(function(){
     factCinit=$('#cinit').prop('value');
     $('#cinit').prop('value','');
     $('#apellido').prop('value','');
+
     var montoTotal=parseFloat($('#totalPre').html());
     var cancelado=0;
     if ($.isNumeric($('#pago').val()))
@@ -979,7 +985,9 @@ $('#registrarVenta').click(function(){
                              "cancelado":cancelado,
                              'cupon': $('#cupon').prop('value'),
                              'codigotarjeta':$('#codigo').prop('value'),
+                             'credito':$('#credito').is(':checked'),
                         };
+                        console.log(parventa)
                         $.ajax({
                             data: parventa,
                             url: 'VentaCtrl/regVenta',
@@ -988,12 +996,19 @@ $('#registrarVenta').click(function(){
                                 //$("#resultado").html("Procesando, espere por favor...");
                             },
                             success: function (response){
+
                                 $('#tarjeta').removeAttr('checked');
                                 console.log(response);
                                 var idventa=response;
                             $("#clienteModal").modal('hide');
+                            $('#credito').prop('checked', false);
+                            if(response=="error"){
+                                alert('Error al Insertar presione F5');
+                                return false
+                            }
                             if(idventa==0) alert('error al Registrar intente nuevamente');
                             else{
+
                             if (tipo=='FACTURA'){
                                 $.ajax({
                                     url: 'VentaCtrl/imprimirfactura/'+idventa,

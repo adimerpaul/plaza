@@ -184,6 +184,7 @@ esCombo='$esCombo'
         $tipoVenta=$_POST['tipoVenta'];
         $cinit=$_POST['cinit'];
         $cancelado=$_POST['cancelado'];
+        $credito=$_POST['credito'];
         $query=$this->db->query("SELECT * FROM dosificacion WHERE tipo='CANDY' AND activo='1'");
         $row=$query->row();
         $authorizationNumber=$row->nroAutorizacion;
@@ -219,7 +220,12 @@ esCombo='$esCombo'
             else
                 $nfact=1;
             if($nfact >= 1){
-
+                $query=$this->db->query("SELECT * from venta where idDosif=$iddosif and nroComprobante='$invoiceNumber'");
+                if($query->num_rows()>0){
+                    echo  "error";
+                    exit;
+                }
+                else{
             $this->db->query("INSERT INTO ventacandy SET
                 total='$total',
                 tipoVenta='$tipoVenta',
@@ -230,7 +236,8 @@ esCombo='$esCombo'
                 idUsuario='".$_SESSION['idUs']."',
                 nroComprobante='$invoiceNumber',
                 cancelado=$cancelado,
-                tarjeta='$tarjeta'
+                tarjeta='$tarjeta',
+                credito=$credito
             ");
 
             if($this->db->affected_rows()==0){
@@ -238,7 +245,7 @@ esCombo='$esCombo'
                 }
             else
                 $idventa= $this->db->insert_id();
-
+            }
             if($idventa!=0){
                     $query=$this->db->query("SELECT * FROM detalletemporal WHERE idUsuario='".$_SESSION['idUs']."'");
                 foreach ($query->result() as $row){
@@ -257,7 +264,8 @@ esCombo='$esCombo'
                         pUnitario='$pUnitario',
                         idUsuario='".$_SESSION['idUs']."',
                         nombreP='$nombreP',
-                        tarjeta='$tarjeta'
+                        tarjeta='$tarjeta',
+                        credito=$credito
 
                     ");
                 }

@@ -201,7 +201,8 @@
                         </div>
                     </div>
                     <hr>
-
+                    <label for="cupon">T Credito:</label>
+        <input type="checkbox" id="credito" name="credito" ><br>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-danger" data-dismiss="modal"><i class="fa fa-trash"></i> Cancelar</button>
                         <button type="submit" class="btn btn-success" id='terminar'> <i class="fa fa-check"></i> Terminar venta</button>

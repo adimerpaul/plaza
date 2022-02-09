@@ -78,7 +78,7 @@
                                         </li>|
                                         <li>
                                             <i class="fas fa-thumbs-up"></i>
-                                            Devueltas: <strong id="lblEntradasDevueltas" style="red"></strong>
+                                            Devueltas: <strong id="lblEntradasDevueltas" ></strong>
                                         </li>|
                                         <li>
                                             <i class="fas fa-video"></i>
@@ -315,8 +315,11 @@
         <input class="form-control" id="vtipo" type="checkbox" data-toggle="toggle" data-on="F" data-off="O"  data-onstyle="primary" data-offstyle="success" checked>
     </div>
     <div class="form-group col-md-4">
+        <label for="cupon">T Credito:</label>
+        <input type="checkbox" id="credito" name="credito" ><br>
       <label for="cupon">Nro Cortesia:</label>
       <input type="checkbox" id="checkcupon" >
+
       <input type="number" class="form-control" id="cupon" name="cupon">
       <span id="errorcupon" style="color: red;" ></span>
     </div>

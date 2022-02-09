@@ -326,6 +326,8 @@ class VentaCtrl extends CI_Controller {
         $idCl=$_POST['idCliente'];
         $idd=$_POST['iddosif'];
         $idcupon=$_POST['cupon'];
+        $credito=$_POST['credito'];
+
         $cupon='null';
         $cancelado=$_POST['cancelado'];
         $codigotarjeta=$this->hexToStr($_POST['codigotarjeta']);
@@ -352,6 +354,12 @@ class VentaCtrl extends CI_Controller {
         }
         else $nfact=1;
         if($nfact >= 1){
+            $query=$this->db->query("SELECT * from venta where idDosif=$idd and nroComprobante='$nroComprobante'");
+            if($query->num_rows()>0){
+                echo  "error";
+                exit;
+            }
+            else{
             $query="INSERT INTO venta(
                 total,
                 codigoControl,
@@ -363,7 +371,8 @@ class VentaCtrl extends CI_Controller {
                 idDosif,
                 idCupon,
                 cancelado,
-                tarjeta) VALUES (
+                tarjeta,
+                credito) VALUES (
                     '$total',
                     '$codControl',
                     '$codqr',
@@ -374,8 +383,10 @@ class VentaCtrl extends CI_Controller {
                     '$idd',
                     $cupon,
                     $cancelado,
-                    '$tarjeta')";
+                    '$tarjeta',
+                    $credito)";
         $this->db->query($query);
+                }
         if($this->db->affected_rows()==0){
             $idVenta=$this->Dosificaciones_model->errorenfactura($idd);
             }
@@ -404,7 +415,8 @@ class VentaCtrl extends CI_Controller {
                 idDosif,
                 idCupon,
                 cancelado,
-                tarjeta) VALUES (
+                tarjeta,
+                credito) VALUES (
                     '$total',
                     '',
                     '',
@@ -415,7 +427,8 @@ class VentaCtrl extends CI_Controller {
                     '$idd',
                     $cupon,
                     $cancelado,
-                    '$tarjeta')";
+                    '$tarjeta',
+                    $credito)";
         $this->db->query($query);
         if($this->db->affected_rows()>0)
         $idVenta=$this->db->insert_id();
@@ -462,7 +475,8 @@ class VentaCtrl extends CI_Controller {
               `idCupon`,
               `tipoCompra`,
               `idTarifa`,
-              `tarjeta`) VALUES (
+              `tarjeta`,
+              `credito`) VALUES (
                   '$numboc', 
                   '$numboleto',
                   '$row->idFuncion', 
@@ -482,7 +496,8 @@ class VentaCtrl extends CI_Controller {
                   $cupon,
                   '$tipo',
                   '$row->idTarifa',
-                  '$tarjeta');");
+                  '$tarjeta',
+                  $credito);");
         };
         //header("Location inde.php");
 

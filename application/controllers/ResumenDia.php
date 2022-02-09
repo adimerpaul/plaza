@@ -303,6 +303,7 @@ public function pruebaImpresion(){
                 </thead><tbody>";
                 $total=0;
                 $totaltarjeta=0;
+                $totalcredito=0;
                 $query=$this->db->query("SELECT p.idPelicula,concat(p.nombre,' ',(if(formato=1,'3D','2D'))) as nomb,COUNT(*) 'cantidadb',SUM(b.costo) as total,b.tarjeta
         FROM pelicula p 
         INNER JOIN funcion f ON f.idPelicula=p.idPelicula
@@ -323,8 +324,21 @@ public function pruebaImpresion(){
                         $total=$total+$row->total;
                 }
                 $cadena.="</tbody></table></center>";
+                $query4=$this->db->query("SELECT b.credito,sum(b.costo) as monto from boleto b
+                where date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2'
+                and b.idUsuario='$id'
+               and b.devuelto='NO' and b.idCupon is null
+               group by b.credito order by b.credito asc");
+    
+
                 $cadena.= "<br><div class='textor'>VIP: $totaltarjeta Bs.</div>";
-                $cadena.= "<br><div class='textor'>TOTAL: $total Bs.</div><br>";
+                $cadena.= "<br><div class='textor'>TOTAL: $total Bs.</div>";
+                foreach ($query4->result() as $rw2) {
+                    if($rw2->credito==0)
+                        $cadena.= "<br><div class='textor'>Efectivo: $rw2->monto Bs.</div>";
+                    else    
+                        $cadena.= "<br><div class='textor'>TCredito: $rw2->monto Bs.</div>";
+                }
                 $cadena.= "<br><br><br><span style='font-size: x-small;'>ENTREGE CONFORME &nbsp; &nbsp; &nbsp; &nbsp;  RECIBI CONFORME<span></div>";
         echo $cadena;
 
@@ -517,9 +531,21 @@ public function todopruebaImpresion(){
             foreach ($query3->result() as $rw) {
                 $cadena.="<tr><td>$rw->nombre</td><td>$rw->total</td></tr>";
             }
+
             $cadena.="</table></center>";
+            $query4=$this->db->query("SELECT b.credito,sum(b.costo) as monto from boleto b
+            where date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2'
+           and b.devuelto='NO' and b.idCupon is null
+           group by b.credito order by b.credito asc");
+
             $cadena.= "<br><div class='textor'>VIP: $totaltarjeta Bs.</div>";
-            $cadena.= "<br><div class='textor'>TOTAL: $total Bs.</div><br>";
+            $cadena.= "<br><div class='textor'>TOTAL: $total Bs.</div>";
+            foreach ($query4->result() as $rw2) {
+                if($rw2->credito==0)
+                    $cadena.= "<br><div class='textor'>Efectivo: $rw2->monto Bs.</div>";
+                else    
+                    $cadena.= "<br><div class='textor'>TCredito: $rw2->monto Bs.</div>";
+            }
             $query3=$this->db->query("SELECT count(*) as cortesia from venta 
             where date(fechaVenta)>='$fecha1' and date(fechaVenta)<='$fecha2' and tipoVenta='RECIBO' and idCupon is not null  ");
             if($query3->num_rows()>=1)
@@ -835,6 +861,12 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         }
 
         $cadena.="</tbody></table></center>";
+        $query4=$this->db->query("SELECT sum(d.cantidad*d.pUnitario) as monto, d.credito
+            FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+            WHERE d.idUsuario='$id'
+            AND v.estado='ACTIVO'
+            AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2'
+            GROUP BY d.credito order by d.credito asc");
 
         $total=number_format($total,2);
         $totaltarjeta=number_format($totaltarjeta,2);
@@ -843,7 +875,14 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         $decimal=$d[1];
         $cadena.="<hr>";
         $cadena.="<br><div class='textor'>TOTAL VIP: $totaltarjeta Bs.</div>";
-        $cadena.="<br><div class='textor'>TOTAL: $total Bs.</div><br>";
+        $cadena.="<br><div class='textor'>TOTAL: $total Bs.</div>";
+        foreach ($query4->result() as $row2){
+            if($row2->credito==0)
+            $cadena.="<br><div class='textor'>Efectivo: $row2->monto Bs.</div>";
+            else
+            $cadena.="<br><div class='textor'>TCredito: $row2->monto Bs.</div>";
+
+        }
         $cadena.="  SON: ".NumerosEnLetras::convertir($entero)."$decimal/100 Bolivianos<br>";
 
         $cadena.= "<br><br><br><span style='font-size: x-small;'>ENTREGE CONFORME &nbsp; &nbsp; &nbsp; &nbsp;  RECIBI CONFORME<span></div>";
@@ -1145,6 +1184,12 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
             $cadena.="<tr><td>$rw->nombre</td><td>$rw->total</td></tr>";
         }
         $cadena.="</table></center>";
+        $query4=$this->db->query("SELECT sum(d.cantidad*d.pUnitario) as monto, d.credito
+            FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
+            AND v.estado='ACTIVO'
+            AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2'
+            GROUP BY d.credito order by d.credito asc");
+
 
         $total=number_format($total,2);
         $totaltarjeta=number_format($totaltarjeta,2);
@@ -1153,7 +1198,14 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         $decimal=$d[1];
         $cadena.="<hr>";
         $cadena.="<br><div class='textor'>VIP: $totaltarjeta Bs.</div>";
-        $cadena.="<br><div class='textor'>TOTAL: $total Bs.</div><br>";
+        $cadena.="<br><div class='textor'>TOTAL: $total Bs.</div>";
+        foreach ($query4->result() as $row2){
+            if($row2->credito==0)
+            $cadena.="<br><div class='textor'>Efectivo: $row2->monto Bs.</div>";
+            else
+            $cadena.="<br><div class='textor'>TCredito: $row2->monto Bs.</div>";
+
+        }
         $cadena.="  SON: ".NumerosEnLetras::convertir($entero)."$decimal/100 Bolivianos<br>";
 
         $cadena.= "<br><br><br><span style='font-size: x-small;'>ENTREGE CONFORME &nbsp; &nbsp; &nbsp; &nbsp;  RECIBI CONFORME<span></div>";
