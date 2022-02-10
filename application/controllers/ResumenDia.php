@@ -327,7 +327,7 @@ public function pruebaImpresion(){
                 $query4=$this->db->query("SELECT b.credito,sum(b.costo) as monto from boleto b
                 where date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2'
                 and b.idUsuario='$id'
-               and b.devuelto='NO' and b.idCupon is null
+               and b.devuelto='NO' and b.idCupon is null and b.tarjeta='NO'
                group by b.credito order by b.credito asc");
     
 
@@ -535,7 +535,7 @@ public function todopruebaImpresion(){
             $cadena.="</table></center>";
             $query4=$this->db->query("SELECT b.credito,sum(b.costo) as monto from boleto b
             where date(b.fecha)>='$fecha1' and date(b.fecha)<='$fecha2'
-           and b.devuelto='NO' and b.idCupon is null
+           and b.devuelto='NO' and b.idCupon is null and b.tarjeta='NO'
            group by b.credito order by b.credito asc");
 
             $cadena.= "<br><div class='textor'>VIP: $totaltarjeta Bs.</div>";
@@ -865,7 +865,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
             FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
             WHERE d.idUsuario='$id'
             AND v.estado='ACTIVO'
-            AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2'
+            AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2' and d.tarjeta='NO'
             GROUP BY d.credito order by d.credito asc");
 
         $total=number_format($total,2);
@@ -1187,7 +1187,7 @@ GROUP BY d.idProducto,d.nombreP,d.pUnitario");
         $query4=$this->db->query("SELECT sum(d.cantidad*d.pUnitario) as monto, d.credito
             FROM detalle d INNER JOIN ventacandy v ON d.idVentaCandy=v.idVentaCandy
             AND v.estado='ACTIVO'
-            AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2'
+            AND date(d.fecha)>='$fecha1' and date(d.fecha)<='$fecha2' and d.tarjeta='NO'
             GROUP BY d.credito order by d.credito asc");
 
 
