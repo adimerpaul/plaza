@@ -29,11 +29,11 @@
                 </div>
                 <label for="anio" class="col-sm-1 col-form-label">Año:</label>
                 <div class="col-sm-4">
-<<<<<<< Updated upstream
+
                     <input type="text" id="anio" name="anio" value="<?=$anio?>" class="form-control">
-=======
+
                     <input type="text" value="<?=$anio?>" name="anio" class="form-control">
->>>>>>> Stashed changes
+
                 </div>
                 <div class="col-sm-2">
                     <button type="submit" id="consultar" class="btn btn-success btn-block"> <i class="fas fa-check"></i> Consultar</button>
@@ -85,9 +85,9 @@ ORDER BY v.nroComprobante asc");
                     }
                     else{
                         $e="A";
-                        $nom="ANULADO";
-                        $ccontrol='0';
-                        $cinit='0';                        
+                        $nom="$row->apellidoCl $row->nombreCl";
+                        $ccontrol=$row->codigoControl;
+                        $cinit=$row->cinit;                
                     }
                     $fecha2=date("d/m/Y", strtotime($row->fechaVenta));
                     echo "<tr>
