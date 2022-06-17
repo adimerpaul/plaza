@@ -70,7 +70,15 @@ class Dosificaciones_model extends CI_Model {
     public function errorenfactura($id){
                  //$this->db->set('nroFactura','nroFactura-1',x);
         //$valor=$num-2;
-        $this->db->set('nroFactura','nroFactura-2',false);
+        $query22=$this->db->query("SELECT max(nroComprobante) as numero FROM venta where tipoVenta='FACTURA' AND idDosif=$id");
+        $row=$query22->row();
+        if($row->numero==null)
+            $nff=1; 
+        else
+           $row=$query22->row();
+           $nff=$row->numero;
+
+        $this->db->set('nroFactura',$nff,false);
         $this->db->where('activo',1);
         $this->db->where('tipo','BOLETERIA');
         $this->db->where('idDosif',$id);
@@ -82,7 +90,15 @@ class Dosificaciones_model extends CI_Model {
     public function errorenfacturacandy($id){
         //$this->db->set('nroFactura','nroFactura-1',x);
         //$valor=$num-2;
-        $this->db->set('nroFactura','nroFactura-2',false);
+        $query22=$this->db->query("SELECT max(nroComprobante) as numero FROM ventacandy where tipoVenta='FACTURA' AND idDosif=$id");
+        $row=$query22->row();
+        if($row->numero==null)
+            $nff=1; 
+        else
+           $row=$query22->row();
+           $nff=$row->numero;
+
+        $this->db->set('nroFactura',$nff,false);
         //$this->db->set('nroFactura',$valor);
         $this->db->where('activo',1);
         $this->db->where('tipo','CANDY');
