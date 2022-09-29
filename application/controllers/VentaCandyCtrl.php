@@ -1133,7 +1133,7 @@ s.idSala='$idsala'");
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
-        $result = $conn->query("SELECT * from cliente where codigo='$codigo'");
+        $result = $conn->query("SELECT * from cliente where codigo='$codigo' and estado='ACTIVO'");
         if ($result->num_rows > 0) {
             // output data of each row
             while($row = $result->fetch_assoc()) {
